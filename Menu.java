@@ -27,6 +27,13 @@ public class Menu {
         }
     }
 
+    public void mostraBevandeNome(){
+        int i;
+        for(i=0;i<sB.size();i++){
+            System.out.println(this.sB.get(i).getNome().toString());
+        }
+    }
+
     public double prendiContoPietanze(int indici[]){
     int i;
     double sumtot;
@@ -48,6 +55,10 @@ public class Menu {
     
     public double contoTot(double cP, double cB){
             return cP+cB;
+    }
+    
+    public void cambiaPrezzoB(double delta, int i){
+    	this.sB.get(i).cambiaPrezzo(delta);
     }
     
 

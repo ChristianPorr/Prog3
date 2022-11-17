@@ -1,6 +1,7 @@
 public class Pietanze{
     private String nome;
     private String[] ingredienti;
+	private boolean scelto;
 	    /*private String[] ingredienti;*/
 	    private double prezzo;
 	    
@@ -8,6 +9,7 @@ public class Pietanze{
 	    public Pietanze(String nP, Double pP) {
 			this.nome = nP; /*nP nome Pietanza*/
 			this.prezzo = pP; /*pR prezzo pietanza*/
+			scelto= false;
 	    }
 	    
 	    //METODO

@@ -10,14 +10,11 @@ public class Tavolo extends Ordine{
     private double oraPrenotata;
     private String nominativo;
     private int maxPersone;
-        public int statusOrdine;
-        private double totDaPagare;
-        /*private ArraList<Pietanze> carrello;*/
+    public int statusOrdine;
+    private double totDaPagare;
+    /*private ArraList<Pietanze> carrello;*/
         public Tavolo(){
             /*costruttore*/
-            statusOrdine=0;/*significa che non esiste ancora
-                                        un ordine*/
-            totDaPagare=0;
             Random a_caso = new Random();
             var = a_caso.nextInt(medium)+min;
             maxPersone=var;

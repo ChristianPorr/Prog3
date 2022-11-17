@@ -1,4 +1,3 @@
-import javax.management.ConstructorParameters;
 
 public interface Cucina{
     public abstract void ordinePresoInCarico(Tavolo obj);
