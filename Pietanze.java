@@ -2,6 +2,7 @@ public class Pietanze{
     private String nome;
     private String[] ingredienti;
 	private boolean scelto;
+	private int quantita; 
 	    /*private String[] ingredienti;*/
 	    private double prezzo;
 	    
@@ -34,4 +35,12 @@ public class Pietanze{
 	    	String s = this.nome + "\n" + this.prezzo + "\n";	    
 	    	return s;
 	    }
+
+		public void addQuantita(){
+			this.quantita++;
+		}
+
+		public void decQuantita(){
+			this.quantita--;
+		}
 }
