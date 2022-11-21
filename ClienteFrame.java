@@ -1,4 +1,3 @@
-import javax.swing.JFrame;
 import javax.swing.border.Border;
 import javax.swing.plaf.DimensionUIResource;
 import java.awt.event.ActionListener;
@@ -14,47 +13,72 @@ public class ClienteFrame extends Frame {
     JCheckBox cBox = new JCheckBox();
     JPanel panel = new JPanel();
     int risposta;
+    private JTable table;
+    private JTable table_1;
 
     public ClienteFrame(){
         frame.setTitle("Gestionale Ristorante-Cliente");
         label.setText("Scegli le pietanze e le bibite:");
         label.setFont(new Font(null, Font.PLAIN,25));
-        frame.add(label, BorderLayout.NORTH);
+        frame.getContentPane().add(label, BorderLayout.NORTH);
 
         btnCliente.setText("Conferma ordine!");
         btnCliente.addActionListener(e -> confermaOrdine());
         btnCliente.setFocusable(false);
-        frame.add(btnCliente, BorderLayout.SOUTH);
+        frame.getContentPane().add(btnCliente, BorderLayout.SOUTH);
 
         //panel.add(label);
         cBox.setFocusable(false);
         
-        String s="Cazzo";
+        String s="Cazz";
         int p=50;
 
-        JButton btnPr = new JButton();
-
-        JPanel panP = new JPanel();
-        JPanel panB = new JPanel();
-        JPanel panT = new JPanel();
-
-        JLabel lab1 = new JLabel();
-        lab1.setText("lab1");
-        JLabel lab2 = new JLabel();
-        lab1.setText("lab2");
-        JLabel lab3 = new JLabel();
-        lab1.setText("lab3");
-
-        panP.add(lab1);
-        panB.add(lab2);
-        panT.add(lab3);
         
-        frame.add(panP, BorderLayout.WEST);
-        //frame.add(panB, BorderLayout.CENTER);
-        frame.add(panT, BorderLayout.EAST);
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new GridLayout(1,2));
+        
+        
+        JPanel panPietanze = new JPanel();
+        
+        Menu listaP = new Menu();
+        
+        /*int i;
+        String nomi[];
+        for(i=0;i<listaP.sP.size();i++){
+            nomi[i]=listaP.sP.get(i);
+        }*/
+        
 
-        //frame.add(btnPr);
-        //frame.add(btn);
+        
+        JButton btnAdd = new JButton("+");
+        JButton btnDec = new JButton("-");
+        String nome;
+        
+        Object[][] rows = { { "Hello", "World" } };
+        Object[] colons= {"Pizza", "Prezzo"};
+        DefaultListModel demo = new DefaultListModel(rows, colons);
+        demo.addElement(listaP.sP);
+        
+        JList jl = new JList<Pietanze>(demo);
+        int i;
+        for(i=0;i<listaP.sP.size();i++){
+        	nome=listaP.sP.get(i).getNome();
+        }
+        
+        
+        
+        btnAdd.addActionListener(e -> addingP(jl));
+        
+ 
+        
+        
+        panPietanze.add(btnAdd);
+        
+        table = new JTable();
+        panPietanze.add(btnDec);
+        panPietanze.add(jl);
+        mainPanel.add(panPietanze);
+        frame.getContentPane().add(mainPanel);
         
 
         
@@ -83,4 +107,11 @@ public class ClienteFrame extends Frame {
             
         }
     }
+
+    public void addingP(JList jl){
+        int index;
+        index=jl.getSelectedIndex();
+        System.out.print("sta premuto questo"+index);
+    }
+
 }

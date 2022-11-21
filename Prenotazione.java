@@ -33,7 +33,7 @@ public class Prenotazione extends AdminTools{
              }
          }
     
-    public class AsportoRitiro extends Ordine{
+    public static class AsportoRitiro extends Ordine{
         public int statusOrdine;
         public static int orderCount;
         private double totDaPagare;
