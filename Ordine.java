@@ -1,22 +1,31 @@
-import java.util.*;
-public abstract class Ordine{
-  private int statusOrdine;
-  private int indiciScelte[]; 
-  private double totDaPagare;
-  public Ordine(){
-    statusOrdine=0;/*significa che non esiste ancora un ordine*/
-    totDaPagare=0;
-  }
-  public void setStatusOrdine(int sOrdine) {
-    this.statusOrdine = sOrdine;
-  }
-  public int getStatusOrdine() {
-    return statusOrdine;
-  }
-  public double contoTot(int indiciP[], int indiciB[]){
-    Menu conto = new Menu();
-    return   conto.contoTot(conto.prendiContoBevande(indiciP),conto.prendiContoBevande(indiciB));
+/*Pattern State*/
+
+
+public class Ordine{
+  private State state;
+  
+  public Ordine() {
+	  state = new OffState(this); /*Nessun'ordine in carico*/
   }
   
+  public void setState(State state) {
+	  this.state = state;
+  }
+  
+  public String Ricevuto() {
+	  return "Ordine ricevuto";
+  }
+  
+  public String InLavorazione() {
+	  return "Ordine in lavorazione";
+  }
+  
+  public String Completato() {
+	  return "Ordine completato";
+  }
+  
+  public String Consegnato() {
+	  return "Ordine consegnato";
+  }
 
 }
