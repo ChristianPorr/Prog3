@@ -30,11 +30,15 @@ public class Pietanze{
 	    public Double getPrezzo() {
 	    	return this.prezzo;
 	    }
+
+		public String getPrezzoS() {
+			return Double.toString(this.prezzo);
+		}
 	    
-	    public String toString() {
+	    /*public String toString() {
 	    	String s = this.nome + "\n" + this.prezzo + "\n";	    
 	    	return s;
-	    }
+	    }*/
 
 		public void addQuantita(){
 			this.quantita++;

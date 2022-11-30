@@ -52,31 +52,37 @@ public class ClienteFrame extends Frame {
         
         JButton btnAdd = new JButton("+");
         JButton btnDec = new JButton("-");
-        String nome;
-        
-        Object[][] rows = { { "Hello", "World" } };
-        Object[] colons= {"Pizza", "Prezzo"};
-        DefaultListModel demo = new DefaultListModel(rows, colons);
-        demo.addElement(listaP.sP);
-        
-        JList jl = new JList<Pietanze>(demo);
+        TextField text1 = new TextField(20);//nome pietanza
+        text1.setEditable(false);
+        text1.setText(listaP.sP.get(1).getNome()+"  "+listaP.sP.get(1).getPrezzoS());//prezzo pietanza
+
+        //TextField nomeP[] = new TextField[listaP.sP.size()];
+
+
+
         int i;
-        for(i=0;i<listaP.sP.size();i++){
-        	nome=listaP.sP.get(i).getNome();
+        TextField t = new TextField(20);
+        for(i=0;i<listaP.sP.size();i++) {
+            t.setText(listaP.sP.get(i).getNome());
+            t.setEditable(false);
+            panPietanze.add(t);
         }
+
+        /*for(i=0;i<3;i++) {
+            panPietanze.add(nomeP[i]);
+        }*/
         
         
-        
-        btnAdd.addActionListener(e -> addingP(jl));
+        //btnAdd.addActionListener(e -> addingP(jl));
         
  
         
-        
+        panPietanze.add(text1);
         panPietanze.add(btnAdd);
         
         table = new JTable();
         panPietanze.add(btnDec);
-        panPietanze.add(jl);
+        //panPietanze.add(jl);
         mainPanel.add(panPietanze);
         frame.getContentPane().add(mainPanel);
         
