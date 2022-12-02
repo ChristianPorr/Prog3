@@ -1,15 +1,11 @@
-import javax.swing.border.Border;
-import javax.swing.plaf.DimensionUIResource;
-import java.awt.event.ActionListener;
 import java.util.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 
 public class ClienteFrame extends Frame {
-    ArrayList<Pietanze> listaP = new ArrayList<>();
-    ArrayList<Pietanze> listaB = new ArrayList<>();
+    //ArrayList<Pietanze> listaP = new ArrayList<>();
+    //ArrayList<Pietanze> listaB = new ArrayList<>();
     JCheckBox cBox = new JCheckBox();
     JPanel panel = new JPanel();
     int risposta;
@@ -27,64 +23,38 @@ public class ClienteFrame extends Frame {
         btnCliente.setFocusable(false);
         frame.getContentPane().add(btnCliente, BorderLayout.SOUTH);
 
-        //panel.add(label);
         cBox.setFocusable(false);
         
-        String s="Cazz";
-        int p=50;
+        JPanel panPietanze = new JPanel();//quasi effimero
 
-        
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(1,2));
-        
-        
-        JPanel panPietanze = new JPanel();
-        
-        Menu listaP = new Menu();
-        
-        /*int i;
-        String nomi[];
-        for(i=0;i<listaP.sP.size();i++){
-            nomi[i]=listaP.sP.get(i);
-        }*/
-        
 
-        
-        JButton btnAdd = new JButton("+");
-        JButton btnDec = new JButton("-");
-        TextField text1 = new TextField(20);//nome pietanza
-        text1.setEditable(false);
-        text1.setText(listaP.sP.get(1).getNome()+"  "+listaP.sP.get(1).getPrezzoS());//prezzo pietanza
+        MenuG menu = new MenuG();
 
-        //TextField nomeP[] = new TextField[listaP.sP.size()];
-
+        JComboBox prova = new JComboBox();
 
 
         int i;
-        TextField t = new TextField(20);
-        for(i=0;i<listaP.sP.size();i++) {
-            t.setText(listaP.sP.get(i).getNome());
-            t.setEditable(false);
-            panPietanze.add(t);
+        for (i=0;i<menu.sP.size();i++){//aggiunta del menu a tendina
+            prova.addItem(menu.sP.get(i).getNome());
         }
 
-        /*for(i=0;i<3;i++) {
-            panPietanze.add(nomeP[i]);
-        }*/
-        
+        JButton btnAdd = new JButton("+");
+        JButton btnDec = new JButton("-");
+
+        JTextArea textArea = new JTextArea(30,10);
+        textArea.setEditable(false);
+
+        frame.add(textArea, BorderLayout.LINE_END);
+
+
         
         //btnAdd.addActionListener(e -> addingP(jl));
-        
- 
-        
-        panPietanze.add(text1);
+
+        panPietanze.add(prova);
         panPietanze.add(btnAdd);
-        
-        table = new JTable();
         panPietanze.add(btnDec);
-        //panPietanze.add(jl);
-        mainPanel.add(panPietanze);
-        frame.getContentPane().add(mainPanel);
+
+        frame.getContentPane().add(panPietanze);
         
 
         
@@ -107,7 +77,7 @@ public class ClienteFrame extends Frame {
     }
 
     public void showMenu(){
-        Menu menu = new Menu();
+        MenuG menu = new MenuG();
         int i;
 		for(i=0;i<menu.sP.size();i++){
             
