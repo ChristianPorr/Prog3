@@ -4,39 +4,47 @@ import java.awt.*;
 
 
 public class ClienteFrame extends Frame {
-    //ArrayList<Pietanze> listaP = new ArrayList<>();
-    //ArrayList<Pietanze> listaB = new ArrayList<>();
     JCheckBox cBox = new JCheckBox();
     JPanel panel = new JPanel();
     int risposta;
-    private JTable table;
-    private JTable table_1;
+    
+    
+    
 
     public ClienteFrame(){
         frame.setTitle("Gestionale Ristorante-Cliente");
-        label.setText("Scegli le pietanze e le bibite:");
-        label.setFont(new Font(null, Font.PLAIN,25));
-        frame.getContentPane().add(label, BorderLayout.NORTH);
+        label.setText("Menù");
+        label.setFont(new Font(null, Font.ITALIC,25));
+        frame.getContentPane().add(label, BorderLayout.PAGE_START); //SCRITTA MENU
 
         btnCliente.setText("Conferma ordine!");
         btnCliente.addActionListener(e -> confermaOrdine());
         btnCliente.setFocusable(false);
-        frame.getContentPane().add(btnCliente, BorderLayout.SOUTH);
+        frame.getContentPane().add(btnCliente, BorderLayout.SOUTH); 
 
         cBox.setFocusable(false);
         
+        //INIZIALIZZAZIONE OGGETTI
         JPanel panPietanze = new JPanel();//quasi effimero
+        JComboBox Pizze = new JComboBox<String>();
+        JComboBox Bevande = new JComboBox<String>();
+        Menu menu = new Menu();
 
+        
 
-        MenuG menu = new MenuG();
-
-        JComboBox prova = new JComboBox();
-
-
+        //MENU A TENDINA DI PIZZE E BEVANDE
         int i;
-        for (i=0;i<menu.sP.size();i++){//aggiunta del menu a tendina
-            prova.addItem(menu.sP.get(i).getNome());
+        for (i=0;i<menu.sP.size();i++){
+            Pizze.addItem(menu.sP.get(i).getNome());
         }
+       add(Pizze,BorderLayout.LINE_START);
+        
+        
+        for(i=0;i<menu.sB.size();i++) {
+        	Bevande.addItem(menu.sB.get(i).getNome());
+        }
+        
+        
 
         JButton btnAdd = new JButton("+");
         JButton btnDec = new JButton("-");
@@ -50,17 +58,28 @@ public class ClienteFrame extends Frame {
         
         //btnAdd.addActionListener(e -> addingP(jl));
 
-        panPietanze.add(prova);
+        panPietanze.add(Pizze);
+        panPietanze.add(Bevande);
         panPietanze.add(btnAdd);
         panPietanze.add(btnDec);
 
         frame.getContentPane().add(panPietanze);
-        
-
-        
     }
+    
+    
+    
+    
 
-    public void confermaOrdine(){
+    private void add(JComboBox pizze, String lineStart) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+	public void confermaOrdine(){
         String[] answ = {"Si","No"};
         int scelta;//0 si, 1 no
         scelta = JOptionPane.showOptionDialog(null,
@@ -68,26 +87,19 @@ public class ClienteFrame extends Frame {
                                       "Invio ordine...",
                                        JOptionPane.YES_NO_OPTION,
                                         JOptionPane.INFORMATION_MESSAGE,
-                                         null,
-                                          answ,
-                                           0);
-        
+                                         null,answ,0);
         System.out.println(scelta);
         this.risposta=scelta;
     }
 
     public void showMenu(){
-        MenuG menu = new MenuG();
+        Menu menu = new Menu();
         int i;
 		for(i=0;i<menu.sP.size();i++){
             
         }
     }
 
-    public void addingP(JList jl){
-        int index;
-        index=jl.getSelectedIndex();
-        System.out.print("sta premuto questo"+index);
-    }
+    
 
 }
