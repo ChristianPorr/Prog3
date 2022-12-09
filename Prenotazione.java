@@ -1,5 +1,5 @@
 import java.util.*;
-public class Prenotazione extends AdminTools{
+public class Prenotazione {
     private static int idPrenotazione;
     private double orarioP;
     /*COSTRUTTORE*/ 
