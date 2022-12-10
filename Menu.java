@@ -8,11 +8,13 @@ public class Menu {
 		this.sP.add(new Pietanze("Marinara", 4.00));
 		this.sP.add(new Pietanze("Diavola", 5.00));
 		this.sP.add(new Pietanze("Bufalina", 6.50));
+		this.sP.add(new Pietanze("Primavera",4.00));
 		
 		this.sB.add(new Pietanze("Vino bianco", 3.00));
 		this.sB.add(new Pietanze("Acqua Frizzante", 1.00));
 		this.sB.add(new Pietanze("Acqua Naturale", 0.50));
 		this.sB.add(new Pietanze("Birra", 2.50));
+		this.sB.add(new Pietanze("Coca cola",1.50));
 	}
 	
 	public String toString() {

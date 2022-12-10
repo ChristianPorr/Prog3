@@ -1,25 +1,38 @@
 import java.util.*;
 import javax.swing.*;
+import javax.swing.border.Border;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 
 public class ClienteFrame extends Frame {
-    //ArrayList<Pietanze> listaP = new ArrayList<>();
-    //ArrayList<Pietanze> listaB = new ArrayList<>();
-    JCheckBox cBox = new JCheckBox();
-    JPanel panel = new JPanel();
     int risposta;
-    private JTable table;
-    private JTable table_1;
     Vector<String> vectorS = new Vector<String>();
     Vector<Integer> vectorQ = new Vector<Integer>();
-
+    LinkedList<Ordinazione> codaOrdinazioni = new LinkedList<Ordinazione>();
+    Ordinazione ord;
+    JPanel panel = new JPanel();
+    JCheckBox cBox = new JCheckBox();
+    
+    
+    
+    
+    
     public ClienteFrame(){
-    	
+    	JTextArea textArea1 = new JTextArea(15,15);
     	JPanel panPietanze = new JPanel();//quasi effimero
         Menu menu = new Menu();
-        JComboBox<String> prova = new JComboBox<>();
-        JComboBox<String> prova1 = new JComboBox<>();
+        JComboBox<String> pizze = new JComboBox<>();
+        JComboBox<String> bevande = new JComboBox<>();
+        JButton btnOrdina = new JButton("Ordina");
+        JButton btnServi = new JButton("Servi");
+
+        JButton btnAdd = new JButton("+");
+        JButton btnDec = new JButton("-");
+        
+        JButton btnAdd1 = new JButton("+");
+        JButton btnDec1 = new JButton("-");
     	
         frame.setTitle("Gestionale Ristorante-Cliente");
         label.setText("Scegli le pizze e le bibite:");
@@ -27,73 +40,74 @@ public class ClienteFrame extends Frame {
         frame.getContentPane().add(label, BorderLayout.NORTH);
 
         btnCliente.setText("Conferma ordine!");
-        btnCliente.addActionListener(e -> confermaOrdine());
+        //btnCliente.addActionListener(e -> confermaOrdine());
         btnCliente.setFocusable(false);
         frame.getContentPane().add(btnCliente, BorderLayout.SOUTH);
 
         cBox.setFocusable(false);
+        
+        
+        
+        
+        
+        //BOTTONE ORDINAZIONE
+        btnOrdina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrdinaActionPerformed(evt);
+            }
+        });
+        
+        //BOTTONE SERVI
+        btnServi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnServiActionPerformed(evt);
+            }
+        });
 
         int i;
         for (i=0;i<menu.sP.size();i++){//aggiunta del menu a tendina
-            prova.addItem(menu.sP.get(i).getNome());
+            pizze.addItem(menu.sP.get(i).getNome());
         }
        
         
         for(int j=0;j<menu.sB.size();j++) {
-        	prova1.addItem(menu.sB.get(j).getNome());
+        	bevande.addItem(menu.sB.get(j).getNome());
         }
-
-        JButton btnAdd = new JButton("+");
-        JButton btnDec = new JButton("-");
         
-        JButton btnAdd1 = new JButton("+");
-        JButton btnDec1 = new JButton("-");
-
         JTextArea textArea = new JTextArea(30,30);
         textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        
-        
-        
-       
-        
-        JTextArea textArea1 = new JTextArea(30,30);
-        textArea1.setEditable(false);
-        frame.add(textArea1); //da fixare
+ 
         
         
         //Pizze
-        btnAdd.addActionListener(e -> addOrdine((String) prova.getSelectedItem(), textArea, prova.getSelectedIndex(), vectorS, vectorQ));
-        btnDec.addActionListener(e -> decOrdine((String) prova.getSelectedItem(), textArea, prova.getSelectedIndex(), vectorS, vectorQ));
+        btnAdd.addActionListener(e -> addOrdine((String) pizze.getSelectedItem(), textArea, pizze.getSelectedIndex(), vectorS, vectorQ));
+        btnDec.addActionListener(e -> decOrdine((String) pizze.getSelectedItem(), textArea, pizze.getSelectedIndex(), vectorS, vectorQ));
         //Bevande
-        btnAdd1.addActionListener(e -> addOrdine((String) prova1.getSelectedItem(), textArea, prova1.getSelectedIndex(), vectorS, vectorQ));
-        btnDec1.addActionListener(e -> decOrdine((String) prova1.getSelectedItem(), textArea, prova1.getSelectedIndex(), vectorS, vectorQ));
+        btnAdd1.addActionListener(e -> addOrdine((String) pizze.getSelectedItem(), textArea, bevande.getSelectedIndex(), vectorS, vectorQ));
+        btnDec1.addActionListener(e -> decOrdine((String) bevande.getSelectedItem(), textArea, bevande.getSelectedIndex(), vectorS, vectorQ));
 
         frame.add(scrollPane, BorderLayout.LINE_END);
         
-        //btnAdd.addActionListener(e -> addingP(jl));
 
-        panPietanze.add(prova);
-        panPietanze.add(prova1);
+        panPietanze.add(pizze);
+        panPietanze.add(bevande);
+        
         panPietanze.add(btnAdd);
         panPietanze.add(btnDec);
+        
         panPietanze.add(btnAdd1);
         panPietanze.add(btnDec1);
+        
+        panPietanze.add(btnOrdina);
+        panPietanze.add(btnServi);
 
-        frame.getContentPane().add(panPietanze);
-        
-       
-        
-        
-        
-        
-        
-
-        
+        frame.getContentPane().add(panPietanze);        
     }
 
-    public void addOrdine(String scelta, JTextArea textArea, Integer index, Vector<String> listaS, Vector<Integer> listaQ){
+ 
+	public void addOrdine(String scelta, JTextArea textArea, Integer index, Vector<String> listaS, Vector<Integer> listaQ){
     	boolean bool;
         int i, n, lenScelta, indice;
         String scontrino, temp;
@@ -122,6 +136,8 @@ public class ClienteFrame extends Frame {
         }
 
     }
+    
+    
 
     public void decOrdine(String scelta, JTextArea textArea, Integer index, Vector<String> listaS, Vector<Integer> listaQ){
     	 int indice, lenScelta, i, n=0;
@@ -148,6 +164,26 @@ public class ClienteFrame extends Frame {
         }
 
     }
+    
+
+
+    private void btnOrdinaActionPerformed(ActionEvent evt) {
+    	
+    	
+    }
+    
+    
+    protected void btnServiActionPerformed(ActionEvent evt) {
+    	 /*if (codaOrdinazioni.isEmpty()) 
+             textArea.append("Non ci sono ordini da evadere\n");
+         else {
+             ord = codaOrdinazioni.poll();
+             textArea.append("Soddisfatto ordine:\n");
+             textArea.append(ord.visualizza() + "\n");
+         }
+         txtComande.setText("Comande:" + codaOrdinazioni.size() + "\n");
+	*/}
+
 
     void aggiornaTextA(JTextArea textArea, String stringa, int indice, Vector<Integer> vInt){
         String temp;
@@ -157,7 +193,7 @@ public class ClienteFrame extends Frame {
         textArea.replaceRange(temp, indice, lenScelta);
     }
 
-    public void confermaOrdine(){
+    /*public void confermaOrdine(){
         String[] answ = {"Si","No"};
         int scelta;//0 si, 1 no
         scelta = JOptionPane.showOptionDialog(null,
@@ -171,7 +207,7 @@ public class ClienteFrame extends Frame {
         
         System.out.println(scelta);
         this.risposta=scelta;
-    }
+    }*/
 
 
 }

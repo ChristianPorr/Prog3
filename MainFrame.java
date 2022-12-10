@@ -12,16 +12,15 @@ public class MainFrame extends Frame{
     JButton btnCassa, btnCameriere, btnCliente; 
     
     MainFrame(){
-        //JLabel label = new JLabel();
+
+    	
         btnCassa = new JButton();
         btnCameriere = new JButton();
         btnCliente = new JButton();
 
-        //btnCassa.setBounds(200, 100, 100, 50);
         
         btnCassa.setText("Cassa");
         btnCliente.setText("Cliente");
-        //btnCassa.addActionListener(e -> JOptionPane.showMessageDialog(null, "Il tuo ordine e' stato completato", "Info", JOptionPane.PLAIN_MESSAGE));
         btnCassa.addActionListener(e -> {frame.dispose(); new CassaFrame();});
         btnCassa.setFocusable(false);
         btnCliente.setFocusable(false);
@@ -33,10 +32,12 @@ public class MainFrame extends Frame{
 		frame.setIconImage(img.getImage());
         frame.add(btnCassa);
         frame.add(btnCliente);
-        frame.setLayout(new FlowLayout(FlowLayout.LEADING));//LEADING E' TUTTO A SINISTRA, senza e' centrato
+        frame.setLayout(new FlowLayout(FlowLayout.CENTER));//LEADING E' TUTTO A SINISTRA, senza e' centrato
         frame.setResizable(false);
         frame.setVisible(true);
-
+        
+        
+       
         
     }
 

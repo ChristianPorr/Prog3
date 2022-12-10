@@ -1,16 +1,11 @@
 public class Pietanze{
     private String nome;
-    private String[] ingredienti;
-	private boolean scelto;
-	private int quantita; 
-	    /*private String[] ingredienti;*/
-	    private double prezzo;
+	private double prezzo;
 	    
 	    //COSTRUTTORE
 	    public Pietanze(String nP, Double pP) {
 			this.nome = nP; /*nP nome Pietanza*/
 			this.prezzo = pP; /*pR prezzo pietanza*/
-			scelto= false;
 	    }
 	    
 	    //METODO
@@ -35,16 +30,10 @@ public class Pietanze{
 			return Double.toString(this.prezzo);
 		}
 	    
-	    /*public String toString() {
+	    public String displayName() {
 	    	String s = this.nome + "\n" + this.prezzo + "\n";	    
 	    	return s;
-	    }*/
+	    }
 
-		public void addQuantita(){
-			this.quantita++;
-		}
-
-		public void decQuantita(){
-			this.quantita--;
-		}
+		
 }
