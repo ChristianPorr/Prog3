@@ -12,16 +12,12 @@ public class ClienteFrame extends Frame {
     Vector<Integer> vectorQ = new Vector<Integer>();
     LinkedList<Ordinazione> codaOrdinazioni = new LinkedList<Ordinazione>();
     Ordinazione ord;
-    JPanel panel = new JPanel();
     JCheckBox cBox = new JCheckBox();
     
     
-    
-    
-    
     public ClienteFrame(){
-    	JTextArea textArea1 = new JTextArea(15,15);
-    	JPanel panPietanze = new JPanel();//quasi effimero
+    	JPanel panel = new JPanel(new BorderLayout());
+    	JPanel panPietanze = new JPanel(new GridBagLayout());
         Menu menu = new Menu();
         JComboBox<String> pizze = new JComboBox<>();
         JComboBox<String> bevande = new JComboBox<>();
@@ -33,6 +29,14 @@ public class ClienteFrame extends Frame {
         
         JButton btnAdd1 = new JButton("+");
         JButton btnDec1 = new JButton("-");
+        
+        
+        
+        Border bordoInterno = BorderFactory.createTitledBorder("Menu");
+		Border bordoEsterno = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+		Border bordoFinale = BorderFactory.createCompoundBorder(bordoInterno, bordoEsterno);
+	
+		panPietanze.setBorder(bordoFinale);
     	
         frame.setTitle("Gestionale Ristorante-Cliente");
         label.setText("Scegli le pizze e le bibite:");
@@ -45,9 +49,6 @@ public class ClienteFrame extends Frame {
         frame.getContentPane().add(btnCliente, BorderLayout.SOUTH);
 
         cBox.setFocusable(false);
-        
-        
-        
         
         
         //BOTTONE ORDINAZIONE
@@ -85,23 +86,94 @@ public class ClienteFrame extends Frame {
         btnAdd.addActionListener(e -> addOrdine((String) pizze.getSelectedItem(), textArea, pizze.getSelectedIndex(), vectorS, vectorQ));
         btnDec.addActionListener(e -> decOrdine((String) pizze.getSelectedItem(), textArea, pizze.getSelectedIndex(), vectorS, vectorQ));
         //Bevande
-        btnAdd1.addActionListener(e -> addOrdine((String) pizze.getSelectedItem(), textArea, bevande.getSelectedIndex(), vectorS, vectorQ));
+        btnAdd1.addActionListener(e -> addOrdine((String) bevande.getSelectedItem(), textArea, bevande.getSelectedIndex(), vectorS, vectorQ));
         btnDec1.addActionListener(e -> decOrdine((String) bevande.getSelectedItem(), textArea, bevande.getSelectedIndex(), vectorS, vectorQ));
 
         frame.add(scrollPane, BorderLayout.LINE_END);
         
-
-        panPietanze.add(pizze);
-        panPietanze.add(bevande);
+        //LAYOUT PANNELLO PIETANZE
+        panel.add(panPietanze,BorderLayout.PAGE_START); //quasi effimero
         
-        panPietanze.add(btnAdd);
-        panPietanze.add(btnDec);
         
-        panPietanze.add(btnAdd1);
-        panPietanze.add(btnDec1);
+        GridBagConstraints gbc = new GridBagConstraints();
         
-        panPietanze.add(btnOrdina);
-        panPietanze.add(btnServi);
+        /*Menu pizze*/
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        
+        gbc.weightx = 0.01;
+        gbc.weighty = 0.01;
+        
+        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+        
+        panPietanze.add(pizze,gbc);    
+        
+        /*Bottoni Pizza*/
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        
+        gbc.weightx = 0.01;
+        gbc.weighty = 0.01;
+        
+        
+           
+        panPietanze.add(btnAdd,gbc);
+        
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        
+        gbc.weightx = 0.01;
+        gbc.weighty = 0.01;
+        
+        
+        panPietanze.add(btnDec,gbc);
+        
+        
+        
+        /*Menu Bevande*/
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        
+        gbc.weightx = 0.01;
+        gbc.weighty = 0.01;
+       
+        
+        panPietanze.add(bevande,gbc);
+        
+        /*Bottoni bevande*/
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        
+        gbc.weightx = 0.01;
+        gbc.weighty = 0.01;
+        
+        panPietanze.add(btnAdd1,gbc);
+        
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        
+        gbc.weightx = 0.01;
+        gbc.weighty = 0.01;
+        
+        panPietanze.add(btnDec1,gbc);
+        
+        
+        /*Bottoni ordina e servi*/
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        
+        panPietanze.add(btnOrdina,gbc);
+        
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        
+        panPietanze.add(btnServi,gbc);
 
         frame.getContentPane().add(panPietanze);        
     }
@@ -193,7 +265,7 @@ public class ClienteFrame extends Frame {
         textArea.replaceRange(temp, indice, lenScelta);
     }
 
-    /*public void confermaOrdine(){
+    public void confermaOrdine(){
         String[] answ = {"Si","No"};
         int scelta;//0 si, 1 no
         scelta = JOptionPane.showOptionDialog(null,
@@ -207,7 +279,7 @@ public class ClienteFrame extends Frame {
         
         System.out.println(scelta);
         this.risposta=scelta;
-    }*/
+    }
 
 
 }
