@@ -13,6 +13,7 @@ public class ClienteFrame extends Frame {
     LinkedList<Ordinazione> codaOrdinazioni = new LinkedList<Ordinazione>();
     Ordinazione ord;
     JCheckBox cBox = new JCheckBox();
+    Tavolo tav[] = new Tavolo[20];//tavoli
     
     
     public ClienteFrame(){
@@ -21,6 +22,8 @@ public class ClienteFrame extends Frame {
         Menu menu = new Menu();
         JComboBox<String> pizze = new JComboBox<>();
         JComboBox<String> bevande = new JComboBox<>();
+        JComboBox<String> tavoli = new JComboBox<>();
+        JLabel labelTav = new JLabel("Ordinazione per il tavolo n:");
         JButton btnOrdina = new JButton("Ordina");
         JButton btnServi = new JButton("Servi");
 
@@ -74,6 +77,21 @@ public class ClienteFrame extends Frame {
         for(int j=0;j<menu.sB.size();j++) {
         	bevande.addItem(menu.sB.get(j).getNome());
         }
+        //CREAZIONE DEI TAVOLI
+        for(i=0;i<20;i++) {
+        	tav[i]=new Tavolo();
+        }
+   
+        
+        Integer tempI;//var temporanee
+        String tempS;
+        for(i=0;i<20;i++) {
+        	tempI = tav[i].getNumTav();
+        	tempS = tempI.toString();
+        	tavoli.addItem(tempS);
+        }
+        
+        
         
         JTextArea textArea = new JTextArea(30,30);
         textArea.setEditable(false);
@@ -157,10 +175,27 @@ public class ClienteFrame extends Frame {
         
         panPietanze.add(btnDec1,gbc);
         
+      //label scegli tavolo
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        
+        gbc.weightx = 0.01;
+        gbc.weighty = 0.01;
+        
+        panPietanze.add(labelTav,gbc);
+        
+      //jcombobox tavoli
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        
+        gbc.weightx = 0.01;
+        gbc.weighty = 0.01;
+        
+        panPietanze.add(tavoli,gbc);
         
         /*Bottoni ordina e servi*/
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
@@ -168,7 +203,7 @@ public class ClienteFrame extends Frame {
         panPietanze.add(btnOrdina,gbc);
         
         gbc.gridx = 1;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
@@ -189,17 +224,18 @@ public class ClienteFrame extends Frame {
         if (!bool){//se non la contiene aggiungila
             listaS.add(scelta);
             listaQ.add(1);
-            textArea.append(scelta+" Qt: 1\n");//aggiungi scelta senza quantità
-        } else if(indice>=0){//se esiste la stessa pietanza aggiungila con la quantità
+            textArea.append(scelta+" Qt: 1\n");//aggiungi scelta senza quantitï¿½
+        } else if(indice>=0){//se esiste la stessa pietanza aggiungila con la quantitï¿½
 
             for(i=0;i<listaS.size();i++){
                 if(scelta==listaS.get(i)){
                     n=listaQ.get(i)+1;
                     listaQ.set(i, n);
-                    temp = scelta+" Qt: "+listaQ.get(i)+"\n";
                     if(listaQ.get(i)>9){
-                        lenScelta = temp.length() + indice+1;
+                        temp = scelta+" Qt: "+listaQ.get(i)+"\n";
+                        lenScelta = temp.length() + indice + 1;
                     } else {
+                        temp = scelta+" Qt: "+listaQ.get(i)+"\n";
                         lenScelta = temp.length() + indice;
                     }
                     textArea.replaceRange(temp, indice, lenScelta);//sostituisci la pietanza on quella corretta
@@ -225,12 +261,12 @@ public class ClienteFrame extends Frame {
                      temp = scelta+" Qt: "+listaQ.get(i)+"\n";//inserisce la qnt giusta
                      lenScelta = temp.length()+indice;
                      textArea.replaceRange(temp, indice, lenScelta);//inserisce all'interno del text area l'aggiornamento
-                 } else if(scelta==listaS.get(i)){//quando la qt è 0 allora cancellla
+                 } else if(scelta==listaS.get(i)){//quando la qt ï¿½ 0 allora cancellla
                      temp = scelta+" Qt: n\n";
                      lenScelta = temp.length()+indice;
                      textArea.replaceRange("", indice, lenScelta);//sostituisci con una stringa vuota
                      listaQ.remove(i);//elimina la pietanza dalle scelte
-                     listaS.remove(i);//elimina anche quindi la relati quantità
+                     listaS.remove(i);//elimina anche quindi la relati quantitï¿½
                  }
              }
         }
