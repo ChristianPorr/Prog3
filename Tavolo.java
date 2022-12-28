@@ -10,6 +10,8 @@ public class Tavolo extends Ordine{
     private double oraPrenotata;
     private String nominativo;
     private int maxPersone;
+    private Vector<String> ordineS = new Vector<String>();
+    private Vector<Integer> ordineQ = new Vector<Integer>();
     public int statusOrdine;
     private double totDaPagare;
     /*private ArraList<Pietanze> carrello;*/
@@ -48,6 +50,14 @@ public class Tavolo extends Ordine{
     }
     public void setNominativo(String nome){
         this.nominativo=nome;
+    }
+    public void prendiOrd(Vector<String> scelte, Vector<Integer> qnt){
+    	int i;
+    	for(i=0;i<scelte.size();i++) {
+    		this.ordineS.set(i, scelte.get(i));
+    		
+    	}
+    	
     }
     
 }

@@ -1,4 +1,3 @@
-
 public class Ordinazione {
 	private Pietanze pizza;
     private Pietanze bevanda;

@@ -77,6 +77,7 @@ public class ClienteFrame extends Frame {
         for(int j=0;j<menu.sB.size();j++) {
         	bevande.addItem(menu.sB.get(j).getNome());
         }
+        
         //CREAZIONE DEI TAVOLI
         for(i=0;i<20;i++) {
         	tav[i]=new Tavolo();
@@ -277,9 +278,13 @@ public class ClienteFrame extends Frame {
 
     private void btnOrdinaActionPerformed(ActionEvent evt) {
     	
-    	
     }
     
+    public void ordiniamo(Vector<String> scelte, Vector<Integer> qnt, String numTav, Tavolo tav[]){
+    	Integer numeroT = Integer.parseInt(numTav);//numero tavolo
+    	tav[numeroT].setOccupato();
+    	//tav[numeroT].ordi
+    }
     
     protected void btnServiActionPerformed(ActionEvent evt) {
     	 /*if (codaOrdinazioni.isEmpty()) 
@@ -290,7 +295,8 @@ public class ClienteFrame extends Frame {
              textArea.append(ord.visualizza() + "\n");
          }
          txtComande.setText("Comande:" + codaOrdinazioni.size() + "\n");
-	*/}
+    	  */
+    	}
 
 
     void aggiornaTextA(JTextArea textArea, String stringa, int indice, Vector<Integer> vInt){
