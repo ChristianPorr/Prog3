@@ -40,6 +40,7 @@ public class ClienteFrame extends Frame {
 		Border bordoFinale = BorderFactory.createCompoundBorder(bordoInterno, bordoEsterno);
 	
 		panPietanze.setBorder(bordoFinale);
+		
     	
         frame.setTitle("Gestionale Ristorante-Cliente");
         label.setText("Scegli le pizze e le bibite:");
@@ -49,17 +50,19 @@ public class ClienteFrame extends Frame {
         btnCliente.setText("Conferma ordine!");
         //btnCliente.addActionListener(e -> confermaOrdine());
         btnCliente.setFocusable(false);
-        frame.getContentPane().add(btnCliente, BorderLayout.SOUTH);
+        //BTN CLIENTE SOTTO
+        /*frame.getContentPane().add(btnCliente, BorderLayout.SOUTH);*/
 
         cBox.setFocusable(false);
         
         
         //BOTTONE ORDINAZIONE
-        btnOrdina.addActionListener(new java.awt.event.ActionListener() {
+        btnOrdina.addActionListener(e -> ordiniamo(vectorS, vectorQ,(String) tavoli.getSelectedItem()));
+        /*btnOrdina.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOrdinaActionPerformed(evt);
             }
-        });
+        });*/
         
         //BOTTONE SERVI
         btnServi.addActionListener(new java.awt.event.ActionListener() {
@@ -98,6 +101,11 @@ public class ClienteFrame extends Frame {
         textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        
+        JTextArea textAreaTavolo = new JTextArea(30,30);
+        textAreaTavolo.setEditable(false);
+        JScrollPane scrollTATav = new JScrollPane(textAreaTavolo);
+        //scrollTATav
  
         
         
@@ -198,18 +206,28 @@ public class ClienteFrame extends Frame {
         gbc.gridx = 0;
         gbc.gridy = 3;
         
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
+        gbc.weightx = 0.02;
+        gbc.weighty = 0.02;
         
         panPietanze.add(btnOrdina,gbc);
         
         gbc.gridx = 1;
         gbc.gridy = 3;
         
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
+        gbc.weightx = 0.02;
+        gbc.weighty = 0.02;
         
         panPietanze.add(btnServi,gbc);
+        
+        /*TextArea del tavolo da rivedere*/
+        gbc.gridx = 2;
+        gbc.gridy = 4;
+        
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.gridwidth = 3;
+        
+        panPietanze.add(scrollTATav, gbc);
 
         frame.getContentPane().add(panPietanze);        
     }
@@ -225,16 +243,15 @@ public class ClienteFrame extends Frame {
         if (!bool){//se non la contiene aggiungila
             listaS.add(scelta);
             listaQ.add(1);
-            textArea.append(scelta+" Qt: 1\n");//aggiungi scelta senza quantit�
+            textArea.append(scelta+" Qt: 1  \n");//aggiungi scelta senza quantit�
         } else if(indice>=0){//se esiste la stessa pietanza aggiungila con la quantit�
-
             for(i=0;i<listaS.size();i++){
                 if(scelta==listaS.get(i)){
                     n=listaQ.get(i)+1;
                     listaQ.set(i, n);
                     if(listaQ.get(i)>9){
                         temp = scelta+" Qt: "+listaQ.get(i)+"\n";
-                        lenScelta = temp.length() + indice + 1;
+                        lenScelta = temp.length() + indice;
                     } else {
                         temp = scelta+" Qt: "+listaQ.get(i)+"\n";
                         lenScelta = temp.length() + indice;
@@ -251,12 +268,20 @@ public class ClienteFrame extends Frame {
     public void decOrdine(String scelta, JTextArea textArea, Integer index, Vector<String> listaS, Vector<Integer> listaQ){
     	 int indice, lenScelta, i, n=0;
          String scontrino, temp;
+         Boolean bool;
          scontrino = textArea.getText();//stesse cose dell'add
          indice = scontrino.indexOf(scelta);
+         bool = listaS.contains(scelta);//valore bool se contiene o meno la pizza nel testo
+         if (!bool){//se non la contiene aggiungila
+             listaS.add(scelta);
+             listaQ.add(-1);
+             textArea.append(scelta+" Qt: -1 \n");//aggiungi scelta senza quantit�
+             
+         } else
          if(indice>=0){
 
              for(i=0;i<listaS.size();i++){
-                 if(scelta==listaS.get(i)&&listaQ.get(i)>1){
+                 if(scelta==listaS.get(i)){
                      n=listaQ.get(i)-1;
                      listaQ.set(i, n);
                      temp = scelta+" Qt: "+listaQ.get(i)+"\n";//inserisce la qnt giusta
@@ -280,10 +305,10 @@ public class ClienteFrame extends Frame {
     	
     }
     
-    public void ordiniamo(Vector<String> scelte, Vector<Integer> qnt, String numTav, Tavolo tav[]){
+    public void ordiniamo(Vector<String> scelte, Vector<Integer> qnt, String numTav){
     	Integer numeroT = Integer.parseInt(numTav);//numero tavolo
-    	tav[numeroT].setOccupato();
-    	//tav[numeroT].ordi
+    	this.tav[numeroT].setOccupato();
+    	tav[numeroT].prendiOrd(scelte, qnt);
     }
     
     protected void btnServiActionPerformed(ActionEvent evt) {

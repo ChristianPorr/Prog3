@@ -1,4 +1,7 @@
 import java.util.*;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.showMessageDialog;
+
 public class Tavolo extends Ordine{ 
     private final int min=2;/*num minimo di persone a tavolo */
     private final int max=16;/*num minimo di persone a tavolo */
@@ -52,11 +55,44 @@ public class Tavolo extends Ordine{
         this.nominativo=nome;
     }
     public void prendiOrd(Vector<String> scelte, Vector<Integer> qnt){
-    	int i;
+    	int i, j;
     	for(i=0;i<scelte.size();i++) {
-    		this.ordineS.set(i, scelte.get(i));
-    		
+    		//if(scelte.get(i).equals(ordineS)) {//se esiste già l'elemento scelto va a vedere dove sta e aggiorna
+	    		for(j=0;j<ordineS.size();i++) {
+	    			if(scelte.get(i)==ordineS.get(j)){//l'elemento già esisteva aggiorna la quantità
+	    				if(ordineQ.get(j)+qnt.get(i)>0){
+	    					System.out.println(ordineQ.get(j)+qnt.get(i));
+	    					this.ordineQ.set(j, ordineQ.get(j)+qnt.get(i));
+	    				} else {
+	    					System.out.println("negativo");
+	    					showMessageDialog(null,"La quantita' di un elemento non può essere negativa!",
+	    							"Attenzione!", JOptionPane.WARNING_MESSAGE);
+	    					//QUA DEVI CANCELLARE SE LA QUANTITA' E' 0
+	    				}
+	    				
+	    			}	
+	    		}
+    		//} else { errore
+    			//se è un elemento nuovo aggiungilo
+    			if(qnt.get(i)>0) {
+    				
+    				this.ordineS.add(scelte.get(i));
+        			this.ordineQ.add(qnt.get(i));
+        			System.out.println(ordineS.get(i));
+    			} else if(qnt.get(i)==0){
+					showMessageDialog(null,"La quantita' di un elemento non può essere nulla!",
+							"Attenzione!", JOptionPane.WARNING_MESSAGE);
+					//QUA DEVI CANCELLARE SE LA QUANTITA' E' 0
+					
+				}
+    			
+    			
+    		//}
     	}
+    	
+    	
+		/*this.ordineS.set(i, scelte.get(i));
+		this.ordineQ.set(i, qnt.get(i));*/
     	
     }
     
