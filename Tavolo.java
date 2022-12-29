@@ -54,46 +54,80 @@ public class Tavolo extends Ordine{
     public void setNominativo(String nome){
         this.nominativo=nome;
     }
-    public void prendiOrd(Vector<String> scelte, Vector<Integer> qnt){
+    public void prendiOrd(Vector<String> scelte, Vector<Integer> qnt) {
     	int i, j;
+    	Boolean esiste=false;
+    	Vector<Integer> indiciAgg = new Vector<Integer>();
+    	Vector<Integer> indiciNew = new Vector<Integer>();
+    	Vector<String> miss = new Vector<String>();
+    	
     	for(i=0;i<scelte.size();i++) {
-    		//if(scelte.get(i).equals(ordineS)) {//se esiste già l'elemento scelto va a vedere dove sta e aggiorna
-	    		for(j=0;j<ordineS.size();i++) {
-	    			if(scelte.get(i)==ordineS.get(j)){//l'elemento già esisteva aggiorna la quantità
-	    				if(ordineQ.get(j)+qnt.get(i)>0){
-	    					System.out.println(ordineQ.get(j)+qnt.get(i));
-	    					this.ordineQ.set(j, ordineQ.get(j)+qnt.get(i));
-	    				} else {
-	    					System.out.println("negativo");
-	    					showMessageDialog(null,"La quantita' di un elemento non può essere negativa!",
-	    							"Attenzione!", JOptionPane.WARNING_MESSAGE);
-	    					//QUA DEVI CANCELLARE SE LA QUANTITA' E' 0
-	    				}
-	    				
-	    			}	
-	    		}
-    		//} else { errore
-    			//se è un elemento nuovo aggiungilo
-    			if(qnt.get(i)>0) {
-    				
-    				this.ordineS.add(scelte.get(i));
-        			this.ordineQ.add(qnt.get(i));
-        			System.out.println(ordineS.get(i));
-    			} else if(qnt.get(i)==0){
-					showMessageDialog(null,"La quantita' di un elemento non può essere nulla!",
-							"Attenzione!", JOptionPane.WARNING_MESSAGE);
-					//QUA DEVI CANCELLARE SE LA QUANTITA' E' 0
-					
-				}
-    			
-    			
-    		//}
+    		for(j=0;j<ordineS.size();j++) {
+    			if(ordineS.get(j)==scelte.get(i)) {//controllo se esistono gli elementi all'interno della lista
+    				esiste = true;
+    				System.out.println("esiste");
+    				indiciAgg.add(i);
+    				//se esistono salvo dentro un vettore di indici gli indici dove esistono
+    			} else {
+    				esiste=false;
+    			}
+    		}
+    		
+    		if(!esiste) {
+    			System.out.println("aggiunto nuovo elemento, situato in pos "+i);
+    			indiciNew.add(i);
+    		}
     	}
-    	
-    	
-		/*this.ordineS.set(i, scelte.get(i));
-		this.ordineQ.set(i, qnt.get(i));*/
+    		
+    		for(i=0;i<indiciAgg.size();i++) {
+    			//vado a prendere l'indice di quello che esiste e sommare le quantità degli elementi uguali
+    			ordineQ.set(indiciAgg.get(i), qnt.get(indiciAgg.get(i))+ordineQ.get(indiciAgg.get(i)) );//aggiornamento
+    			System.out.println("ho aggiornato "+ordineS.get(indiciAgg.get(i))+"con la quantità totale di "+ordineQ.get(indiciAgg.get(i)) );
+    		}
+    		for(i=0;i<indiciNew.size();i++) {
+    			//vado ad aggiungere gli elementi nuovi
+    			ordineS.add(scelte.get(indiciNew.get(i)));
+    			ordineQ.add(qnt.get(indiciNew.get(i)));
+    			System.out.println("ho aggiunto "+scelte.get(indiciNew.get(i)) );
+    		}
+    		
+    		System.out.println("di seguito la lista dei prodotti:");
+    		int n;
+    		n=ordineS.size();
+    	for(i=0;i<ordineS.size();i++) {
+    		if(ordineQ.get(i)<=0) {
+    			ordineQ.remove(i);
+    			ordineS.remove(i);
+    		}
+    	}
+    	for(i=0;i<ordineS.size();i++) {
+    		System.out.println(ordineS.get(i)+" quantita'="+ordineQ.get(i));
+    	}
+    	System.out.println("la somma totale e' = "+totSpeso());
     	
     }
     
-}
+    public double totSpeso() {
+    	Menu menu = new Menu();
+    	int i,j;
+    	double sumtot=0;
+    	
+    	for(i=0;i<menu.sP.size();i++) {
+    		for(j=0;j<ordineS.size();j++) {
+    			if(menu.sP.get(i).getNome()==ordineS.get(j)) {
+    				sumtot=sumtot+(menu.sP.get(i).getPrezzo()*ordineQ.get(j));
+    			}
+    		}
+    	}
+    	for(i=0;i<menu.sB.size();i++) {
+    		for(j=0;j<ordineS.size();j++) {
+    			if(menu.sB.get(i).getNome()==ordineS.get(j)) {
+    				sumtot=sumtot+(menu.sB.get(i).getPrezzo()*ordineQ.get(j));
+    			}
+    		}
+    	}
+    	System.out.println("sommatot="+sumtot);
+    	return  sumtot;
+    }
+    	
+    }

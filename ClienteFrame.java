@@ -281,21 +281,21 @@ public class ClienteFrame extends Frame {
          if(indice>=0){
 
              for(i=0;i<listaS.size();i++){
-                 if(scelta==listaS.get(i)){
+                 if(scelta==listaS.get(i)&&(listaQ.get(i)>1||listaQ.get(i)<=-1)){
                      n=listaQ.get(i)-1;
                      listaQ.set(i, n);
                      temp = scelta+" Qt: "+listaQ.get(i)+"\n";//inserisce la qnt giusta
                      lenScelta = temp.length()+indice;
                      textArea.replaceRange(temp, indice, lenScelta);//inserisce all'interno del text area l'aggiornamento
-                 } else if(scelta==listaS.get(i)){//quando la qt � 0 allora cancellla
-                     temp = scelta+" Qt: n\n";
+                 } else if(scelta==listaS.get(i)&&listaQ.get(i)==1){//quando la qt � 0 allora cancellla
+                     temp = scelta+" Qt: n  \n";
                      lenScelta = temp.length()+indice;
                      textArea.replaceRange("", indice, lenScelta);//sostituisci con una stringa vuota
                      listaQ.remove(i);//elimina la pietanza dalle scelte
                      listaS.remove(i);//elimina anche quindi la relati quantit�
                  }
              }
-        }
+        } 
 
     }
     

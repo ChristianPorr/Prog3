@@ -16,7 +16,7 @@ public class Main {
 		
 		/*tavoli.get(0).contoTot(null, null);*/
 		MainFrame start = new MainFrame(); /*Finestra per il gestionale!*/
-		int tot;
+		
 		
 		
 	}

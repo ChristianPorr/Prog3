@@ -2,11 +2,12 @@ import javax.swing.JFrame;
 import javax.swing.border.Border;
 import javax.swing.plaf.DimensionUIResource;
 import java.awt.event.ActionListener;
-
+import java.io.*;
 import java.util.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+
 
 public class MainFrame extends Frame{
     JButton btnCassa, btnCameriere, btnCliente; 
@@ -15,7 +16,7 @@ public class MainFrame extends Frame{
 
     	
         btnCassa = new JButton();
-        btnCameriere = new JButton();
+        btnCameriere = new JButton("Push me!");
         btnCliente = new JButton();
 
         
@@ -30,6 +31,7 @@ public class MainFrame extends Frame{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(900,600);
 		frame.setIconImage(img.getImage());
+		frame.add(btnCameriere);
         frame.add(btnCassa);
         frame.add(btnCliente);
         frame.setLayout(new FlowLayout(FlowLayout.CENTER));//LEADING E' TUTTO A SINISTRA, senza e' centrato
