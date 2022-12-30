@@ -4,6 +4,7 @@ import javax.swing.border.Border;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.*;
 
 
 public class ClienteFrame extends Frame {
@@ -306,9 +307,26 @@ public class ClienteFrame extends Frame {
     }
     
     public void ordiniamo(Vector<String> scelte, Vector<Integer> qnt, String numTav){
-    	Integer numeroT = Integer.parseInt(numTav);//numero tavolo
-    	this.tav[numeroT].setOccupato();
-    	tav[numeroT].prendiOrd(scelte, qnt);
+    	Integer numeroT = Integer.parseInt(numTav);//numero tavolo +1  	
+    	try {
+  	      File myObj = new File("tav"+numeroT+".txt");
+  	      if (myObj.createNewFile()) {
+  	    	  System.out.println("File created: " + myObj.getName());
+  	    	  numeroT--;//tav0 è in realtà tav1
+  	    	  this.tav[numeroT].setOccupato();
+  	    	  tav[numeroT].prendiOrd(scelte, qnt, myObj);
+  	      } else {
+  	    	  System.out.println("File already exists.");
+  	    	  numeroT--;//tav0 è in realtà tav1
+  	    	  this.tav[numeroT].setOccupato();
+  	    	  tav[numeroT].prendiOrd(scelte, qnt, myObj);
+  	      }
+  	    } catch (IOException e) {
+  	      System.out.println("An error occurred.");
+  	      e.printStackTrace();
+  	    }
+    	
+    	
     }
     
     protected void btnServiActionPerformed(ActionEvent evt) {

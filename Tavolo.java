@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.*;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -7,7 +8,7 @@ public class Tavolo extends Ordine{
     private final int max=16;/*num minimo di persone a tavolo */
     private int medium=((max-min)+1);
     private int var; /*variabile per il random */
-    private static int numTavoloStatic;
+    private static int numTavoloStatic=0;
     private int numTavolo;
     private boolean occupato;
     private double oraPrenotata;
@@ -54,7 +55,7 @@ public class Tavolo extends Ordine{
     public void setNominativo(String nome){
         this.nominativo=nome;
     }
-    public void prendiOrd(Vector<String> scelte, Vector<Integer> qnt) {
+    public void prendiOrd(Vector<String> scelte, Vector<Integer> qnt, File txtOw) {
     	int i, j;
     	Boolean esiste=false;
     	Vector<Integer> indiciAgg = new Vector<Integer>();
@@ -100,14 +101,36 @@ public class Tavolo extends Ordine{
     			ordineS.remove(i);
     		}
     	}
+    	
     	for(i=0;i<ordineS.size();i++) {
     		System.out.println(ordineS.get(i)+" quantita'="+ordineQ.get(i));
+    		/*try {
+    			  FileWriter myWriter = new FileWriter("filename.txt");
+    		      myWriter.write("Files in Java might be tricky, but it is fun enough!");
+    		      myWriter.close();
+    		      System.out.println("Successfully wrote to the file.");
+    		    } catch (IOException e) {
+    		      System.out.println("An error occurred.");
+    		      e.printStackTrace();
+    		    }*/
     	}
-    	System.out.println("la somma totale e' = "+totSpeso());
+    	System.out.println(this.numTavolo);
+    	totSpeso();
+    	System.out.println("la somma totale e' = "+this.totDaPagare);
+    	
+    	try {
+    	      FileWriter myWriter = new FileWriter(txtOw.getName(),false);
+    	      myWriter.write("Files in Java might be tricky, but it is fun enough!"+this.totDaPagare);
+    	      myWriter.close();
+    	      System.out.println("Successfully wrote to the file.");
+    	    } catch (IOException e) {
+    	      System.out.println("An error occurred.");
+    	      e.printStackTrace();
+    	    }
     	
     }
     
-    public double totSpeso() {
+    public void totSpeso() {
     	Menu menu = new Menu();
     	int i,j;
     	double sumtot=0;
@@ -126,8 +149,7 @@ public class Tavolo extends Ordine{
     			}
     		}
     	}
-    	System.out.println("sommatot="+sumtot);
-    	return  sumtot;
+    	this.totDaPagare=sumtot;
     }
     	
     }
