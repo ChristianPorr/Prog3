@@ -57,6 +57,7 @@ public class Tavolo extends Ordine{
     }
     public void prendiOrd(Vector<String> scelte, Vector<Integer> qnt, File txtOw) {
     	int i, j;
+    	Menu menu = new Menu();
     	Boolean esiste=false;
     	Vector<Integer> indiciAgg = new Vector<Integer>();
     	Vector<Integer> indiciNew = new Vector<Integer>();
@@ -66,7 +67,7 @@ public class Tavolo extends Ordine{
     		for(j=0;j<ordineS.size();j++) {
     			if(ordineS.get(j)==scelte.get(i)) {//controllo se esistono gli elementi all'interno della lista
     				esiste = true;
-    				System.out.println("esiste");
+    				//System.out.println("esiste");
     				indiciAgg.add(i);
     				//se esistono salvo dentro un vettore di indici gli indici dove esistono
     			} else {
@@ -75,7 +76,7 @@ public class Tavolo extends Ordine{
     		}
     		
     		if(!esiste) {
-    			System.out.println("aggiunto nuovo elemento, situato in pos "+i);
+    			//System.out.println("aggiunto nuovo elemento, situato in pos "+i);
     			indiciNew.add(i);
     		}
     	}
@@ -83,16 +84,16 @@ public class Tavolo extends Ordine{
     		for(i=0;i<indiciAgg.size();i++) {
     			//vado a prendere l'indice di quello che esiste e sommare le quantità degli elementi uguali
     			ordineQ.set(indiciAgg.get(i), qnt.get(indiciAgg.get(i))+ordineQ.get(indiciAgg.get(i)) );//aggiornamento
-    			System.out.println("ho aggiornato "+ordineS.get(indiciAgg.get(i))+"con la quantità totale di "+ordineQ.get(indiciAgg.get(i)) );
+    			//System.out.println("ho aggiornato "+ordineS.get(indiciAgg.get(i))+"con la quantità totale di "+ordineQ.get(indiciAgg.get(i)) );
     		}
     		for(i=0;i<indiciNew.size();i++) {
     			//vado ad aggiungere gli elementi nuovi
     			ordineS.add(scelte.get(indiciNew.get(i)));
     			ordineQ.add(qnt.get(indiciNew.get(i)));
-    			System.out.println("ho aggiunto "+scelte.get(indiciNew.get(i)) );
+    			//System.out.println("ho aggiunto "+scelte.get(indiciNew.get(i)) );
     		}
     		
-    		System.out.println("di seguito la lista dei prodotti:");
+    		//System.out.println("di seguito la lista dei prodotti:");
     		int n;
     		n=ordineS.size();
     	for(i=0;i<ordineS.size();i++) {
@@ -101,26 +102,32 @@ public class Tavolo extends Ordine{
     			ordineS.remove(i);
     		}
     	}
-    	
+    	/*
     	for(i=0;i<ordineS.size();i++) {
     		System.out.println(ordineS.get(i)+" quantita'="+ordineQ.get(i));
-    		/*try {
-    			  FileWriter myWriter = new FileWriter("filename.txt");
-    		      myWriter.write("Files in Java might be tricky, but it is fun enough!");
-    		      myWriter.close();
-    		      System.out.println("Successfully wrote to the file.");
-    		    } catch (IOException e) {
-    		      System.out.println("An error occurred.");
-    		      e.printStackTrace();
-    		    }*/
     	}
-    	System.out.println(this.numTavolo);
+    	System.out.println(this.numTavolo);*/
     	totSpeso();
-    	System.out.println("la somma totale e' = "+this.totDaPagare);
+    	//System.out.println("la somma totale e' = "+this.totDaPagare);
     	
     	try {
     	      FileWriter myWriter = new FileWriter(txtOw.getName(),false);
-    	      myWriter.write("Files in Java might be tricky, but it is fun enough!"+this.totDaPagare);
+    	      
+    	      for(i=0;i<this.ordineS.size();i++) {
+    	    	  
+    	    	  for(j=0;j<menu.sP.size();j++) {
+    	    		  if(menu.sP.get(j).getNome()==ordineS.get(i)){
+    	    			  myWriter.write(this.ordineS.get(i)+" x"+this.ordineQ.get(i)+" ("+menu.sP.get(j).getPrezzoS()+"€) \n");
+    	    		  }
+    	    	  }
+    	    	  for(j=0;j<menu.sB.size();j++) {
+    	    		  if(menu.sB.get(j).getNome()==ordineS.get(i)){
+    	    			  myWriter.write(this.ordineS.get(i)+" x"+this.ordineQ.get(i)+" ("+menu.sB.get(j).getPrezzoS()+"€) \n");
+    	    		  }
+	    		  }
+    	    	
+    	    	  }
+    	      myWriter.write("Totale: "+this.totDaPagare);
     	      myWriter.close();
     	      System.out.println("Successfully wrote to the file.");
     	    } catch (IOException e) {

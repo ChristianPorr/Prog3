@@ -1,4 +1,7 @@
+import java.util.Formatter;
+
 public class Pietanze{
+	private Formatter fm=new Formatter();
     private String nome;
 	private double prezzo;
 	    
@@ -6,6 +9,7 @@ public class Pietanze{
 	    public Pietanze(String nP, Double pP) {
 			this.nome = nP; /*nP nome Pietanza*/
 			this.prezzo = pP; /*pR prezzo pietanza*/
+			fm.format("%.2f", prezzo);
 	    }
 	    
 	    //METODO
