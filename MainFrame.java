@@ -1,4 +1,3 @@
-import javax.swing.JFrame;
 import javax.swing.border.Border;
 import javax.swing.plaf.DimensionUIResource;
 import java.awt.event.ActionListener;
@@ -16,10 +15,8 @@ public class MainFrame extends Frame{
 
     	
         btnCassa = new JButton();
-        btnCameriere = new JButton("Push me!");
         btnCliente = new JButton();
 
-        
         btnCassa.setText("Cassa");
         btnCliente.setText("Cliente");
         btnCassa.addActionListener(e -> {frame.dispose(); new CassaFrame();});
@@ -39,6 +36,9 @@ public class MainFrame extends Frame{
         frame.setVisible(true);
         
         
+        JTextArea textArea = new JTextArea(30,30);
+        
+       
        
         
     }

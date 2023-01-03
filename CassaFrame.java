@@ -5,6 +5,8 @@ import javax.swing.*;
 
 public class CassaFrame extends Frame{
     JButton btnCompletaOrd = new JButton();
+    Vector<JButton> btnTav = new Vector<JButton>();
+    Integer txtCount;
     public CassaFrame() {
     	JPanel panel = new JPanel();
     	JTextArea textArea = new JTextArea(30,30);
@@ -12,24 +14,20 @@ public class CassaFrame extends Frame{
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         JButton btnClear = new JButton("Clear");
+        btnClear.addActionListener(e -> {
+        								textArea.replaceRange("", 0, this.txtCount);
+        								});
         
         int i;
         
         for(i=1;i<=20;i++) {
-        try {
-            File myObj = new File("tav"+i+".txt");
-            Scanner myReader = new Scanner(myObj);
-            //panel.add(new JButton("Tavolo: "+i).addActionListener(e -> ));
-            /*
-            while (myReader.hasNextLine()) {
-              String data = myReader.nextLine();
-              System.out.println(data);
-            }*/
-            myReader.close();
-          } catch (FileNotFoundException e) {
-            System.out.println("Non esiste il tav"+i);
-            //e.printStackTrace();
-          }
+        	File myObj = new File("tav"+i+".txt");
+        	if(myObj.exists()) {
+				btnTav.add(new JButton("Tavolo: "+i));
+				final Integer ii = new Integer(i);
+				btnTav.get(i-1).addActionListener(e -> showOrder(ii, myObj, textArea));
+				panel.add(btnTav.get(i-1));
+			}
         }
     	
         frame.setTitle("Cassa");
@@ -45,8 +43,31 @@ public class CassaFrame extends Frame{
         frame.add(btnCompletaOrd, BorderLayout.SOUTH);
     }
     
-    private void showOrder(){
+    private void showOrder(int i, File file, JTextArea txt){
     	//Aggiungiamo l'ordine al textArea...
+    	Scanner myReader;
+    	String tmpCounter;
+		try {
+			myReader = new Scanner(file);
+			String temp, temptxt;
+	    	temptxt = txt.getText();
+	    	if(!temptxt.isEmpty()) {
+	    		txt.replaceRange("", 0, temptxt.length());
+	    	}
+	    	txt.append("Il tavolo "+i+" ha ordinato:\n");
+	    	while(myReader.hasNextLine()) {
+	    		temp = myReader.nextLine();
+	    		txt.append(temp+"\n");
+	    	}
+	    	tmpCounter=txt.getText();
+	    	this.txtCount = tmpCounter.length();
+	    	myReader.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Scanner non trovato");
+		}
+		
+    	
     }
 
     public void completaOrd(){
