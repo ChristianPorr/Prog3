@@ -36,18 +36,7 @@ public class MainFrame extends Frame{
         
         
         JTextArea textArea = new JTextArea(30,30);
-        
-       
-       
-        
+           
     }
-
-    /* NON VA
-    public void actionPerformed(ActionEvent e){
-        if(e.getSource()==btnCliente){
-            this.dispose();
-            ClienteFrame windowCliente = new ClienteFrame();
-        }
-    }*/
 
 }
