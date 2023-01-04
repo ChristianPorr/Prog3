@@ -25,10 +25,9 @@ public class MainFrame extends Frame{
         btnCliente.addActionListener(e -> {frame.dispose(); new ClienteFrame();});
         
 		frame.setTitle("Gestionale Ristorante");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(900,600);
 		frame.setIconImage(img.getImage());
-		frame.add(btnCameriere);
+		//frame.add(btnCameriere);
         frame.add(btnCassa);
         frame.add(btnCliente);
         frame.setLayout(new FlowLayout(FlowLayout.CENTER));//LEADING E' TUTTO A SINISTRA, senza e' centrato

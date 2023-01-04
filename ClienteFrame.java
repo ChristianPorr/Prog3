@@ -15,7 +15,8 @@ public class ClienteFrame extends Frame {
     Ordinazione ord;
     JCheckBox cBox = new JCheckBox();
     Tavolo tav[] = new Tavolo[20];//tavoli
-    
+    Integer txtCount=0;
+    JTextArea textArea = new JTextArea(30,30);
     
     public ClienteFrame(){
     	JPanel panel = new JPanel(new BorderLayout());
@@ -25,6 +26,7 @@ public class ClienteFrame extends Frame {
         JComboBox<String> bevande = new JComboBox<>();
         JComboBox<String> tavoli = new JComboBox<>();
         JLabel labelTav = new JLabel("Ordinazione per il tavolo n:");
+        
         JButton btnOrdina = new JButton("Ordina");
         JButton btnServi = new JButton("Servi");
 
@@ -98,7 +100,7 @@ public class ClienteFrame extends Frame {
         
         
         
-        JTextArea textArea = new JTextArea(30,30);
+        
         textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -107,6 +109,16 @@ public class ClienteFrame extends Frame {
         textAreaTavolo.setEditable(false);
         JScrollPane scrollTATav = new JScrollPane(textAreaTavolo);
         //scrollTATav
+        JButton btnClear = new JButton("Clear");
+        btnClear.addActionListener(e -> {
+        								String tmpS;
+        								Integer tmpI;
+        								this.vectorQ.clear();
+        								this.vectorS.clear();
+        								tmpS=this.textArea.getText();
+        								tmpI=tmpS.length();
+        								this.textArea.replaceRange("", 0, tmpI);
+        								});
  
         
         
@@ -220,6 +232,14 @@ public class ClienteFrame extends Frame {
         
         panPietanze.add(btnServi,gbc);
         
+        gbc.gridx = 2;
+        gbc.gridy = 3;
+        
+        gbc.weightx = 0.02;
+        gbc.weighty = 0.02;
+        
+        panPietanze.add(btnClear,gbc);
+        
         /*TextArea del tavolo da rivedere*/
         gbc.gridx = 2;
         gbc.gridy = 4;
@@ -242,12 +262,14 @@ public class ClienteFrame extends Frame {
         indice = scontrino.indexOf(scelta);//indice dove si trova la pizza
         bool = listaS.contains(scelta);//valore bool se contiene o meno la pizza nel testo
         if (!bool){//se non la contiene aggiungila
+        	System.out.println("indice="+indice);
             listaS.add(scelta);
             listaQ.add(1);
             textArea.append(scelta+" Qt: 1  \n");//aggiungi scelta senza quantit�
         } else if(indice>=0){//se esiste la stessa pietanza aggiungila con la quantit�
+        	System.out.println("bool="+bool);
+        	System.out.println("indice dentro="+indice);
             for(i=0;i<listaS.size();i++){
-                if(scelta==listaS.get(i)){
                     n=listaQ.get(i)+1;
                     listaQ.set(i, n);
                     if(listaQ.get(i)>9){
@@ -258,11 +280,14 @@ public class ClienteFrame extends Frame {
                         lenScelta = temp.length() + indice;
                     }
                     textArea.replaceRange(temp, indice, lenScelta);//sostituisci la pietanza on quella corretta
+                    
                 }
+                
             }
+           
         }
 
-    }
+
     
     
 
@@ -288,12 +313,15 @@ public class ClienteFrame extends Frame {
                      temp = scelta+" Qt: "+listaQ.get(i)+"\n";//inserisce la qnt giusta
                      lenScelta = temp.length()+indice;
                      textArea.replaceRange(temp, indice, lenScelta);//inserisce all'interno del text area l'aggiornamento
+                 
+         	    	
                  } else if(scelta==listaS.get(i)&&listaQ.get(i)==1){//quando la qt � 0 allora cancellla
                      temp = scelta+" Qt: n  \n";
                      lenScelta = temp.length()+indice;
                      textArea.replaceRange("", indice, lenScelta);//sostituisci con una stringa vuota
                      listaQ.remove(i);//elimina la pietanza dalle scelte
                      listaS.remove(i);//elimina anche quindi la relati quantit�
+                     
                  }
              }
         } 

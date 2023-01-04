@@ -6,7 +6,7 @@ import javax.swing.*;
 public class CassaFrame extends Frame{
     JButton btnCompletaOrd = new JButton();
     Vector<JButton> btnTav = new Vector<JButton>();
-    Integer txtCount;
+    Integer txtCount=0;
     public CassaFrame() {
     	JPanel panel = new JPanel();
     	JTextArea textArea = new JTextArea(30,30);
@@ -25,8 +25,8 @@ public class CassaFrame extends Frame{
         	if(myObj.exists()) {
 				btnTav.add(new JButton("Tavolo: "+i));
 				final Integer ii = new Integer(i);
-				btnTav.get(i-1).addActionListener(e -> showOrder(ii, myObj, textArea));
-				panel.add(btnTav.get(i-1));
+				btnTav.lastElement().addActionListener(e -> showOrder(ii, myObj, textArea));
+				panel.add(btnTav.lastElement());
 			}
         }
     	
@@ -43,7 +43,7 @@ public class CassaFrame extends Frame{
         frame.add(btnCompletaOrd, BorderLayout.SOUTH);
     }
     
-    private void showOrder(int i, File file, JTextArea txt){
+    private void showOrder(Integer i, File file, JTextArea txt){
     	//Aggiungiamo l'ordine al textArea...
     	Scanner myReader;
     	String tmpCounter;

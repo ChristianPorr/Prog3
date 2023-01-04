@@ -127,7 +127,7 @@ public class Tavolo extends Ordine{
 	    		  }
     	    	
     	    	  }
-    	      myWriter.write("Totale: "+this.totDaPagare);
+    	      myWriter.write("Totale: "+this.totDaPagare+"€");
     	      myWriter.close();
     	      System.out.println("Successfully wrote to the file.");
     	    } catch (IOException e) {
