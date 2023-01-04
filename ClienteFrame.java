@@ -68,11 +68,7 @@ public class ClienteFrame extends Frame {
         });*/
         
         //BOTTONE SERVI
-        btnServi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnServiActionPerformed(evt);
-            }
-        });
+        
 
         int i;
         for (i=0;i<menu.sP.size();i++){//aggiunta del menu a tendina
@@ -265,8 +261,8 @@ public class ClienteFrame extends Frame {
         	System.out.println("indice="+indice);
             listaS.add(scelta);
             listaQ.add(1);
-            textArea.append(scelta+" Qt: 1  \n");//aggiungi scelta senza quantit�
-        } else if(indice>=0){//se esiste la stessa pietanza aggiungila con la quantit�
+            textArea.append(scelta+" Qt: 1  \n");//aggiungi scelta senza quantita
+        } else if(indice>=0){//se esiste la stessa pietanza aggiungila con la quantita
         	System.out.println("bool="+bool);
         	System.out.println("indice dentro="+indice);
             for(i=0;i<listaS.size();i++){
@@ -315,24 +311,19 @@ public class ClienteFrame extends Frame {
                      textArea.replaceRange(temp, indice, lenScelta);//inserisce all'interno del text area l'aggiornamento
                  
          	    	
-                 } else if(scelta==listaS.get(i)&&listaQ.get(i)==1){//quando la qt � 0 allora cancellla
+                 } else if(scelta==listaS.get(i)&&listaQ.get(i)==1){//quando la qnt a 0 allora cancella
                      temp = scelta+" Qt: n  \n";
                      lenScelta = temp.length()+indice;
                      textArea.replaceRange("", indice, lenScelta);//sostituisci con una stringa vuota
                      listaQ.remove(i);//elimina la pietanza dalle scelte
-                     listaS.remove(i);//elimina anche quindi la relati quantit�
+                     listaS.remove(i);//elimina anche quindi la relati quantita
                      
                  }
              }
         } 
 
     }
-    
-
-
-    private void btnOrdinaActionPerformed(ActionEvent evt) {
-    	
-    }
+   
     
     public void ordiniamo(Vector<String> scelte, Vector<Integer> qnt, String numTav){
     	Integer numeroT = Integer.parseInt(numTav);//numero tavolo +1  	
@@ -356,18 +347,7 @@ public class ClienteFrame extends Frame {
     	
     	
     }
-    
-    protected void btnServiActionPerformed(ActionEvent evt) {
-    	 /*if (codaOrdinazioni.isEmpty()) 
-             textArea.append("Non ci sono ordini da evadere\n");
-         else {
-             ord = codaOrdinazioni.poll();
-             textArea.append("Soddisfatto ordine:\n");
-             textArea.append(ord.visualizza() + "\n");
-         }
-         txtComande.setText("Comande:" + codaOrdinazioni.size() + "\n");
-    	  */
-    	}
+  
 
 
     void aggiornaTextA(JTextArea textArea, String stringa, int indice, Vector<Integer> vInt){
