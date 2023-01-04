@@ -1,5 +1,5 @@
 /*Pattern State*/
-/*Ordine completato*/
+/*Aggiorna lo stato della classe ordine a consegnato*/
 public class DeliveredState extends State {
 
 	public DeliveredState(Ordine ordine) {
@@ -13,16 +13,17 @@ public class DeliveredState extends State {
 		return null;
 	}
 
-	@Override
-	public String ordineInLavorazione() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public String ordineConsegnato() {
 		ordine.setState(new DeliveredState(ordine));
 		return ordine.Consegnato();
+	}
+
+	@Override
+	public String ordineNullo() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

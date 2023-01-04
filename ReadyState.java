@@ -1,5 +1,5 @@
 /*Pattern State*/
-/*Ordine preso in carico*/
+/*Si attiva quando si prende l'ordinazione di un tavolo*/
 public class ReadyState extends State {
 
 	public ReadyState(Ordine ordine) {
@@ -9,18 +9,18 @@ public class ReadyState extends State {
 
 	@Override
 	public String ordineRicevuto() {
+		ordine.setState(new DeliveredState(ordine));
+		return ordine.Ricevuto();
+	}
+
+	@Override
+	public String ordineConsegnato() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String ordineInLavorazione() {
-		ordine.setState(new DeliveredState(ordine));
-		return ordine.Completato();
-	}
-
-	@Override
-	public String ordineConsegnato() {
+	public String ordineNullo() {
 		// TODO Auto-generated method stub
 		return null;
 	}

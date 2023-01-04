@@ -1,5 +1,5 @@
 /*Pattern State*/
-
+/**/
 
 public class Ordine{
   private State state;
@@ -16,16 +16,12 @@ public class Ordine{
 	  return "Ordine ricevuto";
   }
   
-  public String InLavorazione() {
-	  return "Ordine in lavorazione";
-  }
-  
-  public String Completato() {
-	  return "Ordine completato";
-  }
-  
   public String Consegnato() {
 	  return "Ordine consegnato";
+  }
+  
+  public String Nessuno() {
+	  return "Non ci sono ordini";
   }
 
 }
