@@ -1,5 +1,5 @@
 import java.util.*;
-public class Menu {
+public class Menu implements IteratoreContainer{
     ArrayList<Pietanze> sP = new ArrayList<Pietanze>();
 	ArrayList<Pietanze> sB = new ArrayList<Pietanze>();
 	
@@ -17,6 +17,43 @@ public class Menu {
 		this.sB.add(new Pietanze("Coca cola",1.50));
 	}
 	
+	
+	//DA SISTEMARE 
+	
+	@Override
+	public IteratoreMenu getIterator(){
+		return new NameIterator();
+	}
+	
+	public class NameIterator implements IteratoreMenu {
+		int i;
+		
+		@Override
+		public boolean hasNext() {
+			if(i < sP.size() && i < sB.size()) {
+				return true;
+			}
+			return false;
+		}
+
+		@Override
+		public Object nextP() {
+			if(this.hasNext()) {
+				return sP.get(i++).getNome();
+			}
+			return null;
+		}
+		
+		@Override 
+		public Object nextB() {
+			if(this.hasNext()) {
+				return sB.get(i++).getNome();
+			}
+			return null;
+		}
+	}
+	
+	/*
 	public String toString() {
 		String s = this.sP + " " + this.sB + " ";
 		return s;
@@ -34,7 +71,7 @@ public class Menu {
         for(i=0;i<sB.size();i++){
             System.out.println(this.sB.get(i).getNome().toString());
         }
-    }
+    }*/
 
     public double prendiContoPietanze(int indici[]){
     int i;
