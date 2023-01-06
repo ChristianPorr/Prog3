@@ -1,20 +1,22 @@
 import java.util.*;
 public class Menu implements IteratoreContainer{
     ArrayList<Pietanze> sP = new ArrayList<Pietanze>();
-	ArrayList<Pietanze> sB = new ArrayList<Pietanze>();
+    ArrayList<Pietanze> sB = new ArrayList<Pietanze>();
 	
 	public Menu(){
 		this.sP.add(new Pietanze("Margherita", 4.50));
 		this.sP.add(new Pietanze("Marinara", 4.00));
 		this.sP.add(new Pietanze("Diavola", 5.00));
-		this.sP.add(new Pietanze("Bufalina", 6.50));
-		this.sP.add(new Pietanze("Primavera",4.00));
+		this.sP.add(new Pietanze("Bufalina", 6.00));
+		this.sP.add(new Pietanze("Crocchè", 6.50));
+		this.sP.add(new Pietanze("Primavera", 4.00));
 		
 		this.sB.add(new Pietanze("Vino bianco", 3.00));
 		this.sB.add(new Pietanze("Acqua Frizzante", 1.00));
 		this.sB.add(new Pietanze("Acqua Naturale", 0.50));
 		this.sB.add(new Pietanze("Birra", 2.50));
-		this.sB.add(new Pietanze("Coca cola",1.50));
+		this.sB.add(new Pietanze("Fanta", 1.50));
+		this.sB.add(new Pietanze("Coca Cola", 1.50));
 	}
 	
 	
@@ -26,19 +28,27 @@ public class Menu implements IteratoreContainer{
 	}
 	
 	public class NameIterator implements IteratoreMenu {
-		int i;
+		int i=0,j=0;
 		
 		@Override
-		public boolean hasNext() {
-			if(i < sP.size() && i < sB.size()) {
+		public boolean hasNextP() {
+			if(i < sP.size()) {
 				return true;
 			}
 			return false;
 		}
-
+		
+		@Override
+		public boolean hasNextB() {
+			if(j < sB.size()){
+				return true;
+			}
+			return false;
+		}
+		
 		@Override
 		public Object nextP() {
-			if(this.hasNext()) {
+			if(this.hasNextP()) {
 				return sP.get(i++).getNome();
 			}
 			return null;
@@ -46,33 +56,13 @@ public class Menu implements IteratoreContainer{
 		
 		@Override 
 		public Object nextB() {
-			if(this.hasNext()) {
-				return sB.get(i++).getNome();
+			if(this.hasNextB()) {
+				return sB.get(j++).getNome();
 			}
 			return null;
 		}
-	}
+      }
 	
-	/*
-	public String toString() {
-		String s = this.sP + " " + this.sB + " ";
-		return s;
-	}
-
-    public void mostraPietanzaNome(){
-        int i;
-        for(i=0;i<sP.size();i++){
-            System.out.println(this.sP.get(i).getNome().toString());
-        }
-    }
-
-    public void mostraBevandeNome(){
-        int i;
-        for(i=0;i<sB.size();i++){
-            System.out.println(this.sB.get(i).getNome().toString());
-        }
-    }*/
-
     public double prendiContoPietanze(int indici[]){
     int i;
     double sumtot;
