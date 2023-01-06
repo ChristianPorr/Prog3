@@ -20,7 +20,7 @@ public class Menu implements IteratoreContainer{
 	}
 	
 	
-	//DA SISTEMARE 
+	
 	
 	@Override
 	public IteratoreMenu getIterator(){
