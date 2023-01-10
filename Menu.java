@@ -2,6 +2,7 @@ import java.util.*;
 public class Menu implements IteratoreContainer{
     ArrayList<Pietanze> sP = new ArrayList<Pietanze>();
     ArrayList<Pietanze> sB = new ArrayList<Pietanze>();
+    ArrayList<Pietanze> sPP = new ArrayList<Pietanze>();
 	
 	public Menu(){
 		this.sP.add(new Pietanze("Margherita", 4.50));
@@ -17,7 +18,12 @@ public class Menu implements IteratoreContainer{
 		this.sB.add(new Pietanze("Birra", 2.50));
 		this.sB.add(new Pietanze("Fanta", 1.50));
 		this.sB.add(new Pietanze("Coca Cola", 1.50));
-	}
+		
+		this.sPP.add(new Pietanze("Spaghetti con le vongole",15.50));
+		this.sPP.add(new Pietanze("Risotto carnaroli",12.50));
+		this.sPP.add(new Pietanze("Pasta ai pomodorini",10.00));
+		this.sPP.add(new Pietanze("Tagliatelle di nonna Pina",100.00));
+		}
 	
 	
 	

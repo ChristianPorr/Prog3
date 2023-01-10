@@ -20,16 +20,19 @@ public class ClienteFrame extends Frame {
     
     Serviamo avviso = new Serviamo();
 	Cuoco pizzaiolo = new Pizzayolo();
+	Cuoco chef = new Chef();
     
     public ClienteFrame(){
     	System.out.println("INIZIO...");
 		
 		avviso.add(pizzaiolo);
+		avviso.add(chef);
     	
     	JPanel panel = new JPanel(new BorderLayout());
     	JPanel panPietanze = new JPanel(new GridBagLayout());
         Menu menu = new Menu();
         JComboBox<String> pizze = new JComboBox<>();
+        JComboBox<String> primiPiatti = new JComboBox<>();
         JComboBox<String> bevande = new JComboBox<>();
         JComboBox<String> tavoli = new JComboBox<>();
         JLabel labelTav = new JLabel("Ordinazione per il tavolo n:");
@@ -42,6 +45,9 @@ public class ClienteFrame extends Frame {
         
         JButton btnAdd1 = new JButton("+");
         JButton btnDec1 = new JButton("-");
+        
+        JButton btnAdd2 = new JButton("+");
+        JButton btnDec2 = new JButton("-");
         
         
         
@@ -75,7 +81,8 @@ public class ClienteFrame extends Frame {
         });*/
         
         //BOTTONE SERVI
-        btnServi.addActionListener(e -> { ((Pizzayolo) this.pizzaiolo).infornaPizze();});
+        btnServi.addActionListener(e -> { ((Pizzayolo) this.pizzaiolo).infornaPizze();
+        								((Chef) this.chef).cucina();});
 
         int i;
         for (i=0;i<menu.sP.size();i++){//aggiunta del menu a tendina
@@ -85,6 +92,10 @@ public class ClienteFrame extends Frame {
         
         for(int j=0;j<menu.sB.size();j++) {
         	bevande.addItem(menu.sB.get(j).getNome());
+        }
+        
+        for(int j=0;j<menu.sPP.size();j++) {
+        	primiPiatti.addItem(menu.sPP.get(j).getNome());
         }
         
         //CREAZIONE DEI TAVOLI
@@ -131,6 +142,9 @@ public class ClienteFrame extends Frame {
         //Bevande
         btnAdd1.addActionListener(e -> addOrdine((String) bevande.getSelectedItem(), textArea, bevande.getSelectedIndex(), vectorS, vectorQ));
         btnDec1.addActionListener(e -> decOrdine((String) bevande.getSelectedItem(), textArea, bevande.getSelectedIndex(), vectorS, vectorQ));
+        //Primi piatti
+        btnAdd2.addActionListener(e -> addOrdine((String) primiPiatti.getSelectedItem(), textArea, bevande.getSelectedIndex(), vectorS, vectorQ));
+        btnDec2.addActionListener(e -> decOrdine((String) primiPiatti.getSelectedItem(), textArea, bevande.getSelectedIndex(), vectorS, vectorQ));
 
         frame.add(scrollPane, BorderLayout.LINE_END);
         
@@ -200,9 +214,41 @@ public class ClienteFrame extends Frame {
         
         panPietanze.add(btnDec1,gbc);
         
-      //label scegli tavolo
+        /*Menu primi piatti*/
         gbc.gridx = 0;
         gbc.gridy = 2;
+        
+        gbc.weightx = 0.01;
+        gbc.weighty = 0.01;
+        
+        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+        
+        panPietanze.add(primiPiatti,gbc);    
+        
+        /*Bottoni Primi piatti*/
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        
+        gbc.weightx = 0.01;
+        gbc.weighty = 0.01;
+        
+        
+           
+        panPietanze.add(btnAdd2,gbc);
+        
+        gbc.gridx = 2;
+        gbc.gridy = 2;
+        
+        gbc.weightx = 0.01;
+        gbc.weighty = 0.01;
+        
+        
+        panPietanze.add(btnDec2,gbc);
+        
+        
+      //label scegli tavolo
+        gbc.gridx = 0;
+        gbc.gridy = 3;
         
         gbc.weightx = 0.01;
         gbc.weighty = 0.01;
@@ -211,7 +257,7 @@ public class ClienteFrame extends Frame {
         
       //jcombobox tavoli
         gbc.gridx = 1;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         
         gbc.weightx = 0.01;
         gbc.weighty = 0.01;
@@ -220,7 +266,7 @@ public class ClienteFrame extends Frame {
         
         /*Bottoni ordina e servi*/
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         
         gbc.weightx = 0.02;
         gbc.weighty = 0.02;
@@ -228,7 +274,7 @@ public class ClienteFrame extends Frame {
         panPietanze.add(btnOrdina,gbc);
         
         gbc.gridx = 1;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         
         gbc.weightx = 0.02;
         gbc.weighty = 0.02;
@@ -236,7 +282,7 @@ public class ClienteFrame extends Frame {
         panPietanze.add(btnServi,gbc);
         
         gbc.gridx = 2;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         
         gbc.weightx = 0.02;
         gbc.weighty = 0.02;
