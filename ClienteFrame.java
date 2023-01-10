@@ -59,7 +59,7 @@ public class ClienteFrame extends Frame {
 		
     	
         frame.setTitle("Gestionale Ristorante-Cliente");
-        label.setText("Scegli le pizze e le bibite:");
+        label.setText("Ristorante Parthenope");
         label.setFont(new Font(null, Font.PLAIN,25));
         frame.getContentPane().add(label, BorderLayout.NORTH);
 
