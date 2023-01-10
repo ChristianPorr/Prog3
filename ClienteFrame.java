@@ -290,11 +290,13 @@ public class ClienteFrame extends Frame {
         panPietanze.add(btnClear,gbc);
         
         /*TextArea del tavolo da rivedere*/
-        gbc.gridx = 2;
-        gbc.gridy = 4;
+        gbc.gridx = 0;
+        gbc.gridy = 5;
         
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
+        gbc.weightx = 0.1;
+        gbc.weighty = 0.1;
+        
+        gbc.fill = GridBagConstraints.BOTH;
         gbc.gridwidth = 3;
         
         panPietanze.add(scrollTATav, gbc);
