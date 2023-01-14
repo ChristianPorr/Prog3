@@ -25,16 +25,13 @@ public class Menu implements IteratoreContainer{
 		this.sPP.add(new Pietanze("Tagliatelle di nonna Pina",100.00));
 		}
 	
-	
-	
-	
 	@Override
 	public IteratoreMenu getIterator(){
 		return new NameIterator();
 	}
 	
 	public class NameIterator implements IteratoreMenu {
-		int i=0,j=0;
+		int i=0,j=0,k=0;
 		
 		@Override
 		public boolean hasNextP() {
@@ -47,6 +44,15 @@ public class Menu implements IteratoreContainer{
 		@Override
 		public boolean hasNextB() {
 			if(j < sB.size()){
+				return true;
+			}
+			return false;
+		}
+		
+		
+		@Override
+		public boolean hasNextPP() {
+			if(k < sPP.size()){
 				return true;
 			}
 			return false;
@@ -67,6 +73,15 @@ public class Menu implements IteratoreContainer{
 			}
 			return null;
 		}
+		
+		@Override 
+		public Object nextPP() {
+			if(this.hasNextPP()) {
+				return sPP.get(k++).getNome();
+			}
+			return null;
+		}
+		
       }
 	
     public double prendiContoPietanze(int indici[]){
@@ -78,6 +93,7 @@ public class Menu implements IteratoreContainer{
         }
         return sumtot;
     }
+    
     public double prendiContoBevande(int indici[]){
         int i;
         double sumtot;
@@ -88,13 +104,21 @@ public class Menu implements IteratoreContainer{
             return sumtot;
         }
     
-    public double contoTot(double cP, double cB){
-            return cP+cB;
+    public double prendiContoPrimi(int indici[]) {
+    	int i;
+    	double sumtot; 
+    	sumtot = 0;
+    	for(i=0;i<indici.length;i++) {
+    		sumtot+=this.sPP.get(indici[i]).getPrezzo();
+    	}
+    	return sumtot;
+    	
     }
     
-    public void cambiaPrezzoB(double delta, int i){
-    	this.sB.get(i).cambiaPrezzo(delta);
+    public double contoTot(double cP, double cB, double cPP){
+            return cP+cB+cPP;
     }
+    
     
 
 }

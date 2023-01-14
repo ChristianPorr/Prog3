@@ -1,25 +1,15 @@
 import java.util.Formatter;
 
 public class Pietanze{
-	private Formatter fm=new Formatter();
+	private Formatter fm = new Formatter();
     private String nome;
 	private double prezzo;
 	    
 	    //COSTRUTTORE
-	    public Pietanze(String nP, Double pP) {
+	    public Pietanze(String nP,Double pP) {
 			this.nome = nP; /*nP nome Pietanza*/
 			this.prezzo = pP; /*pR prezzo pietanza*/
 			fm.format("%.2f", prezzo);
-	    }
-	    
-	    //METODO
-	    public void aumentaPrezzo(double delta){
-	        this.prezzo+=delta;
-	    }
-	    
-	    //METODO
-	    public void cambiaPrezzo(double delta){
-	        this.prezzo=delta;
 	    }
 	    
 	    public String getNome() {

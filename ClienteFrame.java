@@ -1,9 +1,7 @@
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.Border;
-
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.io.*;
 
 
@@ -11,8 +9,6 @@ public class ClienteFrame extends Frame {
     int risposta;
     Vector<String> vectorS = new Vector<String>();
     Vector<Integer> vectorQ = new Vector<Integer>();
-    LinkedList<Ordinazione> codaOrdinazioni = new LinkedList<Ordinazione>();
-    Ordinazione ord;
     JCheckBox cBox = new JCheckBox();
     Tavolo tav[] = new Tavolo[20];//tavoli
     Integer txtCount=0;
@@ -28,27 +24,23 @@ public class ClienteFrame extends Frame {
 		avviso.add(pizzaiolo);
 		avviso.add(chef);
     	
-    	JPanel panel = new JPanel(new BorderLayout());
-    	JPanel panPietanze = new JPanel(new GridBagLayout());
-        Menu menu = new Menu();
         JComboBox<String> pizze = new JComboBox<>();
         JComboBox<String> primiPiatti = new JComboBox<>();
         JComboBox<String> bevande = new JComboBox<>();
         JComboBox<String> tavoli = new JComboBox<>();
         JLabel labelTav = new JLabel("Ordinazione per il tavolo n:");
-        
         JButton btnOrdina = new JButton("Ordina");
         JButton btnServi = new JButton("Servi");
-
         JButton btnAdd = new JButton("+");
-        JButton btnDec = new JButton("-");
-        
+        JButton btnDec = new JButton("-");        
         JButton btnAdd1 = new JButton("+");
-        JButton btnDec1 = new JButton("-");
-        
+        JButton btnDec1 = new JButton("-");        
         JButton btnAdd2 = new JButton("+");
-        JButton btnDec2 = new JButton("-");
-        
+        JButton btnDec2 = new JButton("-");        
+        JButton btnHome = new JButton("Home");
+        JPanel panel = new JPanel(new BorderLayout());
+    	JPanel panPietanze = new JPanel(new GridBagLayout());
+        Menu menu = new Menu();
         
         
         Border bordoInterno = BorderFactory.createTitledBorder("Menu");
@@ -102,7 +94,6 @@ public class ClienteFrame extends Frame {
         for(i=0;i<20;i++) {
         	tav[i]=new Tavolo();
         }
-   
         
         Integer tempI;//var temporanee
         String tempS;
@@ -111,8 +102,6 @@ public class ClienteFrame extends Frame {
         	tempS = tempI.toString();
         	tavoli.addItem(tempS);
         }
-        
-        
         
         
         textArea.setEditable(false);
@@ -143,9 +132,11 @@ public class ClienteFrame extends Frame {
         btnAdd1.addActionListener(e -> addOrdine((String) bevande.getSelectedItem(), textArea, bevande.getSelectedIndex(), vectorS, vectorQ));
         btnDec1.addActionListener(e -> decOrdine((String) bevande.getSelectedItem(), textArea, bevande.getSelectedIndex(), vectorS, vectorQ));
         //Primi piatti
-        btnAdd2.addActionListener(e -> addOrdine((String) primiPiatti.getSelectedItem(), textArea, bevande.getSelectedIndex(), vectorS, vectorQ));
-        btnDec2.addActionListener(e -> decOrdine((String) primiPiatti.getSelectedItem(), textArea, bevande.getSelectedIndex(), vectorS, vectorQ));
-
+        btnAdd2.addActionListener(e -> addOrdine((String) primiPiatti.getSelectedItem(), textArea, primiPiatti.getSelectedIndex(), vectorS, vectorQ));
+        btnDec2.addActionListener(e -> decOrdine((String) primiPiatti.getSelectedItem(), textArea, primiPiatti.getSelectedIndex(), vectorS, vectorQ));
+        //Home
+        btnHome.addActionListener(e -> {frame.dispose(); new MainFrame();});
+        
         frame.add(scrollPane, BorderLayout.LINE_END);
         
         //LAYOUT PANNELLO PIETANZE
@@ -172,7 +163,6 @@ public class ClienteFrame extends Frame {
         gbc.weightx = 0.01;
         gbc.weighty = 0.01;
         
-        
            
         panPietanze.add(btnAdd,gbc);
         
@@ -184,8 +174,6 @@ public class ClienteFrame extends Frame {
         
         
         panPietanze.add(btnDec,gbc);
-        
-        
         
         /*Menu Bevande*/
         gbc.gridx = 0;
@@ -231,8 +219,6 @@ public class ClienteFrame extends Frame {
         
         gbc.weightx = 0.01;
         gbc.weighty = 0.01;
-        
-        
            
         panPietanze.add(btnAdd2,gbc);
         
@@ -241,12 +227,10 @@ public class ClienteFrame extends Frame {
         
         gbc.weightx = 0.01;
         gbc.weighty = 0.01;
-        
-        
+
         panPietanze.add(btnDec2,gbc);
         
-        
-      //label scegli tavolo
+        //label scegli tavolo
         gbc.gridx = 0;
         gbc.gridy = 3;
         
@@ -255,7 +239,7 @@ public class ClienteFrame extends Frame {
         
         panPietanze.add(labelTav,gbc);
         
-      //jcombobox tavoli
+        //jcombobox tavoli
         gbc.gridx = 1;
         gbc.gridy = 3;
         
@@ -289,18 +273,29 @@ public class ClienteFrame extends Frame {
         
         panPietanze.add(btnClear,gbc);
         
-        /*TextArea del tavolo da rivedere*/
+        //TextArea tavolo
         gbc.gridx = 0;
         gbc.gridy = 5;
         
-        gbc.weightx = 0.1;
-        gbc.weighty = 0.1;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
         
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridwidth = 3;
         
         panPietanze.add(scrollTATav, gbc);
 
+        //Bottone Home
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        
+        gbc.weightx = 0.01;
+        gbc.weighty = 0.01;
+        
+       //sistemare paddig bottone home
+        
+        panPietanze.add(btnHome,gbc);
+        
         frame.getContentPane().add(panPietanze);        
     }
 
@@ -313,13 +308,13 @@ public class ClienteFrame extends Frame {
         indice = scontrino.indexOf(scelta);//indice dove si trova la pizza
         bool = listaS.contains(scelta);//valore bool se contiene o meno la pizza nel testo
         if (!bool){//se non la contiene aggiungila
-        	System.out.println("indice="+indice);
+        	//System.out.println("indice="+indice);
             listaS.add(scelta);
             listaQ.add(1);
             textArea.append(scelta+" Qt: 1  \n");//aggiungi scelta senza quantit�
         } else if(indice>=0){//se esiste la stessa pietanza aggiungila con la quantit�
-        	System.out.println("bool="+bool);
-        	System.out.println("indice dentro="+indice);
+        	//System.out.println("bool="+bool);
+        	//System.out.println("indice dentro="+indice);
             for(i=0;i<listaS.size();i++){
                     n=listaQ.get(i)+1;
                     listaQ.set(i, n);
@@ -330,8 +325,7 @@ public class ClienteFrame extends Frame {
                         temp = scelta+" Qt: "+listaQ.get(i)+"\n";
                         lenScelta = temp.length() + indice;
                     }
-                    textArea.replaceRange(temp, indice, lenScelta);//sostituisci la pietanza on quella corretta
-                    
+                    textArea.replaceRange(temp, indice, lenScelta);//sostituisci la pietanza on quella corretta           
                 }
                 
             }
@@ -380,10 +374,6 @@ public class ClienteFrame extends Frame {
     }
     
 
-
-    private void btnOrdinaActionPerformed(ActionEvent evt) {
-    	
-    }
     
     public void ordiniamo(Vector<String> scelte, Vector<Integer> qnt, String numTav){
     	avviso.aggiungiOrdine(scelte, qnt, numTav);
@@ -391,12 +381,12 @@ public class ClienteFrame extends Frame {
     	try {
   	      File myObj = new File("tav"+numeroT+".txt");
   	      if (myObj.createNewFile()) {
-  	    	  System.out.println("File created: " + myObj.getName());
+  	    	  System.out.println("File created: \n" + myObj.getName());
   	    	  numeroT--;//tav0 è in realtà tav1
   	    	  this.tav[numeroT].setOccupato();
   	    	  tav[numeroT].prendiOrd(scelte, qnt, myObj);
   	      } else {
-  	    	  System.out.println("File already exists.");
+  	    	  System.out.println("File already exists.\n");
   	    	  numeroT--;//tav0 è in realtà tav1
   	    	  this.tav[numeroT].setOccupato();
   	    	  tav[numeroT].prendiOrd(scelte, qnt, myObj);
@@ -408,20 +398,7 @@ public class ClienteFrame extends Frame {
     	
     	
     }
-    
-    protected void btnServiActionPerformed(ActionEvent evt) {
-    	 /*if (codaOrdinazioni.isEmpty()) 
-             textArea.append("Non ci sono ordini da evadere\n");
-         else {
-             ord = codaOrdinazioni.poll();
-             textArea.append("Soddisfatto ordine:\n");
-             textArea.append(ord.visualizza() + "\n");
-         }
-         txtComande.setText("Comande:" + codaOrdinazioni.size() + "\n");
-    	  */
-    	}
-
-
+   
     void aggiornaTextA(JTextArea textArea, String stringa, int indice, Vector<Integer> vInt){
         String temp;
         int lenScelta;
@@ -429,22 +406,4 @@ public class ClienteFrame extends Frame {
         lenScelta = temp.length();
         textArea.replaceRange(temp, indice, lenScelta);
     }
-
-    public void confermaOrdine(){
-        String[] answ = {"Si","No"};
-        int scelta;//0 si, 1 no
-        scelta = JOptionPane.showOptionDialog(null,
-                                     "Sei sicuro delle tue scelte?",
-                                      "Invio ordine...",
-                                       JOptionPane.YES_NO_OPTION,
-                                        JOptionPane.INFORMATION_MESSAGE,
-                                         null,
-                                          answ,
-                                           0);
-        
-        System.out.println(scelta);
-        this.risposta=scelta;
-    }
-
-
 }

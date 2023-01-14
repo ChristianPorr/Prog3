@@ -2,9 +2,10 @@ import java.awt.BorderLayout;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
+import java.util.Formatter;
 
 public class CassaFrame extends Frame{
-    JButton btnCompletaOrd = new JButton();
+    JButton btnHome = new JButton("Home");
     Vector<JButton> btnTav = new Vector<JButton>();
     Integer txtCount=0;
     public CassaFrame() {
@@ -17,6 +18,8 @@ public class CassaFrame extends Frame{
         btnClear.addActionListener(e -> {
         								textArea.replaceRange("", 0, this.txtCount);
         								});
+        
+        btnHome.addActionListener(e -> {frame.dispose(); new MainFrame();});
         
         int i;
         
@@ -31,16 +34,11 @@ public class CassaFrame extends Frame{
         }
     	
         frame.setTitle("Cassa");
-        btnCompletaOrd.setText("Completa ordine!");
-
-        btnCompletaOrd.addActionListener(e -> completaOrd());
-        btnCompletaOrd.setFocusable(false);
-        
-        
+      
         panel.add(btnClear);
+        panel.add(btnHome);
         frame.add(panel);
         frame.add(scrollPane, BorderLayout.LINE_END);
-        frame.add(btnCompletaOrd, BorderLayout.SOUTH);
     }
     
     private void showOrder(Integer i, File file, JTextArea txt){
@@ -63,27 +61,7 @@ public class CassaFrame extends Frame{
 	    	this.txtCount = tmpCounter.length();
 	    	myReader.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			System.out.println("Scanner non trovato");
 		}
-		
-    	
-    }
-
-    public void completaOrd(){
-        String[] answ = {"Si","No"};
-        int scelta;//0 si, 1 no
-        scelta = JOptionPane.showOptionDialog(null,
-                                     "Sei sicuro delle tue scelte?",
-                                      "Invio ordine...",
-                                       JOptionPane.YES_NO_OPTION,
-                                        JOptionPane.INFORMATION_MESSAGE,
-                                         img,
-                                          answ,
-                                           0);
-        System.out.println(scelta);
-        
-    }
-    
-    
+    } 
 }
