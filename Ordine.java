@@ -19,9 +19,5 @@ public class Ordine{
   public String Consegnato() {
 	  return "Ordine consegnato";
   }
-  
-  public String Nessuno() {
-	  return "Non ci sono ordini";
-  }
 
 }

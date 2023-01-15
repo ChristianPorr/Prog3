@@ -19,11 +19,4 @@ public class DeliveredState extends State {
 		ordine.setState(new DeliveredState(ordine));
 		return ordine.Consegnato();
 	}
-
-	@Override
-	public String ordineNullo() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

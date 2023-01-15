@@ -13,7 +13,6 @@ public abstract class State {
 	
 	/*Questi 3 metodi sono bottoni da implementare*/
 	
-	public abstract String ordineNullo();
 	public abstract String ordineRicevuto();
 	public abstract String ordineConsegnato();
 	

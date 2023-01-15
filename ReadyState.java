@@ -18,11 +18,4 @@ public class ReadyState extends State {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public String ordineNullo() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 }
