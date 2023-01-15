@@ -117,17 +117,17 @@ public class Tavolo extends Ordine{
     	    	  
     	    	  for(j=0;j<menu.sP.size();j++) {
     	    		  if(menu.sP.get(j).getNome()==ordineS.get(i)){
-    	    			  myWriter.write(this.ordineS.get(i)+" x"+this.ordineQ.get(i)+" ("+menu.sP.get(j).getPrezzoS()+"€) \n");
+    	    			  myWriter.write(this.ordineS.get(i)+" x"+this.ordineQ.get(i)+" ("+menu.sP.get(j).getPrezzoS()+" euro) \n");
     	    		  }
     	    	  }
     	    	  for(j=0;j<menu.sB.size();j++) {
     	    		  if(menu.sB.get(j).getNome()==ordineS.get(i)){
-    	    			  myWriter.write(this.ordineS.get(i)+" x"+this.ordineQ.get(i)+" ("+menu.sB.get(j).getPrezzoS()+"€) \n");
+    	    			  myWriter.write(this.ordineS.get(i)+" x"+this.ordineQ.get(i)+" ("+menu.sB.get(j).getPrezzoS()+" euro) \n");
     	    		  }
 	    		  }
     	    	
     	    	  }
-    	      myWriter.write("Totale: "+this.totDaPagare+"€");
+    	      myWriter.write("Totale: "+this.totDaPagare+" euro");
     	      myWriter.close();
     	      System.out.println("Successfully wrote to the file.");
     	    } catch (IOException e) {

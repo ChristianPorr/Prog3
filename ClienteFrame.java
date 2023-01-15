@@ -64,18 +64,7 @@ public class ClienteFrame extends Frame {
         cBox.setFocusable(false);
         
         
-        //BOTTONE ORDINAZIONE
-        btnOrdina.addActionListener(e -> ordiniamo(vectorS, vectorQ,(String) tavoli.getSelectedItem()));
-        /*btnOrdina.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOrdinaActionPerformed(evt);
-            }
-        });*/
         
-        //BOTTONE SERVI
-        btnServi.addActionListener(e -> { ((Pizzayolo) this.pizzaiolo).infornaPizze();
-        								((Chef) this.chef).cucina();});
-
         int i;
         for (i=0;i<menu.sP.size();i++){//aggiunta del menu a tendina
             pizze.addItem(menu.sP.get(i).getNome());
@@ -123,7 +112,17 @@ public class ClienteFrame extends Frame {
         								this.textArea.replaceRange("", 0, tmpI);
         								});
  
+      //BOTTONE ORDINAZIONE
+        btnOrdina.addActionListener(e -> ordiniamo(vectorS, vectorQ,(String) tavoli.getSelectedItem()));
+        /*btnOrdina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrdinaActionPerformed(evt);
+            }
+        });*/
         
+        //BOTTONE SERVI
+        btnServi.addActionListener(e -> {aggiornaTav((String) tavoli.getSelectedItem(),textAreaTavolo);});
+
         
         //Pizze
         btnAdd.addActionListener(e -> addOrdine((String) pizze.getSelectedItem(), textArea, pizze.getSelectedIndex(), vectorS, vectorQ));
@@ -397,6 +396,35 @@ public class ClienteFrame extends Frame {
   	    }
     	
     	
+    }
+    
+    public void aggiornaTav(String numTav, JTextArea txt) {
+    	((Pizzayolo) this.pizzaiolo).infornaPizze();
+		((Chef) this.chef).cucina();
+		Scanner myReader;
+    	String tmpCounter;
+		try {
+	  	      File file = new File("tav"+numTav+".txt");
+	  	      if (file.exists()) {
+	  	    	myReader = new Scanner(file);
+				String temp, temptxt;
+		    	temptxt = txt.getText();
+		    	if(!temptxt.isEmpty()) {
+		    		txt.replaceRange("", 0, temptxt.length());
+		    	}
+		    	txt.append("Il tavolo "+numTav+" ha ordinato:\n");
+		    	while(myReader.hasNextLine()) {
+		    		temp = myReader.nextLine();
+		    		txt.append(temp+"\n");
+		    	}
+		    	tmpCounter=txt.getText();
+		    	this.txtCount = tmpCounter.length();
+		    	myReader.close();
+	  	      }
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				System.out.println("Scanner non trovato");
+			}
     }
    
     void aggiornaTextA(JTextArea textArea, String stringa, int indice, Vector<Integer> vInt){
