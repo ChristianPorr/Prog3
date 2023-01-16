@@ -2,6 +2,8 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 
 
@@ -17,6 +19,23 @@ public class ClienteFrame extends Frame {
     Serviamo avviso = new Serviamo();
 	Cuoco pizzaiolo = new Pizzayolo();
 	Cuoco chef = new Chef();
+	JComboBox<String> pizze = new JComboBox<>();
+    JComboBox<String> primiPiatti = new JComboBox<>();
+    JComboBox<String> bevande = new JComboBox<>();
+    JComboBox<String> tavoli = new JComboBox<>();
+    JLabel labelTav = new JLabel("Ordinazione per il tavolo n:");
+    JButton btnOrdina = new JButton("Ordina");
+    JButton btnServi = new JButton("Servi");
+    JButton btnAdd = new JButton("+");
+    JButton btnDec = new JButton("-");        
+    JButton btnAdd1 = new JButton("+");
+    JButton btnDec1 = new JButton("-");        
+    JButton btnAdd2 = new JButton("+");
+    JButton btnDec2 = new JButton("-");        
+    JButton btnHome = new JButton("Home");
+    JPanel panel = new JPanel(new BorderLayout());
+	JPanel panPietanze = new JPanel(new GridBagLayout());
+    Menu menu = new Menu();
     
     public ClienteFrame(){
     	System.out.println("INIZIO...");
@@ -24,23 +43,7 @@ public class ClienteFrame extends Frame {
 		avviso.add(pizzaiolo);
 		avviso.add(chef);
     	
-        JComboBox<String> pizze = new JComboBox<>();
-        JComboBox<String> primiPiatti = new JComboBox<>();
-        JComboBox<String> bevande = new JComboBox<>();
-        JComboBox<String> tavoli = new JComboBox<>();
-        JLabel labelTav = new JLabel("Ordinazione per il tavolo n:");
-        JButton btnOrdina = new JButton("Ordina");
-        JButton btnServi = new JButton("Servi");
-        JButton btnAdd = new JButton("+");
-        JButton btnDec = new JButton("-");        
-        JButton btnAdd1 = new JButton("+");
-        JButton btnDec1 = new JButton("-");        
-        JButton btnAdd2 = new JButton("+");
-        JButton btnDec2 = new JButton("-");        
-        JButton btnHome = new JButton("Home");
-        JPanel panel = new JPanel(new BorderLayout());
-    	JPanel panPietanze = new JPanel(new GridBagLayout());
-        Menu menu = new Menu();
+        
         
         
         Border bordoInterno = BorderFactory.createTitledBorder("Menu");
@@ -58,8 +61,7 @@ public class ClienteFrame extends Frame {
         btnCliente.setText("Conferma ordine!");
         //btnCliente.addActionListener(e -> confermaOrdine());
         btnCliente.setFocusable(false);
-        //BTN CLIENTE SOTTO
-        /*frame.getContentPane().add(btnCliente, BorderLayout.SOUTH);*/
+        
 
         cBox.setFocusable(false);
         
@@ -93,6 +95,7 @@ public class ClienteFrame extends Frame {
         }
         
         
+        
         textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -112,6 +115,31 @@ public class ClienteFrame extends Frame {
         								this.textArea.replaceRange("", 0, tmpI);
         								});
  
+        tavoli.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                /* QUANDO VIENE CLICKATO IL JCOMBOBOX DEL TAVOLO MOSTRAMI IL TAVOLO */
+                JComboBox comboBox = (JComboBox) event.getSource();
+
+                Object selected = comboBox.getSelectedItem();
+                File myObj = new File("tav"+selected.toString()+".txt");
+            	if(myObj.exists()) {
+            		Integer i=Integer.parseInt(selected.toString());
+            		showOrder(i, myObj, textAreaTavolo);
+            		//SE ESISTE MOSTRAMELO
+            	} else {
+            		//ALTRIMENTI SVUOTA LA TEXTAREA DEL TAVOLO
+            		String tmpS;
+					Integer tmpI;
+					tmpS=textAreaTavolo.getText();
+					tmpI=tmpS.length();
+            		textAreaTavolo.replaceRange("", 0, tmpI);
+            	}
+                
+
+            }
+        });
+        
+        
       //BOTTONE ORDINAZIONE
         btnOrdina.addActionListener(e -> ordiniamo(vectorS, vectorQ,(String) tavoli.getSelectedItem()));
         /*btnOrdina.addActionListener(new java.awt.event.ActionListener() {
@@ -434,4 +462,31 @@ public class ClienteFrame extends Frame {
         lenScelta = temp.length();
         textArea.replaceRange(temp, indice, lenScelta);
     }
+    
+    private void showOrder(Integer i, File file, JTextArea txt){
+    	//Aggiungiamo l'ordine al textArea...
+    	Scanner myReader;
+    	String tmpCounter;
+		try {
+			myReader = new Scanner(file);
+			String temp, temptxt;
+	    	temptxt = txt.getText();
+	    	if(!temptxt.isEmpty()) {
+	    		txt.replaceRange("", 0, temptxt.length());
+	    	}
+	    	txt.append("Il tavolo "+i+" ha ordinato:\n");
+	    	while(myReader.hasNextLine()) {
+	    		temp = myReader.nextLine();
+	    		txt.append(temp+"\n");
+	    	}
+	    	tmpCounter=txt.getText();
+	    	this.txtCount = tmpCounter.length();
+	    	myReader.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("Scanner non trovato");
+		}
+    }
+    
 }
+
+

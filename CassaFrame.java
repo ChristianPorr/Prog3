@@ -13,6 +13,7 @@ public class CassaFrame extends Frame{
     Integer txtCount=0;
     JTextArea textArea;
     JPanel panel;
+    JButton btnLiberaT = new JButton("Libera");
     public CassaFrame() {
     	JButton btnLiberaT = new JButton("Libera");
     	panel = new JPanel();
@@ -28,17 +29,9 @@ public class CassaFrame extends Frame{
         btnHome.addActionListener(e -> {frame.dispose(); new MainFrame();});
         btnLiberaT.addActionListener(e -> {liberaTav();});
         
-        JButton btnReload = new JButton("R");
-        btnReload.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                btnReload.setEnabled(false);
-            }
-        });
         
         for(int i=1;i<=20;i++) {
         	btnTav.add(new JButton("Tavolo: "+i));
-        	System.out.println("Dentro for"+i);
-        	btnTav.get(i-1).setEnabled(false);
         	//btnTav.get(i-1).setForeground(Color.red);
         	this.panel.add(btnTav.lastElement());
         }
@@ -47,7 +40,6 @@ public class CassaFrame extends Frame{
     	
         frame.setTitle("Cassa");
       
-        panel.add(btnReload);
         panel.add(btnClear);
         panel.add(btnHome);
         panel.add(btnLiberaT);
@@ -55,6 +47,7 @@ public class CassaFrame extends Frame{
         frame.add(panel);
         frame.add(scrollPane, BorderLayout.LINE_END);
     }
+
     
     
     public void aggiornaTavoli() {
@@ -66,9 +59,8 @@ public class CassaFrame extends Frame{
 				System.out.println("Dentro aggiornaTavoli"+i);
 				final Integer ii = new Integer(i);
 				btnTav.get(i-1).addActionListener(e -> showOrder(ii, myObj, textArea));
-				btnTav.get(i-1).setEnabled(true);
-				//btnTav.get(i-1).setForeground(Color.green);
 				
+				//btnTav.get(i-1).setForeground(Color.green);
 			}
         }
     }
@@ -108,4 +100,6 @@ public class CassaFrame extends Frame{
     	tavolo.delete();
     	aggiornaTavoli();
     }
+    
 }
+
