@@ -12,12 +12,12 @@ public class ClienteFrame extends Frame {
     Vector<String> vectorS = new Vector<String>();
     Vector<Integer> vectorQ = new Vector<Integer>();
     JCheckBox cBox = new JCheckBox();
-    Tavolo tav[] = new Tavolo[20];//tavoli
+    Tavolo tav[];//tavoli
     Integer txtCount=0;
     JTextArea textArea = new JTextArea(30,30);
     
     Serviamo avviso = new Serviamo();
-	Cuoco pizzaiolo = new Pizzayolo();
+    Cuoco pizzaiolo = new Pizzayolo();
 	Cuoco chef = new Chef();
 	JComboBox<String> pizze = new JComboBox<>();
     JComboBox<String> primiPiatti = new JComboBox<>();
@@ -39,6 +39,7 @@ public class ClienteFrame extends Frame {
     
     public ClienteFrame(){
     	System.out.println("INIZIO...");
+    	
 		
 		avviso.add(pizzaiolo);
 		avviso.add(chef);
@@ -82,17 +83,21 @@ public class ClienteFrame extends Frame {
         }
         
         //CREAZIONE DEI TAVOLI
-        for(i=0;i<20;i++) {
-        	tav[i]=new Tavolo();
-        }
+       
+        	tav = new Tavolo[20];
         
-        Integer tempI;//var temporanee
-        String tempS;
-        for(i=0;i<20;i++) {
-        	tempI = tav[i].getNumTav();
-        	tempS = tempI.toString();
-        	tavoli.addItem(tempS);
-        }
+	        for(i=0;i<20;i++) {
+	        	tav[i]=new Tavolo();
+	        }
+        
+	        Integer tempI; //var temporanee
+	        String tempS;
+	        for(i=0;i<20;i++) {
+	        		tav[i].setNumTav(i+1);
+	        		tempI = tav[i].getNumTav();
+	        		tempS = tempI.toString();
+	        		tavoli.addItem(tempS);
+	        }
         
         
         

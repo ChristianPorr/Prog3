@@ -8,7 +8,7 @@ public class Tavolo extends Ordine{
     private final int max=16;/*num minimo di persone a tavolo */
     private int medium=((max-min)+1);
     private int var; /*variabile per il random */
-    private static int numTavoloStatic=0;
+    /*private static int numTavoloStatic=0;*/
     private int numTavolo;
     private boolean occupato;
     private double oraPrenotata;
@@ -24,8 +24,8 @@ public class Tavolo extends Ordine{
             Random a_caso = new Random();
             var = a_caso.nextInt(medium)+min;
             maxPersone=var;
-            numTavoloStatic++;
-            numTavolo= numTavoloStatic;
+            //numTavoloStatic++;
+            //numTavolo= numTavoloStatic;
             nominativo=("");
             }
     public boolean getStatus(){
@@ -54,6 +54,9 @@ public class Tavolo extends Ordine{
     }
     public void setNominativo(String nome){
         this.nominativo=nome;
+    }
+    public void setNumTav(int numT) {
+    	this.numTavolo=numT;
     }
     public void prendiOrd(Vector<String> scelte, Vector<Integer> qnt, File txtOw) {
     	int i, j;
