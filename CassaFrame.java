@@ -5,6 +5,9 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+
 import java.util.Formatter;
 
 public class CassaFrame extends Frame{
@@ -16,18 +19,23 @@ public class CassaFrame extends Frame{
     JButton btnLiberaT = new JButton("Libera");
     public CassaFrame() {
     	JButton btnLiberaT = new JButton("Libera");
-    	panel = new JPanel();
     	textArea = new JTextArea(30,30);
         textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         JButton btnClear = new JButton("Clear");
-        btnClear.addActionListener(e -> {
-        								textArea.replaceRange("", 0, this.txtCount);
-        								});
-        
+        btnClear.addActionListener(e -> {textArea.replaceRange("", 0, this.txtCount);});
         btnHome.addActionListener(e -> {frame.dispose(); new MainFrame();});
         btnLiberaT.addActionListener(e -> {liberaTav();});
+        
+        
+        panel = new JPanel();
+    	Border bordoInterno = BorderFactory.createTitledBorder("Cassa");
+		Border bordoEsterno = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+		Border bordoFinale = BorderFactory.createCompoundBorder(bordoInterno, bordoEsterno);
+		((TitledBorder) bordoInterno).setTitleJustification(TitledBorder.CENTER);
+	
+		panel.setBorder(bordoFinale);
         
         
         for(int i=1;i<=20;i++) {
