@@ -33,9 +33,12 @@ public class ClienteFrame extends Frame {
     JButton btnAdd2 = new JButton("+");
     JButton btnDec2 = new JButton("-");        
     JButton btnHome = new JButton("Home");
+    JButton btnStato = new JButton("   ");
+    Object selected;
     JPanel panel = new JPanel(new BorderLayout());
 	JPanel panPietanze = new JPanel(new GridBagLayout());
     Menu menu = new Menu();
+    
     
     public ClienteFrame(){
     	System.out.println("INIZIO...");
@@ -125,7 +128,7 @@ public class ClienteFrame extends Frame {
                 /* QUANDO VIENE CLICKATO IL JCOMBOBOX DEL TAVOLO MOSTRAMI IL TAVOLO */
                 JComboBox comboBox = (JComboBox) event.getSource();
 
-                Object selected = comboBox.getSelectedItem();
+                selected = comboBox.getSelectedItem();
                 File myObj = new File("tav"+selected.toString()+".txt");
             	if(myObj.exists()) {
             		Integer i=Integer.parseInt(selected.toString());
@@ -143,10 +146,11 @@ public class ClienteFrame extends Frame {
 
             }
         });
-        
-        
-      //BOTTONE ORDINAZIONE
-        btnOrdina.addActionListener(e -> ordiniamo(vectorS, vectorQ,(String) tavoli.getSelectedItem()));
+        //conversione
+        String indexToInt =(String) tavoli.getSelectedItem();
+        int index = Integer.parseInt(indexToInt) - 1;
+     	//BOTTONE ORDINAZIONE
+        btnOrdina.addActionListener(e -> ordiniamo(vectorS, vectorQ, tav[index]));
         /*btnOrdina.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOrdinaActionPerformed(evt);
@@ -154,7 +158,7 @@ public class ClienteFrame extends Frame {
         });*/
         
         //BOTTONE SERVI
-        btnServi.addActionListener(e -> {aggiornaTav((String) tavoli.getSelectedItem(),textAreaTavolo);});
+        btnServi.addActionListener(e -> {aggiornaTav(tav[index], textAreaTavolo);});
 
         
         //Pizze
@@ -168,6 +172,27 @@ public class ClienteFrame extends Frame {
         btnDec2.addActionListener(e -> decOrdine((String) primiPiatti.getSelectedItem(), textArea, primiPiatti.getSelectedIndex(), vectorS, vectorQ));
         //Home
         btnHome.addActionListener(e -> {frame.dispose(); new MainFrame();});
+        //btn stato ordine
+        btnStato.setFocusable(false);
+        btnStato.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(selected!=null) {
+					Integer i=Integer.parseInt(selected.toString());
+					State ordRic = new OrdineRicevuto();
+					State ordCons = new OrdineConsegnato();
+					
+					if(tav[i-1].getStatusOrdine().getClass()==ordRic.getClass()) {//se lo stato e' ordine ricevuto:
+						btnStato.setBackground(Color.orange);
+					}
+					else if(tav[i-1].getStatusOrdine().getClass()==ordCons.getClass()) {//se lo stato e' ordine consegnato:
+						btnStato.setBackground(Color.green);
+					} else if(tav[i-1].getStatusOrdine().getClass()==null) btnStato.setBackground(Color.gray);
+					
+				}
+			}
+        	
+        });
         
         frame.add(scrollPane, BorderLayout.LINE_END);
         
@@ -279,6 +304,15 @@ public class ClienteFrame extends Frame {
         gbc.weighty = 0.01;
         
         panPietanze.add(tavoli,gbc);
+        
+        //Stato del tavolo
+        gbc.gridx = 2;
+        gbc.gridy = 3;
+        
+        gbc.weightx = 0.01;
+        gbc.weighty = 0.01;
+        
+        panPietanze.add(btnStato,gbc);
         
         /*Bottoni ordina e servi*/
         gbc.gridx = 0;
@@ -407,9 +441,11 @@ public class ClienteFrame extends Frame {
     
 
     
-    public void ordiniamo(Vector<String> scelte, Vector<Integer> qnt, String numTav){
-    	avviso.aggiungiOrdine(scelte, qnt, numTav);
-    	Integer numeroT = Integer.parseInt(numTav);//numero tavolo +1  	
+    public void ordiniamo(Vector<String> scelte, Vector<Integer> qnt, Tavolo numTav){
+    	avviso.aggiungiOrdine(scelte, qnt, numTav);//Devi passare il tavolo non il numtavolo
+    	
+    	Integer numeroT = numTav.getNumTav();//numero tavolo +1
+    	
     	try {
   	      File myObj = new File("tav"+numeroT+".txt");
   	      if (myObj.createNewFile()) {
@@ -431,9 +467,16 @@ public class ClienteFrame extends Frame {
     	
     }
     
-    public void aggiornaTav(String numTav, JTextArea txt) {
-    	((Pizzayolo) this.pizzaiolo).infornaPizze();
-		((Chef) this.chef).cucina();
+    public void aggiornaTav(Tavolo tav, JTextArea txt) {
+    	int cnt=0;
+    	Integer numTav = tav.getNumTav();
+    	if(((Pizzayolo) this.pizzaiolo).infornaPizze(tav).getStatusOrdine()==new OrdineConsegnato()) cnt++;
+		if(((Chef) this.chef).cucina(tav).getStatusOrdine()==new OrdineConsegnato()) {
+			cnt++;
+		}
+		if(cnt==2) {
+			tav.setStatusOrdine(new OrdineConsegnato());
+		}
 		Scanner myReader;
     	String tmpCounter;
 		try {

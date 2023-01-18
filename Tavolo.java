@@ -3,7 +3,7 @@ import java.util.*;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 
-public class Tavolo extends Ordine{ 
+public class Tavolo{ 
     private final int min=2;/*num minimo di persone a tavolo */
     private final int max=16;/*num minimo di persone a tavolo */
     private int medium=((max-min)+1);
@@ -16,7 +16,7 @@ public class Tavolo extends Ordine{
     private int maxPersone;
     private Vector<String> ordineS = new Vector<String>();
     private Vector<Integer> ordineQ = new Vector<Integer>();
-    public int statusOrdine;
+    private Ordine statusOrdine;
     private double totDaPagare;
     /*private ArraList<Pietanze> carrello;*/
         public Tavolo(){
@@ -24,6 +24,7 @@ public class Tavolo extends Ordine{
             Random a_caso = new Random();
             var = a_caso.nextInt(medium)+min;
             maxPersone=var;
+            this.statusOrdine=new Ordine();
             //numTavoloStatic++;
             //numTavolo= numTavoloStatic;
             nominativo=("");
@@ -51,6 +52,12 @@ public class Tavolo extends Ordine{
     }
     public int getMaxPersone(){
         return this.maxPersone;
+    }
+    public void setStatusOrdine(State stato) {
+    	this.statusOrdine.setState(stato);
+    }
+    public State getStatusOrdine() {
+    	return this.statusOrdine.getState();
     }
     public void setNominativo(String nome){
         this.nominativo=nome;
@@ -128,6 +135,11 @@ public class Tavolo extends Ordine{
     	    			  myWriter.write(this.ordineS.get(i)+" x"+this.ordineQ.get(i)+" ("+menu.sB.get(j).getPrezzoS()+" euro) \n");
     	    		  }
 	    		  }
+    	    	  for(j=0;j<menu.sPP.size();j++) {
+    	    		  if(menu.sPP.get(j).getNome()==ordineS.get(i)){
+    	    			  myWriter.write(this.ordineS.get(i)+" x"+this.ordineQ.get(i)+" ("+menu.sPP.get(j).getPrezzoS()+" euro) \n");
+    	    		  }
+	    		  }
     	    	
     	    	  }
     	      myWriter.write("Totale: "+this.totDaPagare+" euro");
@@ -156,6 +168,13 @@ public class Tavolo extends Ordine{
     		for(j=0;j<ordineS.size();j++) {
     			if(menu.sB.get(i).getNome()==ordineS.get(j)) {
     				sumtot=sumtot+(menu.sB.get(i).getPrezzo()*ordineQ.get(j));
+    			}
+    		}
+    	}
+    	for(i=0;i<menu.sPP.size();i++) {
+    		for(j=0;j<ordineS.size();j++) {
+    			if(menu.sPP.get(i).getNome()==ordineS.get(j)) {
+    				sumtot=sumtot+(menu.sPP.get(i).getPrezzo()*ordineQ.get(j));
     			}
     		}
     	}

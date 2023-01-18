@@ -1,12 +1,13 @@
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Vector;
+import java.util.*;
 
 public class Chef implements Cuoco{
+	
+	State ordRic;
+	State ordCons;
 
 	private ArrayList<String> listaPrimiPiatti = new ArrayList<String>();
 	
-	private LinkedList<LinkedList<String>> TODO = new LinkedList<LinkedList<String>>();
+	private LinkedList<LinkedList<String>> TODO = new LinkedList<LinkedList<String>>();//Questo dovrebbe essere mostrato tramite biglietto alla cucina
 	
 	public Chef() {
 		System.out.println("Chef creato!");
@@ -17,8 +18,9 @@ public class Chef implements Cuoco{
 	}
 	
 	@Override
-	public void updateTODO( Vector <String> lista, Vector<Integer> qnt, String tav) {
+	public void updateTODO( Vector <String> lista, Vector<Integer> qnt, Tavolo tav) {
 		Boolean esiste=false;
+		String numT=Integer.toString(tav.getNumTav());
 		//outerloop:
 		System.out.println("Aggiunto allo chef la lista");
 		LinkedList<String> inside = new LinkedList<String>();
@@ -34,11 +36,9 @@ public class Chef implements Cuoco{
 		}
 		
 		if(!inside.isEmpty()) {
-			String bla="Tavolo n:"+tav;
+			String bla="Tavolo n:"+numT;
 			inside.addFirst(bla);
 			System.out.println(inside);
-			/*System.out.println("Il pizzaiolo dovrà servire il tavolo: "+tav);
-			TODO.add(inside);*/
 			for(int i=0;i<TODO.size();i++) {
 				
 				if(bla==TODO.get(i).get(0)) {
@@ -50,18 +50,28 @@ public class Chef implements Cuoco{
 				
 			}
 			if(esiste==false) TODO.add(inside);//Se non esisteva allora aggiungilo
+			ordRic = new OrdineRicevuto();
+			tav.setStatusOrdine(ordRic);
+			/*tavoli.add(tav);*/
 		}
 		
 	}
 	
-	public void cucina() {
+	public Tavolo cucina(Tavolo tav) {
 		System.out.println("Lo Chef sta preparando gli ingredienti");
 		//System.out.println(TODO);
+		Boolean consegnato=false;
+		ordCons = new OrdineConsegnato();
 		for(int i=0;i<TODO.size();i++) {
 			
 			for(int j=0;j<TODO.get(i).size();j++) {
 				if(j==0) {
 					System.out.println("Sto completando il "+TODO.get(i).get(j));
+					String temp=TODO.get(i).get(j).substring(9, 10);
+					if(tav.getNumTav()==Integer.parseInt(temp)) {
+						tav.setStatusOrdine(ordCons);
+						consegnato=true;
+					}
 					j++;
 				}
 				
@@ -75,7 +85,8 @@ public class Chef implements Cuoco{
 			}
 			
 		}
-		
+		if(!consegnato) tav.setStatusOrdine(ordCons);//significa che non c'era ma comunque lo faccio valere come consegnato perche' altrimenti non accende il bottone
+		return tav;
 	}
 	
 	
