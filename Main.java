@@ -1,24 +1,34 @@
-
 import javax.swing.*;
 
 public class Main {
 
 	public static void main(String[] args) {
-		/*Scanner obj = new Scanner(System.in);
-		System.out.println("Di quanti tavoli hai a disposizione?\n");
-		int x =obj.nextInt();
-		ArrayList<Tavolo> tavoli = new ArrayList<Tavolo>();
-		for(int i=0;i<x-1;i++){
-			tavoli.add(new Tavolo());
+		Frame start = new MainFrame(); //Frame della GUI
+
+		Menu repository = new Menu(); //Repository per il pattern Iterator //Prende i due menu e li itera
+		System.out.println("[MAIN:] Recupero menu da repository:" + "\n");
+		
+		for(IteratoreMenu iteratorePrimi = repository.getIterator(); iteratorePrimi.hasNextPP();) {
+			
+			String menu2 = (String)iteratorePrimi.nextPP();
+
+			System.out.println("Menu Primi -> " + menu2 + "\t");
 		}
-		System.out.println("Il numero del tavolo e':" + tavoli.get(3).getNumTav());
-			/*mostra menu */
 		
-		/*tavoli.get(0).contoTot(null, null);*/
-		MainFrame start = new MainFrame(); /*Finestra per il gestionale!*/
+		for(IteratoreMenu iteratorePizze = repository.getIterator(); iteratorePizze.hasNextP();) {
+			
+			String menu = (String)iteratorePizze.nextP();
+			
+            System.out.println("Menu Pizze -> " + menu + "\t");
+            
+		}
 		
-		
-		
+		for(IteratoreMenu iteratoreBevande = repository.getIterator(); iteratoreBevande.hasNextB();) {
+			
+			String menu1 = (String)iteratoreBevande.nextB();
+
+			System.out.println("Menu Bevande -> " + menu1 + "\t");
+		}
 	}
 
 }
