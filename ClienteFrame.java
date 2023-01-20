@@ -48,8 +48,6 @@ public class ClienteFrame extends Frame {
 		avviso.add(chef);
     	
         
-        
-        
         Border bordoInterno = BorderFactory.createTitledBorder("Menu");
 		Border bordoEsterno = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 		Border bordoFinale = BorderFactory.createCompoundBorder(bordoInterno, bordoEsterno);
@@ -158,7 +156,7 @@ public class ClienteFrame extends Frame {
         });*/
         
         //BOTTONE SERVI
-        btnServi.addActionListener(e -> {aggiornaTav(tav[index], textAreaTavolo);});
+        btnServi.addActionListener(e -> {aggiornaTav(tav[index], textAreaTavolo);  btnStato.doClick();});
 
         
         //Pizze
@@ -177,8 +175,11 @@ public class ClienteFrame extends Frame {
         btnStato.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(selected!=null) {
-					Integer i=Integer.parseInt(selected.toString());
+				if (selected==null) {
+					tavoli.setSelectedIndex(0);
+				}
+				if(tavoli.getSelectedItem()!=null) {
+					Integer i=Integer.parseInt(tavoli.getSelectedItem().toString());
 					State ordRic = new OrdineRicevuto();
 					State ordCons = new OrdineConsegnato();
 					
@@ -287,7 +288,7 @@ public class ClienteFrame extends Frame {
 
         panPietanze.add(btnDec2,gbc);
         
-        //label scegli tavolo
+        /*Label scegli tavolo*/
         gbc.gridx = 0;
         gbc.gridy = 3;
         
@@ -296,7 +297,7 @@ public class ClienteFrame extends Frame {
         
         panPietanze.add(labelTav,gbc);
         
-        //jcombobox tavoli
+        /*Jcombobox tavoli*/
         gbc.gridx = 1;
         gbc.gridy = 3;
         
@@ -305,7 +306,7 @@ public class ClienteFrame extends Frame {
         
         panPietanze.add(tavoli,gbc);
         
-        //Stato del tavolo
+        /*Stato del tavolo*/
         gbc.gridx = 2;
         gbc.gridy = 3;
         
@@ -339,7 +340,7 @@ public class ClienteFrame extends Frame {
         
         panPietanze.add(btnClear,gbc);
         
-        //TextArea tavolo
+        /*TextArea tavolo*/
         gbc.gridx = 0;
         gbc.gridy = 5;
         
@@ -351,14 +352,12 @@ public class ClienteFrame extends Frame {
         
         panPietanze.add(scrollTATav, gbc);
 
-        //Bottone Home
+        /*Bottone Home*/
         gbc.gridx = 1;
         gbc.gridy = 6;
         
         gbc.weightx = 0.01;
         gbc.weighty = 0.01;
-        
-       //sistemare paddig bottone home
         
         panPietanze.add(btnHome,gbc);
         
@@ -398,9 +397,6 @@ public class ClienteFrame extends Frame {
            
         }
 
-
-    
-    
 
     public void decOrdine(String scelta, JTextArea textArea, Integer index, Vector<String> listaS, Vector<Integer> listaQ){
     	 int indice, lenScelta, i, n=0;
@@ -443,6 +439,7 @@ public class ClienteFrame extends Frame {
     
     public void ordiniamo(Vector<String> scelte, Vector<Integer> qnt, Tavolo numTav){
     	avviso.aggiungiOrdine(scelte, qnt, numTav);//Devi passare il tavolo non il numtavolo
+    	btnStato.doClick();
     	
     	Integer numeroT = numTav.getNumTav();//numero tavolo +1
     	

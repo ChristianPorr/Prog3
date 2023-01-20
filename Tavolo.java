@@ -59,9 +59,6 @@ public class Tavolo{
     public State getStatusOrdine() {
     	return this.statusOrdine.getState();
     }
-    public void setNominativo(String nome){
-        this.nominativo=nome;
-    }
     public void setNumTav(int numT) {
     	this.numTavolo=numT;
     }
