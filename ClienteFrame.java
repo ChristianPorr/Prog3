@@ -160,14 +160,14 @@ public class ClienteFrame extends Frame {
 
         
         //Pizze
-        btnAdd.addActionListener(e -> addOrdine((String) pizze.getSelectedItem(), textArea, pizze.getSelectedIndex(), vectorS, vectorQ));
-        btnDec.addActionListener(e -> decOrdine((String) pizze.getSelectedItem(), textArea, pizze.getSelectedIndex(), vectorS, vectorQ));
+        btnAdd.addActionListener(e -> addOrdine((String) pizze.getSelectedItem(), textArea, vectorS, vectorQ));
+        btnDec.addActionListener(e -> decOrdine((String) pizze.getSelectedItem(), textArea, vectorS, vectorQ));
         //Bevande
-        btnAdd1.addActionListener(e -> addOrdine((String) bevande.getSelectedItem(), textArea, bevande.getSelectedIndex(), vectorS, vectorQ));
-        btnDec1.addActionListener(e -> decOrdine((String) bevande.getSelectedItem(), textArea, bevande.getSelectedIndex(), vectorS, vectorQ));
+        btnAdd1.addActionListener(e -> addOrdine((String) bevande.getSelectedItem(), textArea, vectorS, vectorQ));
+        btnDec1.addActionListener(e -> decOrdine((String) bevande.getSelectedItem(), textArea, vectorS, vectorQ));
         //Primi piatti
-        btnAdd2.addActionListener(e -> addOrdine((String) primiPiatti.getSelectedItem(), textArea, primiPiatti.getSelectedIndex(), vectorS, vectorQ));
-        btnDec2.addActionListener(e -> decOrdine((String) primiPiatti.getSelectedItem(), textArea, primiPiatti.getSelectedIndex(), vectorS, vectorQ));
+        btnAdd2.addActionListener(e -> addOrdine((String) primiPiatti.getSelectedItem(), textArea, vectorS, vectorQ));
+        btnDec2.addActionListener(e -> decOrdine((String) primiPiatti.getSelectedItem(), textArea, vectorS, vectorQ));
         //Home
         btnHome.addActionListener(e -> {frame.dispose(); new MainFrame();});
         //btn stato ordine
@@ -365,7 +365,7 @@ public class ClienteFrame extends Frame {
     }
 
  
-	public void addOrdine(String scelta, JTextArea textArea, Integer index, Vector<String> listaS, Vector<Integer> listaQ){
+	public void addOrdine(String scelta, JTextArea textArea, Vector<String> listaS, Vector<Integer> listaQ){
     	boolean bool;
         int i, n, lenScelta, indice;
         String scontrino, temp;
@@ -398,7 +398,7 @@ public class ClienteFrame extends Frame {
         }
 
 
-    public void decOrdine(String scelta, JTextArea textArea, Integer index, Vector<String> listaS, Vector<Integer> listaQ){
+    public void decOrdine(String scelta, JTextArea textArea, Vector<String> listaS, Vector<Integer> listaQ){
     	 int indice, lenScelta, i, n=0;
          String scontrino, temp;
          Boolean bool;

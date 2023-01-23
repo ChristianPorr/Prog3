@@ -4,16 +4,10 @@ import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class Tavolo{ 
-    private final int min=2;/*num minimo di persone a tavolo */
-    private final int max=16;/*num minimo di persone a tavolo */
-    private int medium=((max-min)+1);
     private int var; /*variabile per il random */
     /*private static int numTavoloStatic=0;*/
     private int numTavolo;
     private boolean occupato;
-    private double oraPrenotata;
-    private String nominativo;
-    private int maxPersone;
     private Vector<String> ordineS = new Vector<String>();
     private Vector<Integer> ordineQ = new Vector<Integer>();
     private Ordine statusOrdine;
@@ -21,13 +15,7 @@ public class Tavolo{
     /*private ArraList<Pietanze> carrello;*/
         public Tavolo(){
             /*costruttore*/
-            Random a_caso = new Random();
-            var = a_caso.nextInt(medium)+min;
-            maxPersone=var;
             this.statusOrdine=new Ordine();
-            //numTavoloStatic++;
-            //numTavolo= numTavoloStatic;
-            nominativo=("");
             }
     public boolean getStatus(){
         return this.occupato;
@@ -38,20 +26,8 @@ public class Tavolo{
     public void setNonOccupato(){
         this.occupato=false;
     }
-    public double getOra(){
-        return this.oraPrenotata;
-    }
-    public void eliminaOra(){
-        this.oraPrenotata=0;
-    }
-    public void setOra(double h){
-        this.oraPrenotata=h;
-    }
     public int getNumTav(){
         return this.numTavolo;
-    }
-    public int getMaxPersone(){
-        return this.maxPersone;
     }
     public void setStatusOrdine(State stato) {
     	this.statusOrdine.setState(stato);
@@ -68,7 +44,6 @@ public class Tavolo{
     	Boolean esiste=false;
     	Vector<Integer> indiciAgg = new Vector<Integer>();
     	Vector<Integer> indiciNew = new Vector<Integer>();
-    	Vector<String> miss = new Vector<String>();
     	
     	for(i=0;i<scelte.size();i++) {
     		for(j=0;j<ordineS.size();j++) {
@@ -101,8 +76,6 @@ public class Tavolo{
     		}
     		
     		//System.out.println("di seguito la lista dei prodotti:");
-    		int n;
-    		n=ordineS.size();
     	for(i=0;i<ordineS.size();i++) {
     		if(ordineQ.get(i)<=0) {
     			ordineQ.remove(i);
@@ -115,7 +88,6 @@ public class Tavolo{
     	}
     	System.out.println(this.numTavolo);*/
     	totSpeso();
-    	//System.out.println("la somma totale e' = "+this.totDaPagare);
     	
     	try {
     	      FileWriter myWriter = new FileWriter(txtOw.getName(),false);
