@@ -1,15 +1,26 @@
 import java.util.*;
+import java.awt.*;
+import javax.swing.*;
 
-public class Pizzayolo implements Cuoco{
+public class Pizzayolo extends Frame implements Cuoco{
 	
-	State ordRic;
-	State ordCons;
 
 	private ArrayList<String> listaPizze = new ArrayList<String>();
+	private ArrayList<Ordine> listaOrdini = new ArrayList<Ordine>();
+	JTextArea textArea = new JTextArea(10,20);
 	
 	private LinkedList<LinkedList<String>> TODO = new LinkedList<LinkedList<String>>();
 	
 	public Pizzayolo() {
+		frame.setTitle("Gestionale Ristorante-Pizzaiolo");
+		panel = new JPanel(new FlowLayout());
+		
+		textArea.setEditable(false);
+		//fare delle piccole cards con all'interno l'ordine. IDEA aggiungere ogni volta dei pannelli con il bottone ai lati del PANNELLO al centro la text area
+		panel.add(textArea);
+		
+		frame.add(panel);
+		
 		System.out.println("Pizzayolo creato!");
 		Menu menu = new Menu();
 		for(Pietanze element : menu.sP) {
@@ -18,8 +29,29 @@ public class Pizzayolo implements Cuoco{
 	}
 	
 	@Override
-	public void updateTODO( Vector <String> lista, Vector<Integer> qnt, Tavolo tav) {
+	public void updateTODO( Vector <String> lista, Vector<Integer> qnt, Tavolo tav, Ordine ordine) {
 		String numT=Integer.toString(tav.getNumTav());
+		Ordine ordTmp = new Ordine(ordine.getNumTavolo());
+		/*Prendo le pietanze che riesce a fare il Pizzaiolo (pizze) e le aggiungo in ordine tmp che poi verra aggiunto agli ordini
+		 *del pizzaiolo e che verra mostrato nel pannello */
+		 
+		for(Pietanze elem : ordine.getPietanze()) {
+			for(String nomePietanza : listaPizze) {
+				if(nomePietanza==elem.getNome()) {
+					ordTmp.aggiungiPietanza(nomePietanza, elem.getQnt());
+				}
+			}
+		}
+		//tav.setStatusOrdine(new OrdineRicevuto());
+		listaOrdini.add(ordTmp);
+		
+			this.textArea.append("[ORDINE] Ho aggiunto il tavolo "+ordTmp.getNumTavolo()+"\n");
+			for(Pietanze pietanza : ordTmp.getPietanze()) {
+				this.textArea.append("[ORDINE] Pietanza: "+pietanza.getNome()+" qnt: "+pietanza.getQnt()+"\n");
+			}
+		
+		
+		//Questo sotto è quello vecchio
 		Boolean esiste=false;
 		//outerloop:
 		System.out.println("Aggiunto al pizzaiolo la lista");
@@ -42,7 +74,7 @@ public class Pizzayolo implements Cuoco{
 			for(int i=0;i<TODO.size();i++) {
 				
 				if(bla==TODO.get(i).get(0)) {
-						System.out.println("Comanda gia'  esistente, aggiornamento...");
+						System.out.println("Comanda gia'e' esistente, aggiornamento...");
 						TODO.remove(i);
 						TODO.add(inside);
 						esiste=true;
@@ -50,17 +82,19 @@ public class Pizzayolo implements Cuoco{
 				
 			}
 			if(esiste==false) TODO.add(inside);//Se non esisteva allora aggiungilo
-			ordRic = new OrdineRicevuto();
-			tav.setStatusOrdine(ordRic);
+			
+			tav.setStatusOrdine(new OrdineRicevuto());
 		}
 		
 	}
 	
 	public Tavolo infornaPizze(Tavolo tav) {
 		System.out.println("Il pizzaiolo sta infornando le pizze");
-		//System.out.println(TODO);
-		Boolean consegnato=false;
-		ordCons = new OrdineConsegnato();
+		/*Questo sara il bottone che toglie da listaOrdini l'ordine selezionato
+		 * e dal frame il pannellino contenente la card dell'ordine ( frame.remove(PANNELLO_ORDINE_SCELTO) )
+		 */
+		
+		Boolean consegnato=false; //questo si puo fare anche meglio creando delle schermate vere e proprie
 		for(int i=0;i<TODO.size();i++) {
 			
 			for(int j=0;j<TODO.get(i).size();j++) {
@@ -68,7 +102,7 @@ public class Pizzayolo implements Cuoco{
 					System.out.println("Sto completando il "+TODO.get(i).get(j));
 					String temp=TODO.get(i).get(j).substring(9, 10);
 					if(tav.getNumTav()==Integer.parseInt(temp)) {
-						tav.setStatusOrdine(ordCons);
+						tav.setStatusOrdine(new OrdineConsegnato());
 						consegnato=true;
 					}
 					j++;
@@ -84,7 +118,7 @@ public class Pizzayolo implements Cuoco{
 			}
 			
 		}
-		if(!consegnato) tav.setStatusOrdine(ordCons);//significa che non c'era ma comunque lo faccio valere come consegnato perche' altrimenti non accende il bottone
+		if(!consegnato) tav.setStatusOrdine(new OrdineConsegnato());//significa che non c'era ma comunque lo faccio valere come consegnato perche' altrimenti non accende il bottone
 		return tav;
 	}
 	

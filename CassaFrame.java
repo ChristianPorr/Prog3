@@ -25,7 +25,7 @@ public class CassaFrame extends Frame{
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         JButton btnClear = new JButton("Clear");
         btnClear.addActionListener(e -> {textArea.replaceRange("", 0, this.txtCount);});
-        btnHome.addActionListener(e -> {frame.dispose(); new MainFrame();});
+        btnHome.addActionListener(e -> {new MainFrame();});
         btnLiberaT.addActionListener(e -> {liberaTav();});
         
         
@@ -43,8 +43,8 @@ public class CassaFrame extends Frame{
         	//btnTav.get(i-1).setForeground(Color.red);
         	this.panel.add(btnTav.lastElement());
         }
-        
-        aggiornaTavoli();
+        //INSERISCI METODO DI PAGAMENTO
+        	aggiornaTavoli();
     	
         frame.setTitle("Cassa");
       
@@ -67,8 +67,10 @@ public class CassaFrame extends Frame{
 				System.out.println("Dentro aggiornaTavoli"+i);
 				final Integer ii = new Integer(i);
 				btnTav.get(i-1).addActionListener(e -> showOrder(ii, myObj, textArea));
-				
+				btnTav.get(i-1).setEnabled(true);
 				//btnTav.get(i-1).setForeground(Color.green);
+			} else { 
+				btnTav.get(i-1).setEnabled(false);
 			}
         }
     }

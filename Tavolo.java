@@ -6,10 +6,11 @@ import static javax.swing.JOptionPane.showMessageDialog;
 public class Tavolo{ 
     private int var; /*variabile per il random */
     /*private static int numTavoloStatic=0;*/
-    private int numTavolo;
+    private Integer numTavolo;
     private boolean occupato;
-    private Vector<String> ordineS = new Vector<String>();
-    private Vector<Integer> ordineQ = new Vector<Integer>();
+    private ArrayList<Ordine> ordini  = new ArrayList<Ordine>();
+    private ArrayList<String> ordineS = new ArrayList<String>();
+    private ArrayList<Integer> ordineQ = new ArrayList<Integer>();
     private Ordine statusOrdine;
     private double totDaPagare;
     /*private ArraList<Pietanze> carrello;*/
@@ -20,7 +21,7 @@ public class Tavolo{
     public boolean getStatus(){
         return this.occupato;
     }
-    public void setOccupato(){
+    public void setOccupato(){//set variabile booleana
         this.occupato=true;
     }
     public void setNonOccupato(){
@@ -38,12 +39,15 @@ public class Tavolo{
     public void setNumTav(int numT) {
     	this.numTavolo=numT;
     }
-    public void prendiOrd(Vector<String> scelte, Vector<Integer> qnt, File txtOw) {
+    public void prendiOrd(Vector<String> scelte, Vector<Integer> qnt, File txtOw, Ordine ord) {
     	int i, j;
     	Menu menu = new Menu();
     	Boolean esiste=false;
-    	Vector<Integer> indiciAgg = new Vector<Integer>();
-    	Vector<Integer> indiciNew = new Vector<Integer>();
+    	ArrayList<Integer> indiciAgg = new ArrayList<Integer>();
+    	ArrayList<Integer> indiciNew = new ArrayList<Integer>();
+    	
+    	ordini.add(ord);
+    	ord.showP();
     	
     	for(i=0;i<scelte.size();i++) {
     		for(j=0;j<ordineS.size();j++) {
@@ -62,7 +66,6 @@ public class Tavolo{
     			indiciNew.add(i);
     		}
     	}
-    		
     		for(i=0;i<indiciAgg.size();i++) {
     			//vado a prendere l'indice di quello che esiste e sommare le quantità degli elementi uguali
     			ordineQ.set(indiciAgg.get(i), qnt.get(indiciAgg.get(i))+ordineQ.get(indiciAgg.get(i)) );//aggiornamento
@@ -74,7 +77,6 @@ public class Tavolo{
     			ordineQ.add(qnt.get(indiciNew.get(i)));
     			//System.out.println("ho aggiunto "+scelte.get(indiciNew.get(i)) );
     		}
-    		
     		//System.out.println("di seguito la lista dei prodotti:");
     	for(i=0;i<ordineS.size();i++) {
     		if(ordineQ.get(i)<=0) {

@@ -1,5 +1,6 @@
 import java.util.*;
 public class Menu implements IteratoreContainer{
+	ArrayList<Pietanze> allMenu = new ArrayList<Pietanze>();
     ArrayList<Pietanze> sP = new ArrayList<Pietanze>();
     ArrayList<Pietanze> sB = new ArrayList<Pietanze>();
     ArrayList<Pietanze> sPP = new ArrayList<Pietanze>();
@@ -23,6 +24,9 @@ public class Menu implements IteratoreContainer{
 		this.sPP.add(new Pietanze("Risotto carnaroli",12.50));
 		this.sPP.add(new Pietanze("Pasta ai pomodorini",10.00));
 		this.sPP.add(new Pietanze("Tagliatelle di nonna Pina",100.00));
+		
+		this.allMenu.addAll(this.sP);
+		this.allMenu.addAll(this.sPP);
 		}
 	
 	@Override
