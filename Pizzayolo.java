@@ -9,7 +9,7 @@ public class Pizzayolo extends Frame implements Cuoco{
 	private ArrayList<Ordine> listaOrdini = new ArrayList<Ordine>();
 	JTextArea textArea = new JTextArea(10,20);
 	
-	private LinkedList<LinkedList<String>> TODO = new LinkedList<LinkedList<String>>();
+	//private LinkedList<LinkedList<String>> TODO = new LinkedList<LinkedList<String>>();
 	
 	public Pizzayolo() {
 		frame.setTitle("Gestionale Ristorante-Pizzaiolo");
@@ -29,8 +29,8 @@ public class Pizzayolo extends Frame implements Cuoco{
 	}
 	
 	@Override
-	public void updateTODO( Vector <String> lista, Vector<Integer> qnt, Tavolo tav, Ordine ordine) {
-		String numT=Integer.toString(tav.getNumTav());
+	public void updateTODO(Tavolo tav, Ordine ordine) {
+		
 		Ordine ordTmp = new Ordine(ordine.getNumTavolo());
 		/*Prendo le pietanze che riesce a fare il Pizzaiolo (pizze) e le aggiungo in ordine tmp che poi verra aggiunto agli ordini
 		 *del pizzaiolo e che verra mostrato nel pannello */
@@ -42,8 +42,9 @@ public class Pizzayolo extends Frame implements Cuoco{
 				}
 			}
 		}
-		//tav.setStatusOrdine(new OrdineRicevuto());
+		
 		listaOrdini.add(ordTmp);
+		tav.setStatusOrdine(new OrdineRicevuto());
 		
 			this.textArea.append("[ORDINE] Ho aggiunto il tavolo "+ordTmp.getNumTavolo()+"\n");
 			for(Pietanze pietanza : ordTmp.getPietanze()) {
@@ -52,6 +53,8 @@ public class Pizzayolo extends Frame implements Cuoco{
 		
 		
 		//Questo sotto è quello vecchio
+			
+		/*
 		Boolean esiste=false;
 		//outerloop:
 		System.out.println("Aggiunto al pizzaiolo la lista");
@@ -85,7 +88,7 @@ public class Pizzayolo extends Frame implements Cuoco{
 			
 			tav.setStatusOrdine(new OrdineRicevuto());
 		}
-		
+		*/
 	}
 	
 	public Tavolo infornaPizze(Tavolo tav) {
@@ -93,7 +96,9 @@ public class Pizzayolo extends Frame implements Cuoco{
 		/*Questo sara il bottone che toglie da listaOrdini l'ordine selezionato
 		 * e dal frame il pannellino contenente la card dell'ordine ( frame.remove(PANNELLO_ORDINE_SCELTO) )
 		 */
-		
+		tav.setStatusOrdine(new OrdineConsegnato());
+		return tav;
+		/*
 		Boolean consegnato=false; //questo si puo fare anche meglio creando delle schermate vere e proprie
 		for(int i=0;i<TODO.size();i++) {
 			
@@ -120,8 +125,9 @@ public class Pizzayolo extends Frame implements Cuoco{
 		}
 		if(!consegnato) tav.setStatusOrdine(new OrdineConsegnato());//significa che non c'era ma comunque lo faccio valere come consegnato perche' altrimenti non accende il bottone
 		return tav;
-	}
 	
+	*/
+	}
 	
 
 }

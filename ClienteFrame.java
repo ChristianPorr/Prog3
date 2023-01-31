@@ -4,7 +4,6 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
 
 
 public class ClienteFrame extends Frame {
@@ -18,7 +17,7 @@ public class ClienteFrame extends Frame {
     
     MandaComande gestoreTavoli = new MandaComande();
     Serviamo avviso = new Serviamo();
-    Cassa cassiere;
+    Admin cassiere;
     Cuoco pizzaiolo;
 	Cuoco chef;
 	JComboBox<String> pizze = new JComboBox<>();
@@ -129,25 +128,14 @@ public class ClienteFrame extends Frame {
         tavoli.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 /* QUANDO VIENE CLICKATO IL JCOMBOBOX DEL TAVOLO MOSTRAMI IL TAVOLO */
-                JComboBox tavoli = (JComboBox) event.getSource();
+                
                 
                 selected = tavoli.getSelectedItem();
-                System.out.println("E' stato selezionato -> "+(String) selected);
-                File myObj = new File("tav"+selected.toString()+".txt");
-            	if(myObj.exists()) {
-            		Integer i=Integer.parseInt(selected.toString());
-            		showOrder(i, myObj, textAreaTavolo);
-            		//SE ESISTE MOSTRAMELO
-            	} else {
-            		//ALTRIMENTI SVUOTA LA TEXTAREA DEL TAVOLO
-            		String tmpS;
-					Integer tmpI;
-					tmpS=textAreaTavolo.getText();
-					tmpI=tmpS.length();
-            		textAreaTavolo.replaceRange("", 0, tmpI);
-            	}
                 
-        
+                System.out.println("E' stato selezionato -> "+(String) selected);
+          
+                showOrder(tav[Integer.parseInt((String) selected)-1], textAreaTavolo);
+                
             }
         });
         
@@ -446,38 +434,19 @@ public class ClienteFrame extends Frame {
     	Ordine tmpOrd = new Ordine(numeroT);
     	for(int i=0;i<scelte.size();i++) {
     		tmpOrd.aggiungiPietanza(scelte.get(i), qnt.get(i));
+    		
     	}
-    	
+    	numTav.addOrdine(tmpOrd);
     	avviso.aggiungiOrdine(scelte, qnt, numTav, tmpOrd);//Devi passare il tavolo non il numtavolo
     	
     	
-    	
     	btnStato.doClick();
-    	
-    	try {
-  	      File myObj = new File("tav"+numeroT+".txt");
-  	      if (myObj.createNewFile()) {
-  	    	  System.out.println("File created: \n" + myObj.getName());
-  	    	  numeroT--;//tav0 è in realtà tav1
-  	    	  this.tav[numeroT].setOccupato();
-  	    	  tav[numeroT].prendiOrd(scelte, qnt, myObj, tmpOrd);
-  	      } else {
-  	    	  System.out.println("File already exists.\n");
-  	    	  numeroT--;//tav0 è in realtà tav1
-  	    	  this.tav[numeroT].setOccupato();
-  	    	  tav[numeroT].prendiOrd(scelte, qnt, myObj, tmpOrd);
-  	      }
-  	    } catch (IOException e) {
-  	      System.out.println("An error occurred.");
-  	      e.printStackTrace();
-  	    }
     	
     	
     }
     
     public void aggiornaTav(Tavolo tav, JTextArea txt) {
     	int cnt=0;
-    	Integer numTav = tav.getNumTav();
     	if(((Pizzayolo) this.pizzaiolo).infornaPizze(tav).getStatusOrdine()==new OrdineConsegnato()) cnt++;
 		if(((Chef) this.chef).cucina(tav).getStatusOrdine()==new OrdineConsegnato()) {
 			cnt++;
@@ -487,31 +456,7 @@ public class ClienteFrame extends Frame {
 		}
 		gestoreTavoli.allertaComanda(tav);
 		
-		//Vecchio
-		Scanner myReader;
-    	String tmpCounter;
-		try {
-	  	      File file = new File("tav"+numTav+".txt");
-	  	      if (file.exists()) {
-	  	    	myReader = new Scanner(file);
-				String temp, temptxt;
-		    	temptxt = txt.getText();
-		    	if(!temptxt.isEmpty()) {
-		    		txt.replaceRange("", 0, temptxt.length());
-		    	}
-		    	txt.append("Il tavolo "+numTav+" ha ordinato:\n");
-		    	while(myReader.hasNextLine()) {
-		    		temp = myReader.nextLine();
-		    		txt.append(temp+"\n");
-		    	}
-		    	tmpCounter=txt.getText();
-		    	this.txtCount = tmpCounter.length();
-		    	myReader.close();
-	  	      }
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				System.out.println("Scanner non trovato");
-			}
+		
     }
    
     void aggiornaTextA(JTextArea textArea, String stringa, int indice, Vector<Integer> vInt){
@@ -521,29 +466,15 @@ public class ClienteFrame extends Frame {
         lenScelta = temp.length();
         textArea.replaceRange(temp, indice, lenScelta);
     }
-    //DEVO FARE VEDERE ORDINI DEL TAVOLO
-    private void showOrder(Integer i, File file, JTextArea txt){
-    	//Aggiungiamo l'ordine al textArea...
-    	Scanner myReader;
-    	String tmpCounter;
-		try {
-			myReader = new Scanner(file);
-			String temp, temptxt;
-	    	temptxt = txt.getText();
-	    	if(!temptxt.isEmpty()) {
-	    		txt.replaceRange("", 0, temptxt.length());
-	    	}
-	    	txt.append("Il tavolo "+i+" ha ordinato:\n");
-	    	while(myReader.hasNextLine()) {
-	    		temp = myReader.nextLine();
-	    		txt.append(temp+"\n");
-	    	}
-	    	tmpCounter=txt.getText();
-	    	this.txtCount = tmpCounter.length();
-	    	myReader.close();
-		} catch (FileNotFoundException e) {
-			System.out.println("Scanner non trovato");
-		}
+    private void showOrder(Tavolo tav, JTextArea txt){
+    	txt.setText("");
+    	for(Ordine ord : tav.getOrdine()) {
+    		txt.append("Nell'ordine numero "+ord.getNumOrd()+" il tavolo selezionato ha ordinato:\n");
+    		for(Pietanze p : ord.getPietanze()) {
+    			txt.append("-"+p.getNome()+" x"+p.getQnt()+"\n");
+        	}
+    	}
+    	
     }
     
 }

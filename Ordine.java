@@ -60,6 +60,7 @@ public class Ordine {
 		
 	}
 	public void showP() {
+		System.out.println("NUmero tavolo "+this.numTavolo);
 		for(Pietanze el : piatti) {
 			System.out.println(el.getNome()+" dentro a show\n");
 		}

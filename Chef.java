@@ -29,8 +29,8 @@ public class Chef extends Frame implements Cuoco{
 	}
 	
 	@Override
-	public void updateTODO(Vector <String> lista, Vector<Integer> qnt, Tavolo tav, Ordine ordine) {
-		String numT=Integer.toString(tav.getNumTav());
+	public void updateTODO(Tavolo tav, Ordine ordine) {
+		//String numT=Integer.toString(tav.getNumTav());
 		Ordine ordTmp = new Ordine(ordine.getNumTavolo());
 		/*Prendo le pietanze che riesce a fare il Pizzaiolo (pizze) e le aggiungo in ordine tmp che poi verra aggiunto agli ordini
 		 *del pizzaiolo e che verra mostrato nel pannello */
@@ -42,8 +42,8 @@ public class Chef extends Frame implements Cuoco{
 				}
 			}
 		}
-		//tav.setStatusOrdine(new OrdineRicevuto());
 		listaOrdini.add(ordTmp);
+		tav.setStatusOrdine(new OrdineRicevuto());
 		
 			this.textArea.append("[ORDINE] Ho aggiunto il tavolo "+ordTmp.getNumTavolo()+"\n");
 			for(Pietanze pietanza : ordTmp.getPietanze()) {
@@ -52,6 +52,8 @@ public class Chef extends Frame implements Cuoco{
 		
 		
 		//Questo sotto è quello vecchio
+			
+		/*
 		Boolean esiste=false;
 		//outerloop:
 		System.out.println("Aggiunto allo chef la lista");
@@ -84,7 +86,7 @@ public class Chef extends Frame implements Cuoco{
 			if(esiste==false) TODO.add(inside);//Se non esisteva allora aggiungilo
 			tav.setStatusOrdine(new OrdineRicevuto());
 			/*tavoli.add(tav);*/
-		}
+	
 		
 	}
 	

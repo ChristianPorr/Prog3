@@ -55,7 +55,7 @@ public class MainFrame extends Frame{
         panel.setVisible(true);
         
         btnCassa.setText("Cassa");
-        btnCassa.addActionListener(e -> {new CassaFrame();});
+        btnCassa.addActionListener(e -> {new Sala();});
         btnCassa.setFocusable(false);
         
         btnCliente.setText("Cliente");

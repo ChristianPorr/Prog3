@@ -2,7 +2,7 @@ import java.awt.*;
 import java.util.*;
 import javax.swing.*;
 
-public class Cassiere extends JFrame implements Cassa {
+public class Cassiere extends JFrame implements Admin {
 
 	private Integer n=0;
 	private static Integer numeroCassa = 0;
@@ -16,6 +16,7 @@ public class Cassiere extends JFrame implements Cassa {
 	Cassiere(){
 		numeroCassa++;
 		idCassa=numeroCassa;
+		this.setTitle("Gestionale Ristorante-Cassa n"+idCassa);
 		
 		textArea.setEditable(false);
 		JPanel buttonPanel = new JPanel(new FlowLayout());
@@ -52,14 +53,15 @@ public class Cassiere extends JFrame implements Cassa {
 	}
 	
 	public void getInfo(Tavolo tavolo) {
-		tavolo.resocontoOrdini();
+		if(tavolo.getTot()==0) {
+			tavolo.resocontoOrdini();
+		}
 		this.textArea.setText("");
 		this.textArea.append("Tavolo n"+tavolo.getNumTav()+":\n");
 		for(Pietanze p : tavolo.getOrdineFinale().getPietanze()) {
-			textArea.append(p.getNome()+" x"+p.getQnt()+" prezzo al pezzo: "+p.getPrezzo()+" e\n");
+			textArea.append(p.getNome()+" x"+p.getQnt()+" ("+p.getPrezzo()+" e)\n");
 		}
 		textArea.append("Totale: "+tavolo.getTot()+" e");
-		
 			
 	}
 	

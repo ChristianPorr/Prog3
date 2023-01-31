@@ -1,10 +1,6 @@
-import javax.swing.border.Border;
-import javax.swing.plaf.DimensionUIResource;
-import java.awt.event.ActionListener;
-import java.util.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
+
 
 public abstract class Frame {
     //istruzioni standard
