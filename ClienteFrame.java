@@ -12,20 +12,22 @@ public class ClienteFrame extends Frame {
     Vector<String> vectorS = new Vector<String>();
     Vector<Integer> vectorQ = new Vector<Integer>();
     JCheckBox cBox = new JCheckBox();
-    Tavolo tav[];//tavoli
+    //tavoli messi in Frame
     Integer txtCount=0;
     JTextArea textArea = new JTextArea(30,30);
     
+    MandaComande gestoreTavoli = new MandaComande();
     Serviamo avviso = new Serviamo();
-    Cuoco pizzaiolo = new Pizzayolo();
-	Cuoco chef = new Chef();
+    Cassa cassiere;
+    Cuoco pizzaiolo;
+	Cuoco chef;
 	JComboBox<String> pizze = new JComboBox<>();
     JComboBox<String> primiPiatti = new JComboBox<>();
     JComboBox<String> bevande = new JComboBox<>();
     JComboBox<String> tavoli = new JComboBox<>();
     JLabel labelTav = new JLabel("Ordinazione per il tavolo n:");
     JButton btnOrdina = new JButton("Ordina");
-    JButton btnServi = new JButton("Servi");
+    JButton btnServi = new JButton("Permetti chiusura");
     JButton btnAdd = new JButton("+");
     JButton btnDec = new JButton("-");        
     JButton btnAdd1 = new JButton("+");
@@ -43,9 +45,12 @@ public class ClienteFrame extends Frame {
     public ClienteFrame(){
     	System.out.println("INIZIO...");
     	
-		
+    	cassiere = new Cassiere();
+    	pizzaiolo = new Pizzayolo();
+    	chef = new Chef();
 		avviso.add(pizzaiolo);
 		avviso.add(chef);
+		gestoreTavoli.add(cassiere);
     	
         
         Border bordoInterno = BorderFactory.createTitledBorder("Menu");
@@ -69,8 +74,8 @@ public class ClienteFrame extends Frame {
         
         
         
-        int i;
-        for (i=0;i<menu.sP.size();i++){//aggiunta del menu a tendina
+        
+        for (int i=0;i<menu.sP.size();i++){//aggiunta del menu a tendina
             pizze.addItem(menu.sP.get(i).getNome());
         }
        
@@ -87,13 +92,13 @@ public class ClienteFrame extends Frame {
        
         	tav = new Tavolo[20];
         
-	        for(i=0;i<20;i++) {
+	        for(int i=0;i<20;i++) {
 	        	tav[i]=new Tavolo();
 	        }
         
 	        Integer tempI; //var temporanee
 	        String tempS;
-	        for(i=0;i<20;i++) {
+	        for(int i=0;i<20;i++) {
 	        		tav[i].setNumTav(i+1);
 	        		tempI = tav[i].getNumTav();
 	        		tempS = tempI.toString();
@@ -124,9 +129,10 @@ public class ClienteFrame extends Frame {
         tavoli.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 /* QUANDO VIENE CLICKATO IL JCOMBOBOX DEL TAVOLO MOSTRAMI IL TAVOLO */
-                JComboBox comboBox = (JComboBox) event.getSource();
-
-                selected = comboBox.getSelectedItem();
+                JComboBox tavoli = (JComboBox) event.getSource();
+                
+                selected = tavoli.getSelectedItem();
+                System.out.println("E' stato selezionato -> "+(String) selected);
                 File myObj = new File("tav"+selected.toString()+".txt");
             	if(myObj.exists()) {
             		Integer i=Integer.parseInt(selected.toString());
@@ -141,22 +147,18 @@ public class ClienteFrame extends Frame {
             		textAreaTavolo.replaceRange("", 0, tmpI);
             	}
                 
-
+        
             }
         });
+        
         //conversione
-        String indexToInt =(String) tavoli.getSelectedItem();
-        int index = Integer.parseInt(indexToInt) - 1;
+        /*String indexToInt =(String) tavoli.getSelectedItem();
+        int index = Integer.parseInt(indexToInt) - 1;*/
      	//BOTTONE ORDINAZIONE
-        btnOrdina.addActionListener(e -> ordiniamo(vectorS, vectorQ, tav[index]));
-        /*btnOrdina.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOrdinaActionPerformed(evt);
-            }
-        });*/
+        btnOrdina.addActionListener(e -> ordiniamo(vectorS, vectorQ, tav[Integer.parseInt((String) tavoli.getSelectedItem())-1]));
         
         //BOTTONE SERVI
-        btnServi.addActionListener(e -> {aggiornaTav(tav[index], textAreaTavolo);  btnStato.doClick();});
+        btnServi.addActionListener(e -> {aggiornaTav(tav[Integer.parseInt((String) tavoli.getSelectedItem())-1], textAreaTavolo);  btnStato.doClick();});
 
         
         //Pizze
@@ -180,15 +182,14 @@ public class ClienteFrame extends Frame {
 				}
 				if(tavoli.getSelectedItem()!=null) {
 					Integer i=Integer.parseInt(tavoli.getSelectedItem().toString());
-					State ordRic = new OrdineRicevuto();
-					State ordCons = new OrdineConsegnato();
 					
-					if(tav[i-1].getStatusOrdine().getClass()==ordRic.getClass()) {//se lo stato e' ordine ricevuto:
+					
+					if(tav[i-1].getStatusOrdine() instanceof OrdineRicevuto) {//se lo stato e' ordine ricevuto:
 						btnStato.setBackground(Color.orange);
 					}
-					else if(tav[i-1].getStatusOrdine().getClass()==ordCons.getClass()) {//se lo stato e' ordine consegnato:
+					else if(tav[i-1].getStatusOrdine() instanceof OrdineConsegnato) {//se lo stato e' ordine consegnato:
 						btnStato.setBackground(Color.green);
-					} else if(tav[i-1].getStatusOrdine().getClass()==null) btnStato.setBackground(Color.gray);
+					} // if(tav[i-1].getStatusOrdine().getClass()==null) btnStato.setBackground(Color.gray);
 					
 				}
 			}
@@ -437,11 +438,21 @@ public class ClienteFrame extends Frame {
     
 
     
-    public void ordiniamo(Vector<String> scelte, Vector<Integer> qnt, Tavolo numTav){
-    	avviso.aggiungiOrdine(scelte, qnt, numTav);//Devi passare il tavolo non il numtavolo
-    	btnStato.doClick();
+    public void ordiniamo(Vector<String> scelte, Vector<Integer> qnt, Tavolo numTav){//metti list al posto di vector
+    	
     	
     	Integer numeroT = numTav.getNumTav();//numero tavolo +1
+    	
+    	Ordine tmpOrd = new Ordine(numeroT);
+    	for(int i=0;i<scelte.size();i++) {
+    		tmpOrd.aggiungiPietanza(scelte.get(i), qnt.get(i));
+    	}
+    	
+    	avviso.aggiungiOrdine(scelte, qnt, numTav, tmpOrd);//Devi passare il tavolo non il numtavolo
+    	
+    	
+    	
+    	btnStato.doClick();
     	
     	try {
   	      File myObj = new File("tav"+numeroT+".txt");
@@ -449,12 +460,12 @@ public class ClienteFrame extends Frame {
   	    	  System.out.println("File created: \n" + myObj.getName());
   	    	  numeroT--;//tav0 è in realtà tav1
   	    	  this.tav[numeroT].setOccupato();
-  	    	  tav[numeroT].prendiOrd(scelte, qnt, myObj);
+  	    	  tav[numeroT].prendiOrd(scelte, qnt, myObj, tmpOrd);
   	      } else {
   	    	  System.out.println("File already exists.\n");
   	    	  numeroT--;//tav0 è in realtà tav1
   	    	  this.tav[numeroT].setOccupato();
-  	    	  tav[numeroT].prendiOrd(scelte, qnt, myObj);
+  	    	  tav[numeroT].prendiOrd(scelte, qnt, myObj, tmpOrd);
   	      }
   	    } catch (IOException e) {
   	      System.out.println("An error occurred.");
@@ -474,6 +485,9 @@ public class ClienteFrame extends Frame {
 		if(cnt==2) {
 			tav.setStatusOrdine(new OrdineConsegnato());
 		}
+		gestoreTavoli.allertaComanda(tav);
+		
+		//Vecchio
 		Scanner myReader;
     	String tmpCounter;
 		try {
@@ -507,7 +521,7 @@ public class ClienteFrame extends Frame {
         lenScelta = temp.length();
         textArea.replaceRange(temp, indice, lenScelta);
     }
-    
+    //DEVO FARE VEDERE ORDINI DEL TAVOLO
     private void showOrder(Integer i, File file, JTextArea txt){
     	//Aggiungiamo l'ordine al textArea...
     	Scanner myReader;
@@ -533,5 +547,7 @@ public class ClienteFrame extends Frame {
     }
     
 }
+    
+
 
 

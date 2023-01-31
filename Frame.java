@@ -15,11 +15,11 @@ public abstract class Frame {
     JFrame frame = new JFrame();
     JLabel label = new JLabel();
     JMenuBar menuBar = new JMenuBar();
-    
+    Tavolo tav[];
     
     public Frame(){
     
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    
     frame.setSize(800,600);
     frame.setIconImage(img.getImage());
     frame.setResizable(false);

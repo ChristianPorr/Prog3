@@ -6,21 +6,27 @@ import static javax.swing.JOptionPane.showMessageDialog;
 public class Tavolo{ 
     private int var; /*variabile per il random */
     /*private static int numTavoloStatic=0;*/
-    private int numTavolo;
+    private HashMap<String, Integer> posByName = new HashMap<String, Integer>();//FlyWeight
+    private Integer numTavolo;
     private boolean occupato;
-    private Vector<String> ordineS = new Vector<String>();
-    private Vector<Integer> ordineQ = new Vector<Integer>();
+    private ArrayList<Ordine> ordini  = new ArrayList<Ordine>();
+    private ArrayList<String> ordineS = new ArrayList<String>();
+    private ArrayList<Integer> ordineQ = new ArrayList<Integer>();
     private Ordine statusOrdine;
     private double totDaPagare;
+    private Double tot;
     /*private ArraList<Pietanze> carrello;*/
         public Tavolo(){
             /*costruttore*/
             this.statusOrdine=new Ordine();
             }
+    public Double getTot() {
+    	return tot;
+    }
     public boolean getStatus(){
         return this.occupato;
     }
-    public void setOccupato(){
+    public void setOccupato(){//set variabile booleana
         this.occupato=true;
     }
     public void setNonOccupato(){
@@ -38,12 +44,18 @@ public class Tavolo{
     public void setNumTav(int numT) {
     	this.numTavolo=numT;
     }
-    public void prendiOrd(Vector<String> scelte, Vector<Integer> qnt, File txtOw) {
+    public Ordine getOrdineFinale() {
+    	return this.statusOrdine;
+    }
+    public void prendiOrd(Vector<String> scelte, Vector<Integer> qnt, File txtOw, Ordine ord) {
     	int i, j;
     	Menu menu = new Menu();
     	Boolean esiste=false;
-    	Vector<Integer> indiciAgg = new Vector<Integer>();
-    	Vector<Integer> indiciNew = new Vector<Integer>();
+    	ArrayList<Integer> indiciAgg = new ArrayList<Integer>();
+    	ArrayList<Integer> indiciNew = new ArrayList<Integer>();
+    	
+    	ordini.add(ord);
+    	ord.showP();
     	
     	for(i=0;i<scelte.size();i++) {
     		for(j=0;j<ordineS.size();j++) {
@@ -62,7 +74,6 @@ public class Tavolo{
     			indiciNew.add(i);
     		}
     	}
-    		
     		for(i=0;i<indiciAgg.size();i++) {
     			//vado a prendere l'indice di quello che esiste e sommare le quantitÃ  degli elementi uguali
     			ordineQ.set(indiciAgg.get(i), qnt.get(indiciAgg.get(i))+ordineQ.get(indiciAgg.get(i)) );//aggiornamento
@@ -74,7 +85,6 @@ public class Tavolo{
     			ordineQ.add(qnt.get(indiciNew.get(i)));
     			//System.out.println("ho aggiunto "+scelte.get(indiciNew.get(i)) );
     		}
-    		
     		//System.out.println("di seguito la lista dei prodotti:");
     	for(i=0;i<ordineS.size();i++) {
     		if(ordineQ.get(i)<=0) {
@@ -121,11 +131,75 @@ public class Tavolo{
     	
     }
     
-    public void totSpeso() {
+    public void resocontoOrdini() {
+    	Integer tmp;
+    	for(Ordine ord : ordini) { //PER OGNI ORDINE PRESENTE NELLA LISTA ORDINI
+    		
+    		for(Pietanze pietanzaInOrdine : ord.getPietanze()) { //PER OGNI PIETANZA PRESENTE ALL'INTERNO DELL'ORDINE
+    			
+    			statusOrdine.checkPietanza(pietanzaInOrdine, pietanzaInOrdine.getQnt()); /*CONTROLLA SE LA PIETANZA IN ESAME
+    																					E' PRESENTE NELL'ORDINE TOTALE DEL TAVOLO.*/
+    			
+    			/*il nome della pietanza sarà la chiave per vedere se esiste. getPosizione sara' in una nuova classe  dove ci sara'
+    			 * un HashMap<NomePietanza, posizione> final che si chiama posByName che all'interno di getPosizione
+    			 *  int posizione = posByName.get(nomeP) (passato in input). se posizione è null allora prendi HashMap.size() e dagli
+    			 *  come posizione il size posByName.put(nomeP,posizione) altrimenti se gia esiste dagli quella posizione
+    			 * 
+    			tmp = this.posByName.get(pietanzaInOrdine.getNome());
+    			
+    			if(tmp == null) {
+    				tmp = posByName.size();
+    				posByName.put(pietanzaInOrdine.getNome(), tmp);
+    				statusOrdine.aggiungiPietanza(pietanzaInOrdine.getNome(), pietanzaInOrdine.getQnt());
+    			} else {
+    				statusOrdine.ge
+    			}*/
+    			
+    		}
+    		
+    	}
+    	
+    	this.totaleSoldi();
+    	
+    }
+    
+    private void totaleSoldi() {
+    	Menu menu = new Menu();
+    	int i,j;
+    	double sumtot=0,sumtot2=0;
+    	
+ 
+    	for(i=0;i<menu.sP.size();i++) {
+    		for(j=0;j<this.statusOrdine.getPietanze().size();j++) {
+    			if(menu.sP.get(i).getNome()==this.statusOrdine.getPietanze().get(j).getNome()) {
+    				sumtot2=sumtot2+(menu.sP.get(i).getPrezzo()*this.statusOrdine.getPietanze().get(j).getQnt());
+    			}
+    		}
+    	}
+    	for(i=0;i<menu.sB.size();i++) {
+    		for(j=0;j<this.statusOrdine.getPietanze().size();j++) {
+    			if(menu.sB.get(i).getNome()==this.statusOrdine.getPietanze().get(j).getNome()) {
+    				sumtot2=sumtot2+(menu.sB.get(i).getPrezzo()*this.statusOrdine.getPietanze().get(j).getQnt());
+    			}
+    		}
+    	}
+    	for(i=0;i<menu.sPP.size();i++) {
+    		for(j=0;j<this.statusOrdine.getPietanze().size();j++) {
+    			if(menu.sPP.get(i).getNome()==this.statusOrdine.getPietanze().get(j).getNome()) {
+    				sumtot2=sumtot2+(menu.sPP.get(i).getPrezzo()*this.statusOrdine.getPietanze().get(j).getQnt());
+    			}
+    		}
+    	}
+    	this.tot=sumtot2;
+    }
+    
+    private void totSpeso() {
     	Menu menu = new Menu();
     	int i,j;
     	double sumtot=0;
     	
+    	
+    	//VECCHIO SOTTO
     	for(i=0;i<menu.sP.size();i++) {
     		for(j=0;j<ordineS.size();j++) {
     			if(menu.sP.get(i).getNome()==ordineS.get(j)) {
