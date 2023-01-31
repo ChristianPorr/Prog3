@@ -1,9 +1,12 @@
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 
 
 public class ClienteFrame extends Frame {
@@ -39,10 +42,20 @@ public class ClienteFrame extends Frame {
     JPanel panel = new JPanel(new BorderLayout());
 	JPanel panPietanze = new JPanel(new GridBagLayout());
     Menu menu = new Menu();
-    
+   
     
     public ClienteFrame(){
-    	System.out.println("INIZIO...");
+    System.out.println("INIZIO...");
+    	
+    Border blackline, raisedetched, loweredetched,
+    raisedbevel, loweredbevel, empty;
+    
+    blackline = BorderFactory.createLineBorder(Color.black);
+    raisedetched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
+    loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+    raisedbevel = BorderFactory.createRaisedBevelBorder();
+    loweredbevel = BorderFactory.createLoweredBevelBorder();
+    empty = BorderFactory.createEmptyBorder();
     	
     	cassiere = new Cassiere();
     	pizzaiolo = new Pizzayolo();
@@ -51,23 +64,21 @@ public class ClienteFrame extends Frame {
 		avviso.add(chef);
 		gestoreTavoli.add(cassiere);
     	
-        
+        /*
         Border bordoInterno = BorderFactory.createTitledBorder("Menu");
 		Border bordoEsterno = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 		Border bordoFinale = BorderFactory.createCompoundBorder(bordoInterno, bordoEsterno);
 	
-		panPietanze.setBorder(bordoFinale);
+		panPietanze.setBorder(bordoFinale);*/
+		
+		panPietanze.setBackground(new Color(233,116,81));
+		panPietanze.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
 		
     	
         frame.setTitle("Gestionale Ristorante-Cliente");
         label.setText("Ristorante Parthenope");
         label.setFont(new Font(null, Font.PLAIN,25));
         frame.getContentPane().add(label, BorderLayout.NORTH);
-
-        btnCliente.setText("Conferma ordine!");
-        //btnCliente.addActionListener(e -> confermaOrdine());
-        btnCliente.setFocusable(false);
-        
 
         cBox.setFocusable(false);
         
@@ -107,14 +118,17 @@ public class ClienteFrame extends Frame {
         
         
         textArea.setEditable(false);
+        textArea.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         
         JTextArea textAreaTavolo = new JTextArea(30,30);
+        textAreaTavolo.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
         textAreaTavolo.setEditable(false);
         JScrollPane scrollTATav = new JScrollPane(textAreaTavolo);
         //scrollTATav
         JButton btnClear = new JButton("Clear");
+      	      
         btnClear.addActionListener(e -> {
         								String tmpS;
         								Integer tmpI;
@@ -144,6 +158,7 @@ public class ClienteFrame extends Frame {
         int index = Integer.parseInt(indexToInt) - 1;*/
      	//BOTTONE ORDINAZIONE
         btnOrdina.addActionListener(e -> ordiniamo(vectorS, vectorQ, tav[Integer.parseInt((String) tavoli.getSelectedItem())-1]));
+        
         
         //BOTTONE SERVI
         btnServi.addActionListener(e -> {aggiornaTav(tav[Integer.parseInt((String) tavoli.getSelectedItem())-1], textAreaTavolo);  btnStato.doClick();});
@@ -201,6 +216,8 @@ public class ClienteFrame extends Frame {
         
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         
+        pizze.setBorder(raisedbevel);
+        
         panPietanze.add(pizze,gbc);    
         
         /*Bottoni Pizza*/
@@ -210,7 +227,6 @@ public class ClienteFrame extends Frame {
         gbc.weightx = 0.01;
         gbc.weighty = 0.01;
         
-           
         panPietanze.add(btnAdd,gbc);
         
         gbc.gridx = 2;
@@ -218,7 +234,6 @@ public class ClienteFrame extends Frame {
         
         gbc.weightx = 0.01;
         gbc.weighty = 0.01;
-        
         
         panPietanze.add(btnDec,gbc);
         
@@ -229,6 +244,7 @@ public class ClienteFrame extends Frame {
         gbc.weightx = 0.01;
         gbc.weighty = 0.01;
        
+        bevande.setBorder(raisedbevel);
         
         panPietanze.add(bevande,gbc);
         
@@ -257,6 +273,8 @@ public class ClienteFrame extends Frame {
         gbc.weighty = 0.01;
         
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+        
+        primiPiatti.setBorder(raisedbevel);
         
         panPietanze.add(primiPiatti,gbc);    
         
@@ -292,6 +310,8 @@ public class ClienteFrame extends Frame {
         
         gbc.weightx = 0.01;
         gbc.weighty = 0.01;
+        
+        tavoli.setBorder(raisedbevel);
         
         panPietanze.add(tavoli,gbc);
         
@@ -347,6 +367,8 @@ public class ClienteFrame extends Frame {
         
         gbc.weightx = 0.01;
         gbc.weighty = 0.01;
+        
+        btnHome.setBorder(loweredbevel);
         
         panPietanze.add(btnHome,gbc);
         
@@ -426,7 +448,7 @@ public class ClienteFrame extends Frame {
     
 
     
-    public void ordiniamo(Vector<String> scelte, Vector<Integer> qnt, Tavolo numTav){//metti list al posto di vector
+   public void ordiniamo(Vector<String> scelte, Vector<Integer> qnt, Tavolo numTav){//metti list al posto di vector
     	
     	
     	Integer numeroT = numTav.getNumTav();//numero tavolo +1
@@ -445,9 +467,10 @@ public class ClienteFrame extends Frame {
     	
     }
     
-    public void aggiornaTav(Tavolo tav, JTextArea txt) {
-    	int cnt=0;
-    	if(((Pizzayolo) this.pizzaiolo).infornaPizze(tav).getStatusOrdine()==new OrdineConsegnato()) cnt++;
+    
+   public void aggiornaTav(Tavolo tav, JTextArea txt) {
+   	int cnt=0;
+   	if(((Pizzayolo) this.pizzaiolo).infornaPizze(tav).getStatusOrdine()==new OrdineConsegnato()) cnt++;
 		if(((Chef) this.chef).cucina(tav).getStatusOrdine()==new OrdineConsegnato()) {
 			cnt++;
 		}
@@ -457,25 +480,25 @@ public class ClienteFrame extends Frame {
 		gestoreTavoli.allertaComanda(tav);
 		
 		
-    }
+   }
    
-    void aggiornaTextA(JTextArea textArea, String stringa, int indice, Vector<Integer> vInt){
-        String temp;
-        int lenScelta;
-        temp = stringa+" Qt: "+vInt.get(indice)+"\n";
-        lenScelta = temp.length();
-        textArea.replaceRange(temp, indice, lenScelta);
-    }
-    private void showOrder(Tavolo tav, JTextArea txt){
-    	txt.setText("");
-    	for(Ordine ord : tav.getOrdine()) {
-    		txt.append("Nell'ordine numero "+ord.getNumOrd()+" il tavolo selezionato ha ordinato:\n");
-    		for(Pietanze p : ord.getPietanze()) {
-    			txt.append("-"+p.getNome()+" x"+p.getQnt()+"\n");
-        	}
-    	}
-    	
-    }
+   void aggiornaTextA(JTextArea textArea, String stringa, int indice, Vector<Integer> vInt){
+       String temp;
+       int lenScelta;
+       temp = stringa+" Qt: "+vInt.get(indice)+"\n";
+       lenScelta = temp.length();
+       textArea.replaceRange(temp, indice, lenScelta);
+   }
+   private void showOrder(Tavolo tav, JTextArea txt){
+   	txt.setText("");
+   	for(Ordine ord : tav.getOrdine()) {
+   		txt.append("Nell'ordine numero "+ord.getNumOrd()+" il tavolo selezionato ha ordinato:\n");
+   		for(Pietanze p : ord.getPietanze()) {
+   			txt.append("-"+p.getNome()+" x"+p.getQnt()+"\n");
+       	}
+   	}
+   	
+   }
     
 }
     

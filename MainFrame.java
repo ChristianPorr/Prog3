@@ -1,4 +1,5 @@
 import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.plaf.DimensionUIResource;
 import java.awt.event.ActionListener;
@@ -10,90 +11,100 @@ import java.awt.event.ActionEvent;
 
 
 public class MainFrame extends Frame{
-    JButton btnCassa, btnCliente; 
-    JPanel panel,pannelloClienti,pannelloCassa;
+    JButton btnSala,btnCliente,btnPizzayolo,btnCassiere,btnChef; 
+    JPanel panel,panelClienti,panelSala,panelPizzayolo,panelChef,panelCassiere;
 
 	MainFrame(){
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Dimension dim = new Dimension(425,300);
-		panel = new JPanel(new BorderLayout());
-		pannelloClienti = new JPanel(new GridBagLayout());
-		pannelloCassa = new JPanel(new GridBagLayout());
-        btnCassa = new JButton();
-        btnCliente = new JButton();
+	FlowLayout flow = new FlowLayout();
+	Border blackline, raisedetched, loweredetched,raisedbevel, loweredbevel, empty;
+		    
+	blackline = BorderFactory.createLineBorder(Color.black);
+	raisedetched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
+	loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+	raisedbevel = BorderFactory.createRaisedBevelBorder();
+	loweredbevel = BorderFactory.createLoweredBevelBorder();
+	empty = BorderFactory.createEmptyBorder();
+	
+	Dimension dim = new Dimension(170,120);
+	panel = new JPanel(new FlowLayout());
+	
+	panelClienti = new JPanel(new FlowLayout());
+	panelSala = new JPanel(new FlowLayout());
+	panelCassiere = new JPanel(new FlowLayout());
+	panelPizzayolo = new JPanel(new FlowLayout());
+	panelChef = new JPanel(new FlowLayout());
+	
+	btnSala = new JButton("Sala");
+	btnPizzayolo = new JButton("Pizzayolo");
+	btnChef = new JButton("Chef");
+    btnCassiere = new JButton("Cassa");
+    btnCliente = new JButton("Cliente");
+    
+    panelClienti.add(btnCliente);
+    panelSala.add(btnSala);
+    panelChef.add(btnChef);
+    panelPizzayolo.add(btnPizzayolo);
+    panelCassiere.add(btnCassiere);
+    
 
-      
-        panel.add(pannelloClienti,BorderLayout.CENTER);
-        panel.add(pannelloCassa,BorderLayout.PAGE_END);
+    panel.setVisible(true);
+    panel.add(panelClienti);
+    panel.add(panelSala);
+    panel.add(panelCassiere);
+    panel.add(panelPizzayolo);
+    panel.add(panelChef);
+    
+        
+    /*Imposta la dimensione dei pannelli*/
+    panelClienti.setPreferredSize(dim);
+	panelSala.setPreferredSize(dim);
+	panelChef.setPreferredSize(dim);
+	panelPizzayolo.setPreferredSize(dim);
+	panelCassiere.setPreferredSize(dim);
+        
+    /*Imposta il bordo dei pannelli*/
+    panelClienti.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
+	panelSala.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
+	panelChef.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
+	panelPizzayolo.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
+	panelCassiere.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
         
         
-		pannelloClienti.setPreferredSize(dim);
-		pannelloCassa.setPreferredSize(dim);
+    /*ActionListener dei Bottoni*/
+    btnSala.setText("Sala");
+    btnSala.addActionListener(e -> {new Sala();});
+    btnSala.setFocusable(false);
+        
+    btnCliente.setText("Cliente");
+    btnCliente.setFocusable(false);
+    btnCliente.addActionListener(e -> {new ClienteFrame();});
+    
+    
+    btnCassiere.setText("Cassa");
+    btnCassiere.setFocusable(false);
+    btnCassiere.addActionListener(e -> {new Cassiere();});
+        
+    btnPizzayolo.setText("Pizzayolo");
+    btnPizzayolo.setFocusable(false);
+    btnPizzayolo.addActionListener(e -> {new Pizzayolo();});
         
         
-        Border bordoClienteInterno = BorderFactory.createTitledBorder("Area Clienti");
-		Border bordoClienteEsterno = BorderFactory.createEmptyBorder(10,10,10,10);
-		Border bordoClienteFinale = BorderFactory.createCompoundBorder(bordoClienteInterno, bordoClienteEsterno);
-		((TitledBorder) bordoClienteInterno).setTitleJustification(TitledBorder.CENTER);
-		pannelloClienti.setBorder(bordoClienteFinale);
-		
-		Border bordoCassaInterno = BorderFactory.createTitledBorder("Area Cassa");
-		Border bordoCassaEsterno = BorderFactory.createEmptyBorder(10,10,10,10);
-		Border bordoCassaFinale = BorderFactory.createCompoundBorder(bordoCassaInterno, bordoCassaEsterno);
-		((TitledBorder) bordoCassaInterno).setTitleJustification(TitledBorder.CENTER);
-		pannelloCassa.setBorder(bordoCassaFinale);
+    btnChef.setText("Chef");
+    btnChef.setFocusable(false);
+    btnChef.addActionListener(e -> {new Chef();});
+   
+    
+    /*Impostazioni del Frame*/
+    frame.setTitle("Gestionale Ristorante");
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setSize(850,600);
+    frame.setIconImage(img.getImage());
+    frame.setResizable(false);
+    frame.setVisible(true); 
+    frame.add(label,BorderLayout.PAGE_START);
+    frame.add(panel);
+    frame.getContentPane().add(panel);
 
-		
-        frame.setTitle("Gestionale Ristorante");
-		frame.setSize(850,600);
-		frame.setIconImage(img.getImage());
-        frame.setResizable(false);
-        frame.setVisible(true); 
-        frame.add(label,BorderLayout.PAGE_START);
-        frame.add(panel);
-        
-        panel.setVisible(true);
-        
-        btnCassa.setText("Cassa");
-        btnCassa.addActionListener(e -> {new Sala();});
-        btnCassa.setFocusable(false);
-        
-        btnCliente.setText("Cliente");
-        btnCliente.setFocusable(false);
-        btnCliente.addActionListener(e -> {new ClienteFrame();});
-        
-        ///GBC
-        GridBagConstraints gbc = new GridBagConstraints();
-        
-      //Bottone Cliente
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        
-        gbc.weightx = 0.01;
-        gbc.weighty = 0.01;
-        
-        gbc.gridwidth = 3;
-        gbc.gridheight = 1;
-        
-        gbc.ipadx = 30;
-        gbc.ipady = 30;
-        
-        pannelloClienti.add(btnCliente,gbc);
-        
-        //Bottone Cassa
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        
-        gbc.weightx = 0.01;
-        gbc.weighty = 0.01;
-        
-        gbc.gridwidth = 3;
-        gbc.gridheight = 1;
-        
-        gbc.ipadx = 30;
-        gbc.ipady = 30;
-        
-        pannelloCassa.add(btnCassa,gbc); 
     }
 
 }

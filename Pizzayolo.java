@@ -63,7 +63,7 @@ public class Pizzayolo extends Frame implements Cuoco{
 			
 			for(int j=0;j<listaPizze.size();j++) {
 				
-				if(lista.get(i)==listaPizze.get(j)) {//Aggiungi se contenuto nella lista delle pizze con la relativa quantitÃ 
+				if(lista.get(i)==listaPizze.get(j)) {//Aggiungi se contenuto nella lista delle pizze con la relativa quantitÃ 
 					System.out.println("Ho aggiunto: "+lista.get(i));
 					inside.add(lista.get(i)+" x"+qnt.get(i));
 				}

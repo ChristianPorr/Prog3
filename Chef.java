@@ -62,7 +62,7 @@ public class Chef extends Frame implements Cuoco{
 			
 			for(int j=0;j<listaPrimiPiatti.size();j++) {
 				
-				if(lista.get(i)==listaPrimiPiatti.get(j)) {//Aggiungi se contenuto nella lista delle pizze con la relativa quantitÃ 
+				if(lista.get(i)==listaPrimiPiatti.get(j)) {//Aggiungi se contenuto nella lista delle pizze con la relativa quantitÃ 
 					System.out.println("Ho aggiunto: "+lista.get(i));
 					inside.add(lista.get(i)+" x"+qnt.get(i));
 				}
@@ -76,7 +76,7 @@ public class Chef extends Frame implements Cuoco{
 			for(int i=0;i<TODO.size();i++) {
 				
 				if(bla==TODO.get(i).get(0)) {
-						System.out.println("Comanda gia'  esistente, aggiornamento...");
+						System.out.println("Comanda gia'  esistente, aggiornamento...");
 						TODO.remove(i);
 						TODO.add(inside);
 						esiste=true;

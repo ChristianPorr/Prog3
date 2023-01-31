@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+
 public class Ordine {
 	private State stato;
 	private static Menu menu = new Menu();

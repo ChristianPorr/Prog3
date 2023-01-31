@@ -1,9 +1,15 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+
+import java.util.Formatter;
 
 public class Sala extends Frame{
     JButton btnHome = new JButton("Home");
@@ -12,7 +18,16 @@ public class Sala extends Frame{
     JTextArea textArea;
     JPanel panel;
     JButton btnLiberaT = new JButton("Libera");
-    public Sala() {
+    public Sala() {    	
+    	Border blackline, raisedetched, loweredetched,raisedbevel, loweredbevel, empty;
+	    
+    	blackline = BorderFactory.createLineBorder(Color.black);
+    	raisedetched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
+    	loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+    	raisedbevel = BorderFactory.createRaisedBevelBorder();
+    	loweredbevel = BorderFactory.createLoweredBevelBorder();
+    	empty = BorderFactory.createEmptyBorder();
+    	
     	btnLiberaT = new JButton("Libera");
     	textArea = new JTextArea(30,30);
         textArea.setEditable(false);
@@ -25,12 +40,8 @@ public class Sala extends Frame{
         
         
         panel = new JPanel();
-    	Border bordoInterno = BorderFactory.createTitledBorder("Cassa");
-		Border bordoEsterno = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-		Border bordoFinale = BorderFactory.createCompoundBorder(bordoInterno, bordoEsterno);
-		((TitledBorder) bordoInterno).setTitleJustification(TitledBorder.CENTER);
 	
-		panel.setBorder(bordoFinale);
+		panel.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
         
         
         

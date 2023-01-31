@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 
 public class Cassiere extends JFrame implements Admin {
 
@@ -14,10 +16,20 @@ public class Cassiere extends JFrame implements Admin {
     JPanel mainPanel;
 	
 	Cassiere(){
+		Border blackline, raisedetched, loweredetched,raisedbevel, loweredbevel, empty;
+	    
+		blackline = BorderFactory.createLineBorder(Color.black);
+		raisedetched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
+		loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+		raisedbevel = BorderFactory.createRaisedBevelBorder();
+		loweredbevel = BorderFactory.createLoweredBevelBorder();
+		empty = BorderFactory.createEmptyBorder();
+		
 		numeroCassa++;
 		idCassa=numeroCassa;
 		this.setTitle("Gestionale Ristorante-Cassa n"+idCassa);
 		
+		textArea.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
 		textArea.setEditable(false);
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		JButton btn = new JButton("Prova");
@@ -26,8 +38,9 @@ public class Cassiere extends JFrame implements Admin {
 		
 		mainPanel = new JPanel(new FlowLayout());
 		
-		
-		
+		this.mainPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+			      .createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+		this.mainPanel.setBackground(new Color(1,121,111));
 		this.setSize(800,600);
 	    this.setResizable(false);
 	    this.setVisible(true);
