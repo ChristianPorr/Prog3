@@ -13,7 +13,8 @@ public class MainFrame extends Frame{
     JButton btnCassa, btnCliente; 
     JPanel panel,pannelloClienti,pannelloCassa;
 
-	MainFrame(){	
+	MainFrame(){
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Dimension dim = new Dimension(425,300);
 		panel = new JPanel(new BorderLayout());
 		pannelloClienti = new JPanel(new GridBagLayout());
@@ -54,12 +55,12 @@ public class MainFrame extends Frame{
         panel.setVisible(true);
         
         btnCassa.setText("Cassa");
-        btnCassa.addActionListener(e -> {frame.dispose(); new CassaFrame();});
+        btnCassa.addActionListener(e -> {new CassaFrame();});
         btnCassa.setFocusable(false);
         
         btnCliente.setText("Cliente");
         btnCliente.setFocusable(false);
-        btnCliente.addActionListener(e -> {frame.dispose(); new ClienteFrame();});
+        btnCliente.addActionListener(e -> {new ClienteFrame();});
         
         ///GBC
         GridBagConstraints gbc = new GridBagConstraints();

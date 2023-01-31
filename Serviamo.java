@@ -12,9 +12,9 @@ public class Serviamo {
 		this.cuochi.remove(c);
 	}
 	
-	public void aggiungiOrdine(Vector<String> nomeP, Vector<Integer> qntP, Tavolo tavolo) {
+	public void aggiungiOrdine(Vector<String> nomeP, Vector<Integer> qntP, Tavolo tavolo, Ordine ordine) {
 		for(Cuoco cuoco : this.cuochi) {
-			cuoco.updateTODO(nomeP, qntP, tavolo);
+			cuoco.updateTODO(nomeP, qntP, tavolo, ordine);
 		}
 		
 	}
