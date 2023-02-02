@@ -14,8 +14,9 @@ public class MainFrame extends Frame{
     JButton btnSala,btnCliente,btnPizzayolo,btnCassiere,btnChef; 
     JPanel panel,panelClienti,panelSala,panelPizzayolo,panelChef,panelCassiere;
 
+	@SuppressWarnings("unused")
 	MainFrame(){
-	FlowLayout flow = new FlowLayout();
+    ImageIcon img = new ImageIcon("white.jpg");
 	Border blackline, raisedetched, loweredetched,raisedbevel, loweredbevel, empty;
 		    
 	blackline = BorderFactory.createLineBorder(Color.black);
@@ -26,7 +27,7 @@ public class MainFrame extends Frame{
 	empty = BorderFactory.createEmptyBorder();
 	
 	Dimension dim = new Dimension(170,120);
-	panel = new JPanel(new FlowLayout());
+	panel = new JPanel(new GridBagLayout());
 	
 	panelClienti = new JPanel(new FlowLayout());
 	panelSala = new JPanel(new FlowLayout());
@@ -40,36 +41,35 @@ public class MainFrame extends Frame{
     btnCassiere = new JButton("Cassa");
     btnCliente = new JButton("Cliente");
     
+    /*Aggiunge i bottoni ai relativi pannelli*/
     panelClienti.add(btnCliente);
     panelSala.add(btnSala);
     panelChef.add(btnChef);
     panelPizzayolo.add(btnPizzayolo);
     panelCassiere.add(btnCassiere);
     
-
+    /*Aggiunge i pannelli al pannello principale*/ 
     panel.setVisible(true);
     panel.add(panelClienti);
     panel.add(panelSala);
-    panel.add(panelCassiere);
-    panel.add(panelPizzayolo);
     panel.add(panelChef);
-    
-        
+    panel.add(panelPizzayolo);
+    panel.add(panelCassiere);
+       
     /*Imposta la dimensione dei pannelli*/
     panelClienti.setPreferredSize(dim);
 	panelSala.setPreferredSize(dim);
 	panelChef.setPreferredSize(dim);
 	panelPizzayolo.setPreferredSize(dim);
 	panelCassiere.setPreferredSize(dim);
-        
+	    
     /*Imposta il bordo dei pannelli*/
     panelClienti.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
 	panelSala.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
 	panelChef.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
 	panelPizzayolo.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
 	panelCassiere.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
-        
-        
+         
     /*ActionListener dei Bottoni*/
     btnSala.setText("Sala");
     btnSala.addActionListener(e -> {new Sala();});
@@ -92,6 +92,76 @@ public class MainFrame extends Frame{
     btnChef.setText("Chef");
     btnChef.setFocusable(false);
     btnChef.addActionListener(e -> {new Chef();});
+    
+    /*Impostazione del GridBagLayout*/
+    GridBagConstraints gbc = new GridBagConstraints();
+    
+    /*Posizione Pannelli*/
+    
+    //Pannello Clienti
+    gbc.gridx = 0;
+    gbc.gridy = 0;
+    
+    gbc.weightx = 0.01;
+    gbc.weighty = 0.01;
+    
+    gbc.insets = new Insets(100,30,0,0);  
+    
+    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+    
+    panel.add(panelClienti,gbc);
+    
+    //Pannello Sala
+    gbc.gridx = 1;
+    gbc.gridy = 0;
+    
+    gbc.weightx = 0.01;
+    gbc.weighty = 0.01;
+    
+    gbc.anchor = GridBagConstraints.PAGE_START;
+    
+    panel.add(panelSala,gbc);
+   
+    //Pannello Cassiere
+    gbc.gridx = 2;
+    gbc.gridy = 0;
+    
+    gbc.weightx = 0.01;
+    gbc.weighty = 0.01;
+    
+    gbc.insets = new Insets(100,30,30,30);  
+    
+    gbc.anchor = GridBagConstraints.FIRST_LINE_END;
+    
+    panel.add(panelCassiere,gbc);
+    
+    //Pannello Chef
+    gbc.gridx = 0;
+    gbc.gridy = 1;
+    
+    gbc.weightx = 0.01;
+    gbc.weighty = 0.01;
+    
+    gbc.gridwidth = 2;
+    
+    gbc.insets = new Insets(0,0,100,0); 
+   
+    gbc.anchor = GridBagConstraints.CENTER;
+    
+    panel.add(panelChef,gbc);
+    
+    //Pannello Pizzayolo
+    gbc.gridx = 1;
+    gbc.gridy = 1;
+    
+    gbc.weightx = 0.01;
+    gbc.weighty = 0.01;
+    
+    gbc.insets = new Insets(0,0,100,0); 
+    
+    gbc.anchor = GridBagConstraints.CENTER;
+    
+    panel.add(panelPizzayolo,gbc);
    
     
     /*Impostazioni del Frame*/
