@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 public class MainFrame extends Frame{
     JButton btnSala,btnCliente,btnPizzayolo,btnCassiere,btnChef; 
     JPanel panel,panelClienti,panelSala,panelPizzayolo,panelChef,panelCassiere;
+    ArrayList<Admin> admList = new ArrayList<Admin>();
+    ArrayList<Cuoco> cuochiList = new ArrayList<Cuoco>();
 
 	@SuppressWarnings("unused")
 	MainFrame(){
@@ -72,26 +74,36 @@ public class MainFrame extends Frame{
          
     /*ActionListener dei Bottoni*/
     btnSala.setText("Sala");
-    btnSala.addActionListener(e -> {new Sala();});
-    btnSala.setFocusable(false);
+        btnSala.addActionListener(e -> {
+            Sala sala = new Sala();
+            admList.add(sala); });
+        btnSala.setFocusable(false);
         
     btnCliente.setText("Cliente");
     btnCliente.setFocusable(false);
-    btnCliente.addActionListener(e -> {new ClienteFrame();});
+        btnCliente.addActionListener(e -> {
+            ClienteFrame clienteFrame = new ClienteFrame(admList, cuochiList);
+        });
     
     
     btnCassiere.setText("Cassa");
     btnCassiere.setFocusable(false);
-    btnCassiere.addActionListener(e -> {new Cassiere();});
+    btnCassiere.addActionListener(e -> {
+        Cassiere cassiere = new Cassiere();
+        admList.add(cassiere);});
         
     btnPizzayolo.setText("Pizzayolo");
     btnPizzayolo.setFocusable(false);
-    btnPizzayolo.addActionListener(e -> {new Pizzayolo();});
+        btnPizzayolo.addActionListener(e -> {
+            Pizzayolo pizzaiolo = new Pizzayolo();
+            cuochiList.add(pizzaiolo);});
         
         
     btnChef.setText("Chef");
     btnChef.setFocusable(false);
-    btnChef.addActionListener(e -> {new Chef();});
+        btnChef.addActionListener(e -> {
+            Chef chef = new Chef();
+            cuochiList.add(chef);});
     
     /*Impostazione del GridBagLayout*/
     GridBagConstraints gbc = new GridBagConstraints();

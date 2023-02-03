@@ -20,9 +20,11 @@ public class ClienteFrame extends Frame {
     
     MandaComande gestoreTavoli = new MandaComande();
     Serviamo avviso = new Serviamo();
-    Admin cassiere;
-    Cuoco pizzaiolo;
-	Cuoco chef;
+    ArrayList<Admin> aList = new ArrayList<Admin>();
+    ArrayList<Cuoco> cList = new ArrayList<Cuoco>();
+    //Admin cassiere;
+    //Cuoco pizzaiolo;
+	//Cuoco chef;
 	JComboBox<String> pizze = new JComboBox<>();
     JComboBox<String> primiPiatti = new JComboBox<>();
     JComboBox<String> bevande = new JComboBox<>();
@@ -42,9 +44,46 @@ public class ClienteFrame extends Frame {
     JPanel panel = new JPanel(new BorderLayout());
 	JPanel panPietanze = new JPanel(new GridBagLayout());
     Menu menu = new Menu();
-   
-    
-    public ClienteFrame(){
+
+
+    public ClienteFrame(ArrayList<Admin> admList, ArrayList<Cuoco> cuochiList) {
+        //Controllo se non sono stati create prima di questo frame le classi necessarie al funzionamento del programma
+        Boolean boolCassa=false, boolSala=false;
+        if(admList.isEmpty()) {
+            this.aList.add(new Cassiere());
+            this.aList.add(new Sala());
+        } else {
+            for(int i=0;i<admList.size();i++) {
+                if(admList.get(i) instanceof Cassiere) {
+                    boolCassa=true;
+                } else if(admList.get(i) instanceof Sala) {
+                    boolSala=true;
+                }
+            }
+            if(!boolCassa)	aList.add(new Cassiere());
+            if(!boolSala)	aList.add(new Sala());
+        }
+        //Controllo cuochi
+        Boolean boolPizzaiolo=false, boolChef=false;
+        if(cuochiList.isEmpty()) {
+            this.cList.add(new Pizzayolo());
+            this.cList.add(new Chef());
+        } else {
+            for(int i=0;i<cuochiList.size();i++) {
+                if(cuochiList.get(i) instanceof Pizzayolo) {
+                    boolPizzaiolo=true;
+                } else if(cuochiList.get(i) instanceof Chef) {
+                    boolChef=true;
+                }
+            }
+            if(!boolCassa)	cList.add(new Pizzayolo());
+            if(!boolSala)	cList.add(new Chef());
+        }
+        start();
+    }
+
+
+    public void start(){
     System.out.println("INIZIO...");
     	
     Border blackline, raisedetched, loweredetched,
@@ -56,13 +95,13 @@ public class ClienteFrame extends Frame {
     raisedbevel = BorderFactory.createRaisedBevelBorder();
     loweredbevel = BorderFactory.createLoweredBevelBorder();
     empty = BorderFactory.createEmptyBorder();
-    	
-    	cassiere = new Cassiere();
-    	pizzaiolo = new Pizzayolo();
-    	chef = new Chef();
-		avviso.add(pizzaiolo);
-		avviso.add(chef);
-		gestoreTavoli.add(cassiere);
+
+        for(int i=0;i<cList.size();i++) {
+            avviso.add(cList.get(i));
+        }
+        for(int i=0;i<aList.size();i++) {
+            gestoreTavoli.add(aList.get(i));
+        }
     	
         /*
         Border bordoInterno = BorderFactory.createTitledBorder("Menu");
