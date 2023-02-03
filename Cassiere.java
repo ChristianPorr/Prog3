@@ -11,8 +11,10 @@ public class Cassiere extends JFrame implements Admin {
 	Vector<JButton> btnTav = new Vector<JButton>();
     Integer txtCount=0;
     JTextArea textArea = new JTextArea(10,30);
-    JButton btnLiberaT = new JButton("Libera");
     JPanel mainPanel;
+    String tavoloSelezionato = new String();
+    ArrayList<JButton> tavoli = new ArrayList<JButton>();
+    Integer iTavoli=0;
 	
 	Cassiere(){
 		Border blackline, raisedetched, loweredetched,raisedbevel, loweredbevel, empty;
@@ -23,7 +25,7 @@ public class Cassiere extends JFrame implements Admin {
 		raisedbevel = BorderFactory.createRaisedBevelBorder();
 		loweredbevel = BorderFactory.createLoweredBevelBorder();
 		empty = BorderFactory.createEmptyBorder();
-		
+		System.out.println("size "+tavoli.size());
 		numeroCassa++;
 		idCassa=numeroCassa;
 		this.setTitle("Gestionale Ristorante-Cassa n"+idCassa);
@@ -31,11 +33,24 @@ public class Cassiere extends JFrame implements Admin {
 		textArea.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
 		textArea.setEditable(false);
 		JPanel buttonPanel = new JPanel(new FlowLayout());
-		JButton btn = new JButton("Prova");
-		btn.addActionListener(e -> aggiungiComanda(new Tavolo()));
+		JButton btn = new JButton("Libera tavolo");
+		btn.addActionListener(e -> {
+			String tmp[] = {"Carta di credito", "Contanti"};
+			Integer risposta;
+			risposta = JOptionPane.showOptionDialog(null, "Scegli il metodo di pagamento:", "Pagamento",
+					JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, tmp, 0);
+			System.out.println("risposta: "+risposta);
+			if(risposta>0) {
+				//tavoli.remove(tavoli.indexOf(buttonPanel))
+				System.out.println("Stai liberando il tavolo "+tavoloSelezionato);
+			}
+			
+			}
+		);
 		buttonPanel.add(btn);
 		
 		mainPanel = new JPanel(new FlowLayout());
+		
 		
 		this.mainPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
 			      .createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
@@ -54,25 +69,33 @@ public class Cassiere extends JFrame implements Admin {
 	
 	@Override
 	public void aggiungiComanda(Tavolo tavolo) {
-		JButton btnTav = new JButton("Tavolo "+ tavolo.getNumTav());
-
-		btnTav.addActionListener(e -> getInfo(tavolo));
-
-
-		mainPanel.add(btnTav);
-		this.validate();
+		if(tavolo.getChiusura()) {//SE CHIUSO ALLORA AGGIUNGILO ALLA SCHERMATA
+			
+			JButton btnTav = new JButton("Tavolo "+ tavolo.getNumTav());
+			
+			btnTav.addActionListener(e -> {
+				getInfo(tavolo);
+				this.tavoloSelezionato=btnTav.getText().toString();
+			});
+			this.tavoli.add(btnTav);
+			
+			mainPanel.add(tavoli.get(tavoli.size()-1));
+			
+			
+			this.validate();
+		}
 
 	}
 
 	public void getInfo(Tavolo tavolo) {
-		//if(tavolo.getChiusura()) {
+		
 		this.textArea.setText("");
 		this.textArea.append("Tavolo n"+tavolo.getNumTav()+":\n");
 		for(Pietanze p : tavolo.getOrdineFinale().getPietanze()) {
 			textArea.append(p.getNome()+" x"+p.getQnt()+" ("+p.getPrezzo()+" e)\n");
 		}
 		textArea.append("Totale: "+tavolo.getTot()+" e");
-		//}	
+		//this.tavoloSelezionato=tavolo.getNumTav();
 	}
 	
 }

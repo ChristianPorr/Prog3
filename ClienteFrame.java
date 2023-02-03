@@ -499,7 +499,7 @@ public class ClienteFrame extends Frame {
     	}
     	numTav.addOrdine(tmpOrd);
     	avviso.aggiungiOrdine(scelte, qnt, numTav, tmpOrd);//Devi passare il tavolo non il numtavolo
-    	
+    	this.gestoreTavoli.allertaComanda(numTav);
     	
     	btnStato.doClick();
     	

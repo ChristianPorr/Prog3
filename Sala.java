@@ -34,7 +34,7 @@ public class Sala extends Frame implements Admin{
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         JButton btnClear = new JButton("Clear");
-        btnClear.addActionListener(e -> {textArea.replaceRange("", 0, this.txtCount);});
+        btnClear.addActionListener(e -> {textArea.setText("");});
         btnHome.addActionListener(e -> {new MainFrame();});
         btnLiberaT.addActionListener(e -> {liberaTav();});
         
@@ -45,10 +45,9 @@ public class Sala extends Frame implements Admin{
 
 
 
-		new JOptionPane();
-		for(int i=1;i<=20;i++) {
+		
+		for(Integer i=1;i<=20;i++) {
 			btnTav.add(new JButton("Tavolo: "+i));
-			btnTav.get(i-1).addActionListener(e -> {new JOptionPane().showMessageDialog(null, "alert1","alert2", JOptionPane.ERROR_MESSAGE);});
 			this.panel.add(btnTav.get(i-1));
 		}
         //INSERISCI METODO DI PAGAMENTO
@@ -82,12 +81,18 @@ public class Sala extends Frame implements Admin{
 
 	@Override
 	public void aggiungiComanda(Tavolo tavolo) {
-		JButton btnT = new JButton("Tavolo "+ tavolo.getNumTav());
+		/*JButton btnT = new JButton("Tavolo "+ tavolo.getNumTav());
 		for(JButton btn : this.btnTav) {
-			if(btnT.getText()==btn.getText())
-				btn.addActionListener(e -> getInfo(tavolo));
-			btn.setEnabled(true);
-		}
+			if(btnT.getText()==btn.getText())*/
+				this.btnTav.get(tavolo.getNumTav()-1).addActionListener(new ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						getInfo(tavolo);
+						}
+					}
+				);
+			this.btnTav.get(tavolo.getNumTav()-1).setEnabled(true);
+		//}
 
 		frame.validate();
 
@@ -101,10 +106,11 @@ public class Sala extends Frame implements Admin{
 
 			for(Pietanze p : ord.getPietanze()) {
 				textArea.append(p.getNome()+" x"+p.getQnt()+" ("+p.getPrezzo()+" e)\n");
-				totParziale = p.getPrezzo()*p.getQnt();
+				totParziale += p.getPrezzo()*p.getQnt();
 			}
 			textArea.append("Il totale relativo a quest'ordine e': "+totParziale+"\n");
 			totParziale=0.0;
+			textArea.append("\n\t|----------------------| \n");
 		}
 
 
