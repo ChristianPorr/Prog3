@@ -11,7 +11,7 @@ import javax.swing.border.TitledBorder;
 
 import java.util.Formatter;
 
-public class Sala extends Frame{
+public class Sala extends Frame implements Admin{
     JButton btnHome = new JButton("Home");
     Vector<JButton> btnTav = new Vector<JButton>();
     Integer txtCount=0;
@@ -42,16 +42,17 @@ public class Sala extends Frame{
         panel = new JPanel();
 	
 		panel.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
-        
-        
-        
-        for(int i=1;i<=20;i++) {
-        	btnTav.add(new JButton("Tavolo: "+i));
-        	//btnTav.get(i-1).setForeground(Color.red);
-        	this.panel.add(btnTav.lastElement());
-        }
+
+
+
+		new JOptionPane();
+		for(int i=1;i<=20;i++) {
+			btnTav.add(new JButton("Tavolo: "+i));
+			btnTav.get(i-1).addActionListener(e -> {new JOptionPane().showMessageDialog(null, "alert1","alert2", JOptionPane.ERROR_MESSAGE);});
+			this.panel.add(btnTav.get(i-1));
+		}
         //INSERISCI METODO DI PAGAMENTO
-        aggiornaTavoli();
+        
         
         
     	
@@ -65,60 +66,49 @@ public class Sala extends Frame{
         frame.add(scrollPane, BorderLayout.LINE_END);
     }
 
-    
-    
-    public void aggiornaTavoli() {
-    	
-        
-        for(int i=1;i<=20;i++) {
-        	File myObj = new File("tav"+i+".txt");
-        	if(myObj.exists()) {
-				System.out.println("Dentro aggiornaTavoli"+i);
-				final Integer ii = new Integer(i);
-				btnTav.get(i-1).addActionListener(e -> showOrder(ii, myObj, textArea));
-				btnTav.get(i-1).setEnabled(true);
-				//btnTav.get(i-1).setForeground(Color.green);
-			} else { 
-				btnTav.get(i-1).setEnabled(false);
-			}
-        }
-    }
-    
-    private void showOrder(Integer i, File file, JTextArea txt){
-    	//Aggiungiamo l'ordine al textArea...
-    	Scanner myReader;
-    	String tmpCounter;
-		try {
-			myReader = new Scanner(file);
-			String temp, temptxt;
-	    	temptxt = txt.getText();
-	    	if(!temptxt.isEmpty()) {
-	    		txt.replaceRange("", 0, temptxt.length());
-	    	}
-	    	txt.append("Il tavolo "+i+" ha ordinato:\n");
-	    	while(myReader.hasNextLine()) {
-	    		temp = myReader.nextLine();
-	    		txt.append(temp+"\n");
-	    	}
-	    	tmpCounter=txt.getText();
-	    	this.txtCount = tmpCounter.length();
-	    	myReader.close();
-		} catch (FileNotFoundException e) {
-			System.out.println("Scanner non trovato");
+
+	public void liberaTav() {
+		String txt, numTav;
+		int n;
+		txt = this.textArea.getText();
+		numTav = txt.substring(10,12);
+		if(numTav.contains(" ")) numTav = txt.substring(10,11);
+		n = Integer.parseInt(numTav);
+		File tavolo = new File("tav"+n+".txt");
+		tavolo.delete();
+	}
+
+
+
+	@Override
+	public void aggiungiComanda(Tavolo tavolo) {
+		JButton btnT = new JButton("Tavolo "+ tavolo.getNumTav());
+		for(JButton btn : this.btnTav) {
+			if(btnT.getText()==btn.getText())
+				btn.addActionListener(e -> getInfo(tavolo));
+			btn.setEnabled(true);
 		}
-    }
-    
-    public void liberaTav() {
-    	String txt, numTav;
-    	int n;
-    	txt = this.textArea.getText();
-    	numTav = txt.substring(10,12);
-    	if(numTav.contains(" ")) numTav = txt.substring(10,11);
-    	n = Integer.parseInt(numTav);
-    	File tavolo = new File("tav"+n+".txt");
-    	tavolo.delete();
-    	aggiornaTavoli();
-    }
+
+		frame.validate();
+
+	}
+
+	public void getInfo(Tavolo tavolo) {
+		Double totParziale=0.0;
+		this.textArea.setText("");
+		this.textArea.append("Tavolo n"+tavolo.getNumTav()+":\n");
+		for(Ordine ord : tavolo.getOrdine()) {
+
+			for(Pietanze p : ord.getPietanze()) {
+				textArea.append(p.getNome()+" x"+p.getQnt()+" ("+p.getPrezzo()+" e)\n");
+				totParziale = p.getPrezzo()*p.getQnt();
+			}
+			textArea.append("Il totale relativo a quest'ordine e': "+totParziale+"\n");
+			totParziale=0.0;
+		}
+
+
+	}
     
 }
 

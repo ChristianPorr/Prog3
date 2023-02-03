@@ -509,13 +509,15 @@ public class ClienteFrame extends Frame {
     
    public void aggiornaTav(Tavolo tav, JTextArea txt) {
    	int cnt=0;
-   	if(((Pizzayolo) this.pizzaiolo).infornaPizze(tav).getStatusOrdine()==new OrdineConsegnato()) cnt++;
+   	/*if(((Pizzayolo) this.pizzaiolo).infornaPizze(tav).getStatusOrdine()==new OrdineConsegnato()) cnt++;
 		if(((Chef) this.chef).cucina(tav).getStatusOrdine()==new OrdineConsegnato()) {
 			cnt++;
 		}
 		if(cnt==2) {
 			tav.setStatusOrdine(new OrdineConsegnato());
-		}
+		}*/
+   		tav.setStatusOrdine(new OrdineConsegnato());
+   		tav.setChiusura();
 		gestoreTavoli.allertaComanda(tav);
 		
 		

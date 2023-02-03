@@ -5,8 +5,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
 public class Cassiere extends JFrame implements Admin {
-
-	private Integer n=0;
+	
 	private static Integer numeroCassa = 0;
 	private Integer idCassa;
 	Vector<JButton> btnTav = new Vector<JButton>();
@@ -55,27 +54,25 @@ public class Cassiere extends JFrame implements Admin {
 	
 	@Override
 	public void aggiungiComanda(Tavolo tavolo) {
-		JButton btnTav = new JButton("btn "+ ++n);
-		
+		JButton btnTav = new JButton("Tavolo "+ tavolo.getNumTav());
+
 		btnTav.addActionListener(e -> getInfo(tavolo));
-		
-		
+
+
 		mainPanel.add(btnTav);
 		this.validate();
-	
+
 	}
-	
+
 	public void getInfo(Tavolo tavolo) {
-		if(tavolo.getTot()==0) {
-			tavolo.resocontoOrdini();
-		}
+		//if(tavolo.getChiusura()) {
 		this.textArea.setText("");
 		this.textArea.append("Tavolo n"+tavolo.getNumTav()+":\n");
 		for(Pietanze p : tavolo.getOrdineFinale().getPietanze()) {
 			textArea.append(p.getNome()+" x"+p.getQnt()+" ("+p.getPrezzo()+" e)\n");
 		}
 		textArea.append("Totale: "+tavolo.getTot()+" e");
-			
+		//}	
 	}
 	
 }

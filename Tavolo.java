@@ -7,7 +7,7 @@ public class Tavolo{
     
 	   // private HashMap<String, Integer> posByName = new HashMap<String, Integer>();//FlyWeight
 	    private Integer numTavolo;
-	    private boolean occupato;
+	    private boolean chiusuraTavolo = false;
 	    private ArrayList<Ordine> ordini  = new ArrayList<Ordine>();
 	    private Ordine statusOrdine;
 	    private Double tot;
@@ -20,14 +20,15 @@ public class Tavolo{
 	    public Double getTot() {
 	    	return tot;
 	    }
-	    public boolean getStatus(){
-	        return this.occupato;
+	    public boolean getChiusura(){
+	        return this.chiusuraTavolo;
 	    }
-	    public void setOccupato(){//set variabile booleana
-	        this.occupato=true;
+	    public void setChiusura(){//set variabile booleana
+	        this.chiusuraTavolo=true;
+	        this.resocontoOrdini();
 	    }
-	    public void setNonOccupato(){
-	        this.occupato=false;
+	    public void setNonChiuso(){
+	        this.chiusuraTavolo=false;
 	    }
 	    public int getNumTav(){
 	        return this.numTavolo;
