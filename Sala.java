@@ -48,6 +48,7 @@ public class Sala extends Frame implements Admin{
 		
 		for(Integer i=1;i<=20;i++) {
 			btnTav.add(new JButton("Tavolo: "+i));
+			btnTav.get(i-1).setEnabled(false);
 			this.panel.add(btnTav.get(i-1));
 		}
         //INSERISCI METODO DI PAGAMENTO
@@ -55,7 +56,7 @@ public class Sala extends Frame implements Admin{
         
         
     	
-        frame.setTitle("Cassa");
+        frame.setTitle("Sala");
       
         panel.add(btnClear);
         panel.add(btnHome);
@@ -81,18 +82,26 @@ public class Sala extends Frame implements Admin{
 
 	@Override
 	public void aggiungiComanda(Tavolo tavolo) {
-		/*JButton btnT = new JButton("Tavolo "+ tavolo.getNumTav());
-		for(JButton btn : this.btnTav) {
-			if(btnT.getText()==btn.getText())*/
-				this.btnTav.get(tavolo.getNumTav()-1).addActionListener(new ActionListener(){
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						getInfo(tavolo);
-						}
-					}
-				);
+		for(ActionListener al : btnTav.get(tavolo.getNumTav()-1).getActionListeners()) {
+			btnTav.get(tavolo.getNumTav()-1).removeActionListener(al);
+			System.out.println("\nrimozione Al");
+		}
+		if(!tavolo.getOrdine().isEmpty()) {
 			this.btnTav.get(tavolo.getNumTav()-1).setEnabled(true);
-		//}
+			this.btnTav.get(tavolo.getNumTav()-1).addActionListener(new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					getInfo(tavolo);
+					
+					}
+				}
+			);
+		} else {
+			this.btnTav.get(tavolo.getNumTav()-1).setEnabled(false);
+			this.textArea.setText("");
+		}
+			
+		
 
 		frame.validate();
 

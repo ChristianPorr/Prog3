@@ -20,6 +20,14 @@ public class Tavolo{
 	    public Double getTot() {
 	    	return tot;
 	    }
+	    public Boolean hasOrders() {
+	    	if(ordini.isEmpty()) {
+	    		return false;
+	    	}
+	    	else {
+	    		return true;
+	    	}
+	    }
 	    public boolean getChiusura(){
 	        return this.chiusuraTavolo;
 	    }
@@ -47,10 +55,12 @@ public class Tavolo{
 	    }
 	    public void addOrdine(Ordine newOrder) {
 	    	this.ordini.add(newOrder);
+	    	this.statusOrdine.setNumOrd();
 	    }
 	    public ArrayList<Ordine> getOrdine() {
 	    	return ordini;
 	    }
+	    
 	    
 	    public void resocontoOrdini() {
 	    	for(Ordine ord : ordini) { //PER OGNI ORDINE PRESENTE NELLA LISTA ORDINI

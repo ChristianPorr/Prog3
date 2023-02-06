@@ -17,6 +17,7 @@ public class ClienteFrame extends Frame {
     //tavoli messi in Frame
     Integer txtCount=0;
     JTextArea textArea = new JTextArea(30,30);
+    JTextArea textAreaTavolo = new JTextArea(30,30);
     
     MandaComande gestoreTavoli = new MandaComande();
     Serviamo avviso = new Serviamo();
@@ -161,29 +162,43 @@ public class ClienteFrame extends Frame {
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         
-        JTextArea textAreaTavolo = new JTextArea(30,30);
+        
         textAreaTavolo.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
         textAreaTavolo.setEditable(false);
         JScrollPane scrollTATav = new JScrollPane(textAreaTavolo);
         //scrollTATav
         JButton btnClear = new JButton("Clear");
-      	      
+      	btnStato.setBackground(Color.white);
         btnClear.addActionListener(e -> {
-        								String tmpS;
-        								Integer tmpI;
         								this.vectorQ.clear();
         								this.vectorS.clear();
-        								tmpS=this.textArea.getText();
-        								tmpI=tmpS.length();
-        								this.textArea.replaceRange("", 0, tmpI);
+        								this.textArea.setText("");
+        								this.textAreaTavolo.setText("");
+        								selected = tavoli.getSelectedItem();
+        				                Object copy = selected;
+        				                Integer n = Integer.parseInt((String)copy);
+        				                tav[n-1]=new Tavolo();
+        				                tav[n-1].setNumTav(n);
+        				                frame.revalidate();
+        				                btnStato.doClick();
+        				                gestoreTavoli.allertaComanda(tav[n-1]);
         								});
  
         tavoli.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 /* QUANDO VIENE CLICKATO IL JCOMBOBOX DEL TAVOLO MOSTRAMI IL TAVOLO */
                 
-                
                 selected = tavoli.getSelectedItem();
+                Object copy = selected;
+                Integer n = Integer.parseInt((String)copy);
+                
+                if(tav[n-1].hasOrders()) {
+                	btnServi.setEnabled(true);
+                } else{
+                	btnServi.setEnabled(false);
+                }
+                
+                btnStato.doClick();
                 
                 System.out.println("E' stato selezionato -> "+(String) selected);
           
@@ -199,8 +214,12 @@ public class ClienteFrame extends Frame {
         btnOrdina.addActionListener(e -> ordiniamo(vectorS, vectorQ, tav[Integer.parseInt((String) tavoli.getSelectedItem())-1]));
         
         
+        btnServi.setEnabled(false);
         //BOTTONE SERVI
-        btnServi.addActionListener(e -> {aggiornaTav(tav[Integer.parseInt((String) tavoli.getSelectedItem())-1], textAreaTavolo);  btnStato.doClick();});
+        btnServi.addActionListener(e -> {aggiornaTav(tav[Integer.parseInt((String) tavoli.getSelectedItem())-1], textAreaTavolo);  btnStato.doClick(); 
+        								btnServi.setEnabled(false);
+        								this.btnOrdina.setEnabled(false);
+        								});
 
         
         //Pizze
@@ -219,21 +238,36 @@ public class ClienteFrame extends Frame {
         btnStato.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				
 				if (selected==null) {
 					tavoli.setSelectedIndex(0);
 				}
-				if(tavoli.getSelectedItem()!=null) {
-					Integer i=Integer.parseInt(tavoli.getSelectedItem().toString());
+				
+					
+					selected = tavoli.getSelectedItem();
+					Integer i=Integer.parseInt(selected.toString());
 					
 					
 					if(tav[i-1].getStatusOrdine() instanceof OrdineRicevuto) {//se lo stato e' ordine ricevuto:
 						btnStato.setBackground(Color.orange);
+						btnOrdina.setEnabled(true);
+						btnServi.setEnabled(true);
+						
 					}
 					else if(tav[i-1].getStatusOrdine() instanceof OrdineConsegnato) {//se lo stato e' ordine consegnato:
 						btnStato.setBackground(Color.green);
-					} // if(tav[i-1].getStatusOrdine().getClass()==null) btnStato.setBackground(Color.gray);
+						btnOrdina.setEnabled(false);
+						btnServi.setEnabled(false);
+						
+					} else if(tav[i-1].getStatusOrdine() instanceof NoState) {
+						btnStato.setBackground(Color.white);
+						btnOrdina.setEnabled(true);
+						btnServi.setEnabled(false);
+						
+					} 
 					
-				}
+				
+				
 			}
         	
         });
@@ -494,6 +528,7 @@ public class ClienteFrame extends Frame {
     	
     	Ordine tmpOrd = new Ordine(numeroT);
     	for(int i=0;i<scelte.size();i++) {
+    		System.out.println("scelta: "+scelte.get(i)+" qnt: "+qnt.get(i));
     		tmpOrd.aggiungiPietanza(scelte.get(i), qnt.get(i));
     		
     	}
@@ -501,8 +536,11 @@ public class ClienteFrame extends Frame {
     	avviso.aggiungiOrdine(scelte, qnt, numTav, tmpOrd);//Devi passare il tavolo non il numtavolo
     	this.gestoreTavoli.allertaComanda(numTav);
     	
-    	btnStato.doClick();
     	
+    	//btnServi.setEnabled(true);
+    	btnStato.doClick();
+    	showOrder(numTav,this.textAreaTavolo);
+		
     	
     }
     
@@ -523,7 +561,7 @@ public class ClienteFrame extends Frame {
 		
    }
    
-   void aggiornaTextA(JTextArea textArea, String stringa, int indice, Vector<Integer> vInt){
+   public void aggiornaTextA(JTextArea textArea, String stringa, int indice, Vector<Integer> vInt){
        String temp;
        int lenScelta;
        temp = stringa+" Qt: "+vInt.get(indice)+"\n";
@@ -533,12 +571,23 @@ public class ClienteFrame extends Frame {
    private void showOrder(Tavolo tav, JTextArea txt){
    	txt.setText("");
    	for(Ordine ord : tav.getOrdine()) {
-   		txt.append("Nell'ordine numero "+ord.getNumOrd()+" il tavolo selezionato ha ordinato:\n");
+   		txt.append("Nell'ordine numero "+ord.getNumOrd()+" il tavolo selezionato ha ordinato:");
+   		txt.append("\n");
    		for(Pietanze p : ord.getPietanze()) {
+   			
    			txt.append("-"+p.getNome()+" x"+p.getQnt()+"\n");
        	}
+   		txt.append("\t\t|-----------|");
    	}
    	
+   }
+   
+   public void rinnovaTavolo(Tavolo tavolo) {
+	   tav[tavolo.getNumTav()-1]=new Tavolo();
+       tav[tavolo.getNumTav()-1].setNumTav(tavolo.getNumTav());
+       frame.revalidate();
+       btnStato.doClick();
+       gestoreTavoli.allertaComanda(tav[tavolo.getNumTav()-1]);
    }
     
 }

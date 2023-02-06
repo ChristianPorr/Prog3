@@ -4,15 +4,16 @@ import java.util.ArrayList;
 public class Ordine {
 	private State stato;
 	private static Menu menu = new Menu();
-	private static Integer numeroOrdineTotale = 0;
+	private static Integer numeroOrdineTotale = 1;
 	private Integer numTavolo;
 	private Integer numeroOrdine;
 	private ArrayList<Pietanze> piatti = new ArrayList<Pietanze>();
 	public Ordine() {
+		this.stato=new NoState();
 	}
 	public Ordine(Integer numT) {
+		numeroOrdine=numeroOrdineTotale;
 		this.stato=new NoState();
-		this.numeroOrdine=++this.numeroOrdineTotale;
 		this.numTavolo=numT;
 	}
 	
@@ -26,6 +27,9 @@ public class Ordine {
 	
 	public Integer getNumOrd() {
 		return numeroOrdine;
+	}
+	public void setNumOrd() {
+		this.numeroOrdineTotale++;
 	}
 	public Integer getNumTavolo() {
 		return numTavolo;

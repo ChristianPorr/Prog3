@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -13,10 +15,19 @@ public class Cassiere extends JFrame implements Admin {
     JTextArea textArea = new JTextArea(10,30);
     JPanel mainPanel;
     String tavoloSelezionato = new String();
-    ArrayList<JButton> tavoli = new ArrayList<JButton>();
     Integer iTavoli=0;
-	
-	Cassiere(){
+    ClienteFrame riferimento;
+    Tavolo tmp;
+    
+    Cassiere(){
+    	start();
+    }
+    
+    Cassiere(ClienteFrame cf){
+    	this.riferimento=cf;
+    	start();
+    }
+	public void start(){
 		Border blackline, raisedetched, loweredetched,raisedbevel, loweredbevel, empty;
 	    
 		blackline = BorderFactory.createLineBorder(Color.black);
@@ -25,7 +36,7 @@ public class Cassiere extends JFrame implements Admin {
 		raisedbevel = BorderFactory.createRaisedBevelBorder();
 		loweredbevel = BorderFactory.createLoweredBevelBorder();
 		empty = BorderFactory.createEmptyBorder();
-		System.out.println("size "+tavoli.size());
+		
 		numeroCassa++;
 		idCassa=numeroCassa;
 		this.setTitle("Gestionale Ristorante-Cassa n"+idCassa);
@@ -40,17 +51,28 @@ public class Cassiere extends JFrame implements Admin {
 			risposta = JOptionPane.showOptionDialog(null, "Scegli il metodo di pagamento:", "Pagamento",
 					JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, tmp, 0);
 			System.out.println("risposta: "+risposta);
-			if(risposta>0) {
+			System.out.println("Il bottone "+this.tavoloSelezionato);
+			if(risposta>=0) {
 				//tavoli.remove(tavoli.indexOf(buttonPanel))
 				System.out.println("Stai liberando il tavolo "+tavoloSelezionato);
+				this.removeButton();
+				this.riferimento.rinnovaTavolo(this.tmp);
 			}
 			
 			}
 		);
 		buttonPanel.add(btn);
 		
+		
 		mainPanel = new JPanel(new FlowLayout());
 		
+		for(Integer i=1;i<=20;i++) {
+			btnTav.add(new JButton("Tavolo: "+i));
+			btnTav.get(i-1).setEnabled(false);
+			this.mainPanel.add(btnTav.get(i-1));
+		}
+		
+		mainPanel.add(new JButton("bottoneProva"));
 		
 		this.mainPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
 			      .createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
@@ -71,15 +93,16 @@ public class Cassiere extends JFrame implements Admin {
 	public void aggiungiComanda(Tavolo tavolo) {
 		if(tavolo.getChiusura()) {//SE CHIUSO ALLORA AGGIUNGILO ALLA SCHERMATA
 			
-			JButton btnTav = new JButton("Tavolo "+ tavolo.getNumTav());
+			String btnName = ("Tavolo: "+ tavolo.getNumTav());
 			
-			btnTav.addActionListener(e -> {
+			this.btnTav.get(tavolo.getNumTav()-1).addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent event) {
 				getInfo(tavolo);
-				this.tavoloSelezionato=btnTav.getText().toString();
+				tavoloSelezionato=btnName;
+				}
 			});
-			this.tavoli.add(btnTav);
+			this.btnTav.get(tavolo.getNumTav()-1).setEnabled(true);
 			
-			mainPanel.add(tavoli.get(tavoli.size()-1));
 			
 			
 			this.validate();
@@ -88,7 +111,7 @@ public class Cassiere extends JFrame implements Admin {
 	}
 
 	public void getInfo(Tavolo tavolo) {
-		
+		this.tmp=tavolo;
 		this.textArea.setText("");
 		this.textArea.append("Tavolo n"+tavolo.getNumTav()+":\n");
 		for(Pietanze p : tavolo.getOrdineFinale().getPietanze()) {
@@ -96,11 +119,33 @@ public class Cassiere extends JFrame implements Admin {
 		}
 		textArea.append("Totale: "+tavolo.getTot()+" e");
 		//this.tavoloSelezionato=tavolo.getNumTav();
+		
 	}
+	
+	public void removeButton() {
+		
+		
+		for(JButton btn : this.btnTav) {
+			if(tavoloSelezionato.equals(btn.getText())) {
+				
+				for(ActionListener al : btn.getActionListeners()) {
+					btn.removeActionListener(al);
+				}
+				btn.setEnabled(false);
+			}
+		}
+		this.textArea.setText("");
+
+		//IMPORTANT
+		mainPanel.validate();
+		mainPanel.repaint();
+		
+	}
+
 	
 }
 
-
+	
 
 
 
