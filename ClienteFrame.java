@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.*;
 
 
-public class ClienteFrame extends Frame {
+public class ClienteFrame extends Frame  {
     int risposta;
     Vector<String> vectorS = new Vector<String>();
     Vector<Integer> vectorQ = new Vector<Integer>();
@@ -85,6 +85,10 @@ public class ClienteFrame extends Frame {
 
 
     public void start(){
+    	String tmpTextArea = this.textArea.toString();
+        if(tmpTextArea.isEmpty()) this.btnOrdina.setEnabled(false);
+        else this.btnOrdina.setEnabled(true);
+    	
     System.out.println("INIZIO...");
     	
     Border blackline, raisedetched, loweredetched,
@@ -212,7 +216,7 @@ public class ClienteFrame extends Frame {
         int index = Integer.parseInt(indexToInt) - 1;*/
      	//BOTTONE ORDINAZIONE
         btnOrdina.addActionListener(e -> ordiniamo(vectorS, vectorQ, tav[Integer.parseInt((String) tavoli.getSelectedItem())-1]));
-        
+        btnOrdina.setEnabled(false);
         
         btnServi.setEnabled(false);
         //BOTTONE SERVI
@@ -256,8 +260,8 @@ public class ClienteFrame extends Frame {
 					}
 					else if(tav[i-1].getStatusOrdine() instanceof OrdineConsegnato) {//se lo stato e' ordine consegnato:
 						btnStato.setBackground(Color.green);
-						btnOrdina.setEnabled(false);
-						btnServi.setEnabled(false);
+						//btnOrdina.setEnabled(false);
+						//btnServi.setEnabled(false);
 						
 					} else if(tav[i-1].getStatusOrdine() instanceof NoState) {
 						btnStato.setBackground(Color.white);
@@ -450,6 +454,7 @@ public class ClienteFrame extends Frame {
 
  
 	public void addOrdine(String scelta, JTextArea textArea, Vector<String> listaS, Vector<Integer> listaQ){
+		
     	boolean bool;
         int i, n, lenScelta, indice;
         String scontrino, temp;
@@ -478,6 +483,9 @@ public class ClienteFrame extends Frame {
                 }
                 
             }
+        String tmpTextArea = this.textArea.toString();
+        if(tmpTextArea.isEmpty()) this.btnOrdina.setEnabled(false);
+        else this.btnOrdina.setEnabled(true);
            
         }
 
@@ -515,7 +523,10 @@ public class ClienteFrame extends Frame {
                      
                  }
              }
-        } 
+        }
+         String tmpTextArea = this.textArea.toString();
+         if(tmpTextArea.isEmpty()) this.btnOrdina.setEnabled(false);
+         else this.btnOrdina.setEnabled(true);
 
     }
     
@@ -523,24 +534,26 @@ public class ClienteFrame extends Frame {
     
    public void ordiniamo(Vector<String> scelte, Vector<Integer> qnt, Tavolo numTav){//metti list al posto di vector
     	
-    	
-    	Integer numeroT = numTav.getNumTav();//numero tavolo +1
-    	
-    	Ordine tmpOrd = new Ordine(numeroT);
-    	for(int i=0;i<scelte.size();i++) {
-    		System.out.println("scelta: "+scelte.get(i)+" qnt: "+qnt.get(i));
-    		tmpOrd.aggiungiPietanza(scelte.get(i), qnt.get(i));
-    		
-    	}
-    	numTav.addOrdine(tmpOrd);
-    	avviso.aggiungiOrdine(scelte, qnt, numTav, tmpOrd);//Devi passare il tavolo non il numtavolo
-    	this.gestoreTavoli.allertaComanda(numTav);
-    	
-    	
-    	//btnServi.setEnabled(true);
-    	btnStato.doClick();
-    	showOrder(numTav,this.textAreaTavolo);
-		
+	   
+       if(!scelte.isEmpty()){
+    	   
+	    	Integer numeroT = numTav.getNumTav();//numero tavolo +1
+	    	
+	    	Ordine tmpOrd = new Ordine(numeroT);
+	    	for(int i=0;i<scelte.size();i++) {
+	    		System.out.println("scelta: "+scelte.get(i)+" qnt: "+qnt.get(i));
+	    		tmpOrd.aggiungiPietanza(scelte.get(i), qnt.get(i));
+	    		
+	    	}
+	    	numTav.addOrdine(tmpOrd);
+	    	avviso.aggiungiOrdine(scelte, qnt, numTav, numTav.lastOrder());//Devi passare il tavolo non il numtavolo
+	    	this.gestoreTavoli.allertaComanda(numTav);
+	    	
+	    	
+	    	//btnServi.setEnabled(true);
+	    	btnStato.doClick();
+	    	showOrder(numTav,this.textAreaTavolo);
+       }
     	
     }
     
@@ -577,7 +590,7 @@ public class ClienteFrame extends Frame {
    			
    			txt.append("-"+p.getNome()+" x"+p.getQnt()+"\n");
        	}
-   		txt.append("\t\t|-----------|");
+   		txt.append("\t\t|-----------|\n");
    	}
    	
    }
@@ -589,7 +602,7 @@ public class ClienteFrame extends Frame {
        btnStato.doClick();
        gestoreTavoli.allertaComanda(tav[tavolo.getNumTav()-1]);
    }
-    
+   
 }
     
 

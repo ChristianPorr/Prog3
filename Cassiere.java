@@ -16,18 +16,12 @@ public class Cassiere extends JFrame implements Admin {
     JPanel mainPanel;
     String tavoloSelezionato = new String();
     Integer iTavoli=0;
-    ClienteFrame riferimento;
     Tavolo tmp;
     
-    Cassiere(){
-    	start();
-    }
     
-    Cassiere(ClienteFrame cf){
-    	this.riferimento=cf;
-    	start();
-    }
-	public void start(){
+    
+    
+    Cassiere() {
 		Border blackline, raisedetched, loweredetched,raisedbevel, loweredbevel, empty;
 	    
 		blackline = BorderFactory.createLineBorder(Color.black);
@@ -53,10 +47,10 @@ public class Cassiere extends JFrame implements Admin {
 			System.out.println("risposta: "+risposta);
 			System.out.println("Il bottone "+this.tavoloSelezionato);
 			if(risposta>=0) {
-				//tavoli.remove(tavoli.indexOf(buttonPanel))
+				
 				System.out.println("Stai liberando il tavolo "+tavoloSelezionato);
 				this.removeButton();
-				this.riferimento.rinnovaTavolo(this.tmp);
+				
 			}
 			
 			}
@@ -118,7 +112,7 @@ public class Cassiere extends JFrame implements Admin {
 			textArea.append(p.getNome()+" x"+p.getQnt()+" ("+p.getPrezzo()+" e)\n");
 		}
 		textArea.append("Totale: "+tavolo.getTot()+" e");
-		//this.tavoloSelezionato=tavolo.getNumTav();
+		
 		
 	}
 	
@@ -142,6 +136,7 @@ public class Cassiere extends JFrame implements Admin {
 		
 	}
 
+	
 	
 }
 

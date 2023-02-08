@@ -16,61 +16,76 @@ public class MainFrame extends Frame{
     ArrayList<Admin> admList = new ArrayList<Admin>();
     ArrayList<Cuoco> cuochiList = new ArrayList<Cuoco>();
 
+    
+    
+
 	@SuppressWarnings("unused")
 	MainFrame(){
-    ImageIcon img = new ImageIcon("white.jpg");
-	Border blackline, raisedetched, loweredetched,raisedbevel, loweredbevel, empty;
-		    
-	blackline = BorderFactory.createLineBorder(Color.black);
-	raisedetched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
-	loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-	raisedbevel = BorderFactory.createRaisedBevelBorder();
-	loweredbevel = BorderFactory.createLoweredBevelBorder();
-	empty = BorderFactory.createEmptyBorder();
-	
-	Dimension dim = new Dimension(170,120);
-	panel = new JPanel(new GridBagLayout());
-	
-	panelClienti = new JPanel(new FlowLayout());
-	panelSala = new JPanel(new FlowLayout());
-	panelCassiere = new JPanel(new FlowLayout());
-	panelPizzayolo = new JPanel(new FlowLayout());
-	panelChef = new JPanel(new FlowLayout());
-	
-	btnSala = new JButton("Sala");
-	btnPizzayolo = new JButton("Pizzayolo");
-	btnChef = new JButton("Chef");
-    btnCassiere = new JButton("Cassa");
-    btnCliente = new JButton("Cliente");
-    
-    /*Aggiunge i bottoni ai relativi pannelli*/
-    panelClienti.add(btnCliente);
-    panelSala.add(btnSala);
-    panelChef.add(btnChef);
-    panelPizzayolo.add(btnPizzayolo);
-    panelCassiere.add(btnCassiere);
-    
-    /*Aggiunge i pannelli al pannello principale*/ 
-    panel.setVisible(true);
-    panel.add(panelClienti);
-    panel.add(panelSala);
-    panel.add(panelChef);
-    panel.add(panelPizzayolo);
-    panel.add(panelCassiere);
-       
-    /*Imposta la dimensione dei pannelli*/
-    panelClienti.setPreferredSize(dim);
-	panelSala.setPreferredSize(dim);
-	panelChef.setPreferredSize(dim);
-	panelPizzayolo.setPreferredSize(dim);
-	panelCassiere.setPreferredSize(dim);
+		Dimension dim = new Dimension(170,120);
+		 
+		Border raisedetched, loweredetched;
+			   
+		raisedetched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
+		loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+
+
+		panel = new JPanel(new GridLayout(5,0));
+		panelClienti = new JPanel();
+		panelSala = new JPanel();
+		panelCassiere = new JPanel();
+		panelPizzayolo = new JPanel();
+		panelChef = new JPanel();
+		
+		btnSala = new JButton("Sala");
+		btnPizzayolo = new JButton("Pizzayolo");
+		btnChef = new JButton("Chef");
+	    btnCassiere = new JButton("Cassa");
+	    btnCliente = new JButton("Cliente");
 	    
-    /*Imposta il bordo dei pannelli*/
-    panelClienti.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
-	panelSala.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
-	panelChef.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
-	panelPizzayolo.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
-	panelCassiere.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
+	    /*Aggiunge i bottoni ai relativi pannelli*/
+	    panelClienti.add(btnCliente);
+	    panelSala.add(btnSala);
+	    panelChef.add(btnChef);
+	    panelPizzayolo.add(btnPizzayolo);
+	    panelCassiere.add(btnCassiere);
+
+	    /*Imposta la dimensione dei pannelli*/
+	    panelClienti.setPreferredSize(dim);
+		panelSala.setPreferredSize(dim);
+		panelChef.setPreferredSize(dim);
+		panelPizzayolo.setPreferredSize(dim);
+		panelCassiere.setPreferredSize(dim);
+		
+		
+		panelClienti.setBackground(new Color(255,191,0));
+		panelSala.setBackground(new Color(172,255,175));
+		panelChef.setBackground(new Color(1,121,111));
+		panelPizzayolo.setBackground(new Color(255,253,208));
+		panelCassiere.setBackground(new Color(255,77,0));
+		    
+	    /*Imposta il bordo dei pannelli*/
+	    panelClienti.setBorder(BorderFactory.createCompoundBorder(raisedetched,loweredetched));
+		panelSala.setBorder(BorderFactory.createCompoundBorder(raisedetched,loweredetched));
+		panelChef.setBorder(BorderFactory.createCompoundBorder(raisedetched,loweredetched));
+		panelPizzayolo.setBorder(BorderFactory.createCompoundBorder(raisedetched,loweredetched));
+		panelCassiere.setBorder(BorderFactory.createCompoundBorder(raisedetched,loweredetched));
+		
+		panel.add(panelClienti);
+		panel.add(panelSala);
+		panel.add(panelChef);
+		panel.add(panelCassiere);
+		panel.add(panelPizzayolo);
+		
+		
+		frame.add(panel);
+		
+		/*Impostazioni del Frame*/
+	    frame.setTitle("Gestionale Ristorante");
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    frame.setSize(850,600);
+	    frame.setIconImage(img.getImage());
+	    frame.setResizable(false);
+	    frame.setVisible(true);
          
     /*ActionListener dei Bottoni*/
     btnSala.setText("Sala");
@@ -83,6 +98,7 @@ public class MainFrame extends Frame{
     btnCliente.setFocusable(false);
         btnCliente.addActionListener(e -> {
             ClienteFrame clienteFrame = new ClienteFrame(admList, cuochiList);
+            
         });
     
     

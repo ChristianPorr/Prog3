@@ -11,6 +11,7 @@ public class Tavolo{
 	    private ArrayList<Ordine> ordini  = new ArrayList<Ordine>();
 	    private Ordine statusOrdine;
 	    private Double tot;
+	    private Integer statusCounter=0;
 	    /*private ArraList<Pietanze> carrello;*/
 	        public Tavolo(){
 	            /*costruttore*/
@@ -42,7 +43,17 @@ public class Tavolo{
 	        return this.numTavolo;
 	    }
 	    public void setStatusOrdine(State stato) {
-	    	this.statusOrdine.setState(stato);
+	    	
+	    	if(stato instanceof OrdineConsegnato) {
+	    		this.statusCounter++;
+	    		System.out.println("Status counter: "+statusCounter+"\nordini.size: "+ordini.size());
+	    		
+	    		if(statusCounter==ordini.size())
+	    			this.statusOrdine.setState(stato);
+	    	} else if (stato instanceof OrdineRicevuto) {
+	    		this.statusOrdine.setState(stato);
+	    		}
+	    	
 	    }
 	    public State getStatusOrdine() {
 	    	return this.statusOrdine.getState();
@@ -56,6 +67,9 @@ public class Tavolo{
 	    public void addOrdine(Ordine newOrder) {
 	    	this.ordini.add(newOrder);
 	    	this.statusOrdine.setNumOrd();
+	    }
+	    public Ordine lastOrder() {
+	    	return ordini.get(ordini.size()-1);
 	    }
 	    public ArrayList<Ordine> getOrdine() {
 	    	return ordini;
