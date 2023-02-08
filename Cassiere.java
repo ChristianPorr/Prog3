@@ -22,20 +22,16 @@ public class Cassiere extends JFrame implements Admin {
     
     
     Cassiere() {
-		Border blackline, raisedetched, loweredetched,raisedbevel, loweredbevel, empty;
-	    
-		blackline = BorderFactory.createLineBorder(Color.black);
+		Border raisedetched, loweredetched;
+	   
 		raisedetched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
 		loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-		raisedbevel = BorderFactory.createRaisedBevelBorder();
-		loweredbevel = BorderFactory.createLoweredBevelBorder();
-		empty = BorderFactory.createEmptyBorder();
 		
 		numeroCassa++;
 		idCassa=numeroCassa;
 		this.setTitle("Gestionale Ristorante-Cassa n"+idCassa);
 		
-		textArea.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
+		textArea.setBorder(BorderFactory.createCompoundBorder(raisedetched,loweredetched));
 		textArea.setEditable(false);
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		JButton btn = new JButton("Libera tavolo");
@@ -70,7 +66,7 @@ public class Cassiere extends JFrame implements Admin {
 		
 		this.mainPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
 			      .createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
-		this.mainPanel.setBackground(new Color(1,121,111));
+		this.mainPanel.setBackground(new Color(152,255,152));
 		this.setSize(800,600);
 	    this.setResizable(false);
 	    this.setVisible(true);

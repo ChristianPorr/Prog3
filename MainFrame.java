@@ -57,11 +57,12 @@ public class MainFrame extends Frame{
 		panelCassiere.setPreferredSize(dim);
 		
 		
-		panelClienti.setBackground(new Color(255,191,0));
+		panelClienti.setBackground(new Color(218,253,218));
 		panelSala.setBackground(new Color(172,255,175));
-		panelChef.setBackground(new Color(1,121,111));
-		panelPizzayolo.setBackground(new Color(255,253,208));
-		panelCassiere.setBackground(new Color(255,77,0));
+		panelCassiere.setBackground(new Color(152,255,152));
+		panelChef.setBackground(new Color(0,255,127)); //
+		panelPizzayolo.setBackground(new Color(0,204,153));//
+		
 		    
 	    /*Imposta il bordo dei pannelli*/
 	    panelClienti.setBorder(BorderFactory.createCompoundBorder(raisedetched,loweredetched));
@@ -72,8 +73,8 @@ public class MainFrame extends Frame{
 		
 		panel.add(panelClienti);
 		panel.add(panelSala);
-		panel.add(panelChef);
 		panel.add(panelCassiere);
+		panel.add(panelChef);
 		panel.add(panelPizzayolo);
 		
 		
@@ -121,76 +122,6 @@ public class MainFrame extends Frame{
             Chef chef = new Chef();
             cuochiList.add(chef);});
     
-    /*Impostazione del GridBagLayout*/
-    GridBagConstraints gbc = new GridBagConstraints();
-    
-    /*Posizione Pannelli*/
-    
-    //Pannello Clienti
-    gbc.gridx = 0;
-    gbc.gridy = 0;
-    
-    gbc.weightx = 0.01;
-    gbc.weighty = 0.01;
-    
-    gbc.insets = new Insets(100,30,0,0);  
-    
-    gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-    
-    panel.add(panelClienti,gbc);
-    
-    //Pannello Sala
-    gbc.gridx = 1;
-    gbc.gridy = 0;
-    
-    gbc.weightx = 0.01;
-    gbc.weighty = 0.01;
-    
-    gbc.anchor = GridBagConstraints.PAGE_START;
-    
-    panel.add(panelSala,gbc);
-   
-    //Pannello Cassiere
-    gbc.gridx = 2;
-    gbc.gridy = 0;
-    
-    gbc.weightx = 0.01;
-    gbc.weighty = 0.01;
-    
-    gbc.insets = new Insets(100,30,30,30);  
-    
-    gbc.anchor = GridBagConstraints.FIRST_LINE_END;
-    
-    panel.add(panelCassiere,gbc);
-    
-    //Pannello Chef
-    gbc.gridx = 0;
-    gbc.gridy = 1;
-    
-    gbc.weightx = 0.01;
-    gbc.weighty = 0.01;
-    
-    gbc.gridwidth = 2;
-    
-    gbc.insets = new Insets(0,0,100,0); 
-   
-    gbc.anchor = GridBagConstraints.CENTER;
-    
-    panel.add(panelChef,gbc);
-    
-    //Pannello Pizzayolo
-    gbc.gridx = 1;
-    gbc.gridy = 1;
-    
-    gbc.weightx = 0.01;
-    gbc.weighty = 0.01;
-    
-    gbc.insets = new Insets(0,0,100,0); 
-    
-    gbc.anchor = GridBagConstraints.CENTER;
-    
-    panel.add(panelPizzayolo,gbc);
-   
     
     /*Impostazioni del Frame*/
     frame.setTitle("Gestionale Ristorante");

@@ -6,6 +6,7 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import java.util.Formatter;
@@ -17,7 +18,16 @@ public class CassaFrame extends Frame{
     JTextArea textArea;
     JPanel panel;
     JButton btnLiberaT = new JButton("Libera");
+    
+    
     public CassaFrame() {
+    	
+    	Border raisedetched, loweredetched;
+		   
+		raisedetched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
+		loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+    	
+    	
     	btnLiberaT = new JButton("Libera");
     	textArea = new JTextArea(30,30);
         textArea.setEditable(false);
@@ -30,12 +40,7 @@ public class CassaFrame extends Frame{
         
         
         panel = new JPanel();
-    	Border bordoInterno = BorderFactory.createTitledBorder("Cassa");
-		Border bordoEsterno = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-		Border bordoFinale = BorderFactory.createCompoundBorder(bordoInterno, bordoEsterno);
-		((TitledBorder) bordoInterno).setTitleJustification(TitledBorder.CENTER);
-	
-		panel.setBorder(bordoFinale);
+    	panel.setBackground(new Color(152,255,152));
         
         
         

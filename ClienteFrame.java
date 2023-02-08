@@ -107,16 +107,12 @@ public class ClienteFrame extends Frame  {
         for(int i=0;i<aList.size();i++) {
             gestoreTavoli.add(aList.get(i));
         }
-    	
-        /*
-        Border bordoInterno = BorderFactory.createTitledBorder("Menu");
-		Border bordoEsterno = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-		Border bordoFinale = BorderFactory.createCompoundBorder(bordoInterno, bordoEsterno);
-	
-		panPietanze.setBorder(bordoFinale);*/
 		
-		panPietanze.setBackground(new Color(233,116,81));
+        //Personalizzazione componenti
+		panPietanze.setBackground(new Color(218,253,218));
 		panPietanze.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
+		
+		
 		
     	
         frame.setTitle("Gestionale Ristorante-Cliente");
