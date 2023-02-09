@@ -1,8 +1,6 @@
 import java.util.*;
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EtchedBorder;
 
 public class Pizzayolo extends Frame implements Cuoco{
 	
@@ -21,10 +19,6 @@ public class Pizzayolo extends Frame implements Cuoco{
 	public Pizzayolo() {
 		frame.setTitle("Gestionale Ristorante-Pizzaiolo");
 		
-		Border raisedetched, loweredetched;
-		raisedetched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
-		loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-		
 		panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		JScrollPane scrollPanel = new JScrollPane(panel);
@@ -33,21 +27,8 @@ public class Pizzayolo extends Frame implements Cuoco{
 		
 		textArea.setFont(new Font("Courier", Font.BOLD, 15));
 		textArea.setEditable(false);
+		//fare delle piccole cards con all'interno l'ordine. IDEA aggiungere ogni volta dei pannelli con il bottone ai lati del PANNELLO al centro la text area
 		textPanel.add(textArea);
-		
-		//Personalizzazione componenti
-		textPanel.setBackground(new Color(0,204,153));
-		textArea.setBackground(new Color(239,239,239));
-		panel.setBackground(new Color(239,239,239));
-		
-		
-		nextOrd.setBorder(BorderFactory.createCompoundBorder(raisedetched,loweredetched));
-		panel.setBorder(BorderFactory.createCompoundBorder(raisedetched,loweredetched));
-		textArea.setBorder(BorderFactory.createCompoundBorder(raisedetched,loweredetched));
-		textPanel.setBorder(BorderFactory.createCompoundBorder(raisedetched,loweredetched));
-		
-		
-		//Action Listener bottoni
 		nextOrd.addActionListener(e -> {
 			infornaPizze(this.ordineSelezionato);
 			nextOrd.setEnabled(false);
@@ -64,7 +45,7 @@ public class Pizzayolo extends Frame implements Cuoco{
 			}
 		});
 		botPanel.add(btnStorico);
-	
+		
 		frame.add(botPanel, BorderLayout.SOUTH);
 		frame.add(scrollPanel, BorderLayout.WEST);
 		frame.add(textScrollPanel, BorderLayout.CENTER);

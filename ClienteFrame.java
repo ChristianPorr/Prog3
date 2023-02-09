@@ -107,12 +107,16 @@ public class ClienteFrame extends Frame  {
         for(int i=0;i<aList.size();i++) {
             gestoreTavoli.add(aList.get(i));
         }
+    	
+        /*
+        Border bordoInterno = BorderFactory.createTitledBorder("Menu");
+		Border bordoEsterno = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+		Border bordoFinale = BorderFactory.createCompoundBorder(bordoInterno, bordoEsterno);
+	
+		panPietanze.setBorder(bordoFinale);*/
 		
-        //Personalizzazione componenti
-		panPietanze.setBackground(new Color(218,253,218));
+		panPietanze.setBackground(new Color(233,116,81));
 		panPietanze.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
-		
-		
 		
     	
         frame.setTitle("Gestionale Ristorante-Cliente");
@@ -179,9 +183,9 @@ public class ClienteFrame extends Frame  {
         				                Integer n = Integer.parseInt((String)copy);
         				                tav[n-1]=new Tavolo();
         				                tav[n-1].setNumTav(n);
-        				                frame.revalidate();
-        				                btnStato.doClick();
         				                gestoreTavoli.allertaComanda(tav[n-1]);
+        								frame.revalidate();
+        				                btnStato.doClick();
         								});
  
         tavoli.addActionListener(new ActionListener() {
