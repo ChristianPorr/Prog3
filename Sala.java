@@ -7,17 +7,13 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
-
-import java.util.Formatter;
 
 public class Sala extends Frame implements Admin{
-    JButton btnHome = new JButton("Home");
-    Vector<JButton> btnTav = new Vector<JButton>();
-    Integer txtCount=0;
-    JTextArea textArea;
-    JPanel panel;
-    JButton btnLiberaT = new JButton("Libera");
+	private JButton btnHome = new JButton("Home");
+	private Vector<JButton> btnTav = new Vector<JButton>();
+	private JTextArea textArea;
+	private JPanel panel;
+	private JButton btnLiberaT = new JButton("Libera");
     public Sala() {    	
     	Border blackline, raisedetched, loweredetched,raisedbevel, loweredbevel, empty;
 	    
@@ -35,7 +31,6 @@ public class Sala extends Frame implements Admin{
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         JButton btnClear = new JButton("Clear");
         btnClear.addActionListener(e -> {textArea.setText("");});
-        btnHome.addActionListener(e -> {new MainFrame();});
         btnLiberaT.addActionListener(e -> {liberaTav();});
         
         
@@ -50,10 +45,7 @@ public class Sala extends Frame implements Admin{
 			btnTav.add(new JButton("Tavolo: "+i));
 			btnTav.get(i-1).setEnabled(false);
 			this.panel.add(btnTav.get(i-1));
-		}
-        //INSERISCI METODO DI PAGAMENTO
-        
-        
+		}       
         
     	
         frame.setTitle("Sala");
@@ -64,6 +56,7 @@ public class Sala extends Frame implements Admin{
        
         frame.add(panel);
         frame.add(scrollPane, BorderLayout.LINE_END);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
 

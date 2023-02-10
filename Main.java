@@ -1,9 +1,8 @@
-import javax.swing.*;
+
 
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println("quello giusto");
 		Frame start = new MainFrame(); //Frame della GUI
 
 		Menu repository = new Menu(); //Repository per il pattern Iterator //Prende i due menu e li itera

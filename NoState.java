@@ -1,4 +1,3 @@
-
 public class NoState implements State {
 	
 	public void avanzaStato() {

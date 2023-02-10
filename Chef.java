@@ -29,7 +29,6 @@ public class Chef extends Frame implements Cuoco{
 		textArea.setFont(new Font("Courier", Font.BOLD, 15));
 		textArea.setEditable(false);
 		
-		//fare delle piccole cards con all'interno l'ordine. IDEA aggiungere ogni volta dei pannelli con il bottone ai lati del PANNELLO al centro la text area
 		textPanel.add(textArea);
 		nextOrd.addActionListener(e -> {
 			cucina(this.ordineSelezionato);
@@ -55,17 +54,16 @@ public class Chef extends Frame implements Cuoco{
 		
 		System.out.println("Chef creato!");
 		Menu menu = new Menu();
-		for(Pietanze element : menu.sPP) {
+		for(Pietanze element : menu.getPrimiPiatti()) {
 			listaPrimiPiatti.add(element.getNome());
 		}
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 	
 	@Override
 	public void updateTODO(Tavolo tav, Ordine ordine) {
 		Boolean trovato=false;
 		Ordine ordTmp = new Ordine(ordine.getNumTavolo());
-		/*Prendo le pietanze che riesce a fare il Pizzaiolo (pizze) e le aggiungo in ordine tmp che poi verra aggiunto agli ordini
-		 *del pizzaiolo e che verra mostrato nel pannello */
 		for(Tavolo t : this.reference) {
 			if(t.getNumTav()==tav.getNumTav()) {
 				trovato=true;
@@ -97,20 +95,11 @@ public class Chef extends Frame implements Cuoco{
 			frame.revalidate();
 			tav.setStatusOrdine(new OrdineRicevuto());
 		}
-		/*
-			this.textArea.append("[ORDINE] Ho aggiunto il tavolo "+ordTmp.getNumTavolo()+"\n");
-			for(Pietanze pietanza : ordTmp.getPietanze()) {
-				this.textArea.append("[ORDINE] Pietanza: "+pietanza.getNome()+" qnt: "+pietanza.getQnt()+"\n");
-			}
-		 */
 		
 	}
 	
 	public void cucina(Integer numTavolo) {
 		System.out.println("Lo Chef sta preparando gli ingredienti");
-		/*Questo sara il bottone che toglie da listaOrdini l'ordine selezionato
-		 * e dal frame il pannellino contenente la card dell'ordine ( frame.remove(PANNELLO_ORDINE_SCELTO) )
-		 */
 		Integer delete=0;
 		Boolean changed=false;
 		for(Ordine ord : this.listaOrdini) {

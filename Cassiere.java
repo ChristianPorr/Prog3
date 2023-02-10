@@ -7,17 +7,12 @@ import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
 public class Cassiere extends JFrame implements Admin {
-	
-	private static Integer numeroCassa = 0;
+	public static Integer numeroCassa = 0;
 	private Integer idCassa;
-	ArrayList<JButton> btnTav = new ArrayList<JButton>();
-	
-    Integer txtCount=0;
-    JTextArea textArea = new JTextArea(10,30);
-    JPanel mainPanel;
-    String tavoloSelezionato = new String();
-    Integer iTavoli=0;
-    Tavolo tmp;
+	private ArrayList<JButton> btnTav = new ArrayList<JButton>();
+	private JTextArea textArea = new JTextArea(10,30);
+	private JPanel mainPanel;
+	private String tavoloSelezionato = new String();
     
     
     
@@ -67,7 +62,6 @@ public class Cassiere extends JFrame implements Admin {
 			this.mainPanel.add(btnTav.get(i-1));
 		}
 		
-		mainPanel.add(new JButton("bottoneProva"));
 		
 		this.mainPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
 			      .createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
@@ -81,6 +75,7 @@ public class Cassiere extends JFrame implements Admin {
 	    this.add(buttonPanel, BorderLayout.PAGE_END);
 	    this.add(textArea, BorderLayout.EAST);
 	    this.add(mainPanel);
+	    this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    
 	}
 	
@@ -106,7 +101,6 @@ public class Cassiere extends JFrame implements Admin {
 	}
 
 	public void getInfo(Tavolo tavolo) {
-		this.tmp=tavolo;
 		this.textArea.setText("");
 		this.textArea.append("Tavolo n"+tavolo.getNumTav()+":\n");
 		for(Pietanze p : tavolo.getOrdineFinale().getPietanze()) {

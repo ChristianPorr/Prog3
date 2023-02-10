@@ -11,44 +11,37 @@ import java.io.*;
 
 public class ClienteFrame extends Frame  {
     int risposta;
-    Vector<String> vectorS = new Vector<String>();
-    Vector<Integer> vectorQ = new Vector<Integer>();
-    JCheckBox cBox = new JCheckBox();
-    //tavoli messi in Frame
-    Integer txtCount=0;
-    JTextArea textArea = new JTextArea(30,30);
-    JTextArea textAreaTavolo = new JTextArea(30,30);
-    
-    MandaComande gestoreTavoli = new MandaComande();
-    Serviamo avviso = new Serviamo();
-    ArrayList<Admin> aList = new ArrayList<Admin>();
-    ArrayList<Cuoco> cList = new ArrayList<Cuoco>();
-    //Admin cassiere;
-    //Cuoco pizzaiolo;
-	//Cuoco chef;
-	JComboBox<String> pizze = new JComboBox<>();
-    JComboBox<String> primiPiatti = new JComboBox<>();
-    JComboBox<String> bevande = new JComboBox<>();
-    JComboBox<String> tavoli = new JComboBox<>();
-    JLabel labelTav = new JLabel("Ordinazione per il tavolo n:");
-    JButton btnOrdina = new JButton("Ordina");
-    JButton btnServi = new JButton("Permetti chiusura");
-    JButton btnAdd = new JButton("+");
-    JButton btnDec = new JButton("-");        
-    JButton btnAdd1 = new JButton("+");
-    JButton btnDec1 = new JButton("-");        
-    JButton btnAdd2 = new JButton("+");
-    JButton btnDec2 = new JButton("-");        
-    JButton btnHome = new JButton("Home");
-    JButton btnStato = new JButton("   ");
-    Object selected;
-    JPanel panel = new JPanel(new BorderLayout());
-	JPanel panPietanze = new JPanel(new GridBagLayout());
-    Menu menu = new Menu();
+    private Vector<String> vectorS = new Vector<String>();
+    private Vector<Integer> vectorQ = new Vector<Integer>();
+    private JCheckBox cBox = new JCheckBox();
+    private Tavolo tav[];
+    private JTextArea textArea = new JTextArea(30,30);
+    private JTextArea textAreaTavolo = new JTextArea(30,30);
+    private MandaComande gestoreTavoli = new MandaComande();
+    private Serviamo avviso = new Serviamo();
+    private ArrayList<Admin> aList = new ArrayList<Admin>();
+    private ArrayList<Cuoco> cList = new ArrayList<Cuoco>();
+    private JComboBox<String> pizze = new JComboBox<>();
+    private JComboBox<String> primiPiatti = new JComboBox<>();
+    private JComboBox<String> bevande = new JComboBox<>();
+    private JComboBox<String> tavoli = new JComboBox<>();
+    private JLabel labelTav = new JLabel("Ordinazione per il tavolo n:");
+    private JButton btnOrdina = new JButton("Ordina");
+    private JButton btnServi = new JButton("Permetti chiusura");
+    private JButton btnAdd = new JButton("+");
+    private JButton btnDec = new JButton("-");        
+    private JButton btnAdd1 = new JButton("+");
+    private JButton btnDec1 = new JButton("-");        
+    private JButton btnAdd2 = new JButton("+");
+    private JButton btnDec2 = new JButton("-");        
+    private JButton btnStato = new JButton("   ");
+    private Object selected;
+    private JPanel panel = new JPanel(new BorderLayout());
+    private JPanel panPietanze = new JPanel(new GridBagLayout());
+    private Menu menu = new Menu();
 
 
     public ClienteFrame(ArrayList<Admin> admList, ArrayList<Cuoco> cuochiList) {
-        //Controllo se non sono stati create prima di questo frame le classi necessarie al funzionamento del programma
         Boolean boolCassa=false, boolSala=false;
         if(admList.isEmpty()) {
             this.aList.add(new Cassiere());
@@ -64,7 +57,6 @@ public class ClienteFrame extends Frame  {
             if(!boolCassa)	aList.add(new Cassiere());
             if(!boolSala)	aList.add(new Sala());
         }
-        //Controllo cuochi
         Boolean boolPizzaiolo=false, boolChef=false;
         if(cuochiList.isEmpty()) {
             this.cList.add(new Pizzayolo());
@@ -89,17 +81,17 @@ public class ClienteFrame extends Frame  {
         if(tmpTextArea.isEmpty()) this.btnOrdina.setEnabled(false);
         else this.btnOrdina.setEnabled(true);
     	
-    System.out.println("INIZIO...");
-    	
-    Border blackline, raisedetched, loweredetched,
-    raisedbevel, loweredbevel, empty;
+	    System.out.println("INIZIO...");
+	    	
+	    Border blackline, raisedetched, loweredetched,
+	    raisedbevel, loweredbevel, empty;
     
-    blackline = BorderFactory.createLineBorder(Color.black);
-    raisedetched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
-    loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-    raisedbevel = BorderFactory.createRaisedBevelBorder();
-    loweredbevel = BorderFactory.createLoweredBevelBorder();
-    empty = BorderFactory.createEmptyBorder();
+	    blackline = BorderFactory.createLineBorder(Color.black);
+	    raisedetched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
+	    loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+	    raisedbevel = BorderFactory.createRaisedBevelBorder();
+	    loweredbevel = BorderFactory.createLoweredBevelBorder();
+	    empty = BorderFactory.createEmptyBorder();
 
         for(int i=0;i<cList.size();i++) {
             avviso.add(cList.get(i));
@@ -108,13 +100,6 @@ public class ClienteFrame extends Frame  {
             gestoreTavoli.add(aList.get(i));
         }
     	
-        /*
-        Border bordoInterno = BorderFactory.createTitledBorder("Menu");
-		Border bordoEsterno = BorderFactory.createEmptyBorder(10, 10, 10, 10);
-		Border bordoFinale = BorderFactory.createCompoundBorder(bordoInterno, bordoEsterno);
-	
-		panPietanze.setBorder(bordoFinale);*/
-		
 		panPietanze.setBackground(new Color(233,116,81));
 		panPietanze.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
 		
@@ -129,35 +114,35 @@ public class ClienteFrame extends Frame  {
         
         
         
-        for (int i=0;i<menu.sP.size();i++){//aggiunta del menu a tendina
-            pizze.addItem(menu.sP.get(i).getNome());
+        for (int i=0;i<menu.getPizze().size();i++){
+            pizze.addItem(menu.getPizze().get(i).getNome());
         }
        
         
-        for(int j=0;j<menu.sB.size();j++) {
-        	bevande.addItem(menu.sB.get(j).getNome());
+        for(int j=0;j<menu.getBibite().size();j++) {
+        	bevande.addItem(menu.getBibite().get(j).getNome());
         }
         
-        for(int j=0;j<menu.sPP.size();j++) {
-        	primiPiatti.addItem(menu.sPP.get(j).getNome());
+        for(int j=0;j<menu.getPrimiPiatti().size();j++) {
+        	primiPiatti.addItem(menu.getPrimiPiatti().get(j).getNome());
         }
         
         //CREAZIONE DEI TAVOLI
        
-        	tav = new Tavolo[20];
-        
-	        for(int i=0;i<20;i++) {
-	        	tav[i]=new Tavolo();
-	        }
-        
-	        Integer tempI; //var temporanee
-	        String tempS;
-	        for(int i=0;i<20;i++) {
-	        		tav[i].setNumTav(i+1);
-	        		tempI = tav[i].getNumTav();
-	        		tempS = tempI.toString();
-	        		tavoli.addItem(tempS);
-	        }
+    	tav = new Tavolo[20];
+    
+        for(int i=0;i<20;i++) {
+        	tav[i]=new Tavolo();
+        }
+    
+        Integer tempI;
+        String tempS;
+        for(int i=0;i<20;i++) {
+        		tav[i].setNumTav(i+1);
+        		tempI = tav[i].getNumTav();
+        		tempS = tempI.toString();
+        		tavoli.addItem(tempS);
+        }
         
         
         
@@ -210,10 +195,6 @@ public class ClienteFrame extends Frame  {
                 
             }
         });
-        
-        //conversione
-        /*String indexToInt =(String) tavoli.getSelectedItem();
-        int index = Integer.parseInt(indexToInt) - 1;*/
      	//BOTTONE ORDINAZIONE
         btnOrdina.addActionListener(e -> ordiniamo(vectorS, vectorQ, tav[Integer.parseInt((String) tavoli.getSelectedItem())-1]));
         btnOrdina.setEnabled(false);
@@ -236,7 +217,7 @@ public class ClienteFrame extends Frame  {
         btnAdd2.addActionListener(e -> addOrdine((String) primiPiatti.getSelectedItem(), textArea, vectorS, vectorQ));
         btnDec2.addActionListener(e -> decOrdine((String) primiPiatti.getSelectedItem(), textArea, vectorS, vectorQ));
         //Home
-        btnHome.addActionListener(e -> {frame.dispose(); new MainFrame();});
+       
         //btn stato ordine
         btnStato.setFocusable(false);
         btnStato.addActionListener(new ActionListener() {
@@ -252,16 +233,14 @@ public class ClienteFrame extends Frame  {
 					Integer i=Integer.parseInt(selected.toString());
 					
 					
-					if(tav[i-1].getStatusOrdine() instanceof OrdineRicevuto) {//se lo stato e' ordine ricevuto:
+					if(tav[i-1].getStatusOrdine() instanceof OrdineRicevuto) {
 						btnStato.setBackground(Color.orange);
 						btnOrdina.setEnabled(true);
 						btnServi.setEnabled(true);
 						
 					}
-					else if(tav[i-1].getStatusOrdine() instanceof OrdineConsegnato) {//se lo stato e' ordine consegnato:
+					else if(tav[i-1].getStatusOrdine() instanceof OrdineConsegnato) {
 						btnStato.setBackground(Color.green);
-						//btnOrdina.setEnabled(false);
-						//btnServi.setEnabled(false);
 						
 					} else if(tav[i-1].getStatusOrdine() instanceof NoState) {
 						btnStato.setBackground(Color.white);
@@ -279,7 +258,7 @@ public class ClienteFrame extends Frame  {
         frame.add(scrollPane, BorderLayout.LINE_END);
         
         //LAYOUT PANNELLO PIETANZE
-        panel.add(panPietanze,BorderLayout.PAGE_START); //quasi effimero
+        panel.add(panPietanze,BorderLayout.PAGE_START);
         
         
         GridBagConstraints gbc = new GridBagConstraints();
@@ -437,19 +416,9 @@ public class ClienteFrame extends Frame  {
         gbc.gridwidth = 3;
         
         panPietanze.add(scrollTATav, gbc);
-
-        /*Bottone Home*/
-        gbc.gridx = 1;
-        gbc.gridy = 6;
-        
-        gbc.weightx = 0.01;
-        gbc.weighty = 0.01;
-        
-        btnHome.setBorder(loweredbevel);
-        
-        panPietanze.add(btnHome,gbc);
-        
-        frame.getContentPane().add(panPietanze);        
+       
+        frame.getContentPane().add(panPietanze);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
  
@@ -458,28 +427,25 @@ public class ClienteFrame extends Frame  {
     	boolean bool;
         int i, n, lenScelta, indice;
         String scontrino, temp;
-        scontrino = textArea.getText();//trasformazione textArea in testo per trovare indice
-        indice = scontrino.indexOf(scelta);//indice dove si trova la pizza
-        bool = listaS.contains(scelta);//valore bool se contiene o meno la pizza nel testo
-        if (!bool){//se non la contiene aggiungila
-        	//System.out.println("indice="+indice);
+        scontrino = textArea.getText();
+        indice = scontrino.indexOf(scelta);
+        bool = listaS.contains(scelta);
+        if (!bool){
             listaS.add(scelta);
             listaQ.add(1);
-            textArea.append(scelta+" Qt: 1  \n");//aggiungi scelta senza quantit�
-        } else if(indice>=0){//se esiste la stessa pietanza aggiungila con la quantit�
-        	//System.out.println("bool="+bool);
-        	//System.out.println("indice dentro="+indice);
+            textArea.append(scelta+" Qt: 1  \n");
+        } else if(indice>=0) {
             for(i=0;i<listaS.size();i++){
                     n=listaQ.get(i)+1;
                     listaQ.set(i, n);
                     if(listaQ.get(i)>9){
-                        temp = scelta+" Qt: "+listaQ.get(i)+"\n";
+                        temp = scelta+" Qt: "+listaQ.get(i)+" \n";
                         lenScelta = temp.length() + indice;
                     } else {
-                        temp = scelta+" Qt: "+listaQ.get(i)+"\n";
+                        temp = scelta+" Qt: "+listaQ.get(i)+"  \n";
                         lenScelta = temp.length() + indice;
                     }
-                    textArea.replaceRange(temp, indice, lenScelta);//sostituisci la pietanza on quella corretta           
+                    textArea.replaceRange(temp, indice, lenScelta);          
                 }
                 
             }
@@ -494,13 +460,13 @@ public class ClienteFrame extends Frame  {
     	 int indice, lenScelta, i, n=0;
          String scontrino, temp;
          Boolean bool;
-         scontrino = textArea.getText();//stesse cose dell'add
+         scontrino = textArea.getText();
          indice = scontrino.indexOf(scelta);
-         bool = listaS.contains(scelta);//valore bool se contiene o meno la pizza nel testo
-         if (!bool){//se non la contiene aggiungila
+         bool = listaS.contains(scelta);
+         if (!bool){
              listaS.add(scelta);
              listaQ.add(-1);
-             textArea.append(scelta+" Qt: -1 \n");//aggiungi scelta senza quantit�
+             textArea.append(scelta+" Qt: -1 \n");
              
          } else
          if(indice>=0){
@@ -509,17 +475,17 @@ public class ClienteFrame extends Frame  {
                  if(scelta==listaS.get(i)&&(listaQ.get(i)>1||listaQ.get(i)<=-1)){
                      n=listaQ.get(i)-1;
                      listaQ.set(i, n);
-                     temp = scelta+" Qt: "+listaQ.get(i)+"\n";//inserisce la qnt giusta
+                     temp = scelta+" Qt: "+listaQ.get(i)+"\n";
                      lenScelta = temp.length()+indice;
-                     textArea.replaceRange(temp, indice, lenScelta);//inserisce all'interno del text area l'aggiornamento
+                     textArea.replaceRange(temp, indice, lenScelta);
                  
          	    	
-                 } else if(scelta==listaS.get(i)&&listaQ.get(i)==1){//quando la qt � 0 allora cancellla
+                 } else if(scelta==listaS.get(i)&&listaQ.get(i)==1){
                      temp = scelta+" Qt: n  \n";
                      lenScelta = temp.length()+indice;
-                     textArea.replaceRange("", indice, lenScelta);//sostituisci con una stringa vuota
-                     listaQ.remove(i);//elimina la pietanza dalle scelte
-                     listaS.remove(i);//elimina anche quindi la relati quantit�
+                     textArea.replaceRange("", indice, lenScelta);
+                     listaQ.remove(i);
+                     listaS.remove(i);
                      
                  }
              }
@@ -532,12 +498,11 @@ public class ClienteFrame extends Frame  {
     
 
     
-   public void ordiniamo(Vector<String> scelte, Vector<Integer> qnt, Tavolo numTav){//metti list al posto di vector
+   public void ordiniamo(Vector<String> scelte, Vector<Integer> qnt, Tavolo numTav){
     	
-	   
        if(!scelte.isEmpty()){
     	   
-	    	Integer numeroT = numTav.getNumTav();//numero tavolo +1
+	    	Integer numeroT = numTav.getNumTav();
 	    	
 	    	Ordine tmpOrd = new Ordine(numeroT);
 	    	for(int i=0;i<scelte.size();i++) {
@@ -546,11 +511,8 @@ public class ClienteFrame extends Frame  {
 	    		
 	    	}
 	    	numTav.addOrdine(tmpOrd);
-	    	avviso.aggiungiOrdine(scelte, qnt, numTav, numTav.lastOrder());//Devi passare il tavolo non il numtavolo
+	    	avviso.aggiungiOrdine(scelte, qnt, numTav, numTav.lastOrder());
 	    	this.gestoreTavoli.allertaComanda(numTav);
-	    	
-	    	
-	    	//btnServi.setEnabled(true);
 	    	btnStato.doClick();
 	    	showOrder(numTav,this.textAreaTavolo);
        }
@@ -559,14 +521,6 @@ public class ClienteFrame extends Frame  {
     
     
    public void aggiornaTav(Tavolo tav, JTextArea txt) {
-   	int cnt=0;
-   	/*if(((Pizzayolo) this.pizzaiolo).infornaPizze(tav).getStatusOrdine()==new OrdineConsegnato()) cnt++;
-		if(((Chef) this.chef).cucina(tav).getStatusOrdine()==new OrdineConsegnato()) {
-			cnt++;
-		}
-		if(cnt==2) {
-			tav.setStatusOrdine(new OrdineConsegnato());
-		}*/
    		tav.setStatusOrdine(new OrdineConsegnato());
    		tav.setChiusura();
 		gestoreTavoli.allertaComanda(tav);
@@ -581,6 +535,7 @@ public class ClienteFrame extends Frame  {
        lenScelta = temp.length();
        textArea.replaceRange(temp, indice, lenScelta);
    }
+   
    private void showOrder(Tavolo tav, JTextArea txt){
    	txt.setText("");
    	for(Ordine ord : tav.getOrdine()) {

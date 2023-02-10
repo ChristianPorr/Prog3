@@ -1,5 +1,4 @@
 import java.util.*;
-
 public class Serviamo {
 	private List<Cuoco> cuochi = new ArrayList<>();
 	

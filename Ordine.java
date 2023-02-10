@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Ordine {
 	private State stato;
 	private static Menu menu = new Menu();
-	private static Integer numeroOrdineTotale = 1;
+public static Integer numeroOrdineTotale = 1;
 	private Integer numTavolo;
 	private Integer numeroOrdine;
 	private ArrayList<Pietanze> piatti = new ArrayList<Pietanze>();
@@ -35,7 +35,7 @@ public class Ordine {
 		return numTavolo;
 	}
 	public void aggiungiPietanza(String nomeP, Integer qnt) {
-		for(Pietanze element : menu.allMenu) {
+		for(Pietanze element : menu.getAllFood()) {
 			if(element.getNome().equals(nomeP)&&qnt!=0) {//se la quantita' e' 0 non lo puoi aggiungere
 				piatti.add(element.makeCopy(qnt));
 			}

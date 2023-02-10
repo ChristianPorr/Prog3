@@ -1,26 +1,21 @@
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.plaf.DimensionUIResource;
-import java.awt.event.ActionListener;
-import java.io.*;
 import java.util.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 
 public class MainFrame extends Frame{
-    JButton btnSala,btnCliente,btnPizzayolo,btnCassiere,btnChef; 
-    JPanel panel,panelClienti,panelSala,panelPizzayolo,panelChef,panelCassiere;
-    ArrayList<Admin> admList = new ArrayList<Admin>();
-    ArrayList<Cuoco> cuochiList = new ArrayList<Cuoco>();
+	private JButton btnSala,btnCliente,btnPizzayolo,btnCassiere,btnChef; 
+	private JPanel panel,panelClienti,panelSala,panelPizzayolo,panelChef,panelCassiere;
+	private ArrayList<Admin> admList = new ArrayList<Admin>();
+	private ArrayList<Cuoco> cuochiList = new ArrayList<Cuoco>();
 
     
     
 
 	@SuppressWarnings("unused")
-	MainFrame(){
+	public MainFrame(){
 		Dimension dim = new Dimension(170,120);
 		 
 		Border raisedetched, loweredetched;

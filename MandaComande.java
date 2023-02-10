@@ -2,7 +2,7 @@ import java.util.*;
 
 public class MandaComande {
 	
-	ArrayList<Admin> admins = new ArrayList<Admin>();
+	private ArrayList<Admin> admins = new ArrayList<Admin>();
 	
 	public void add(Admin c) {
 		admins.add(c);

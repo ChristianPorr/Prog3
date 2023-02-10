@@ -1,28 +1,19 @@
-import javax.swing.border.Border;
-import javax.swing.plaf.DimensionUIResource;
-import java.awt.event.ActionListener;
-import java.util.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 public abstract class Frame {
-    //istruzioni standard
-	JPanel panel = new JPanel(new BorderLayout());
-    JButton btnSala = new JButton();
-    JButton btnCliente = new JButton();
-    JButton btnChef = new JButton();
-    JButton btnPizzayolo = new JButton();
-    JButton btnCassiere = new JButton(); 
-    ImageIcon img = new ImageIcon("icon.png");
-    JFrame frame = new JFrame();
-    JLabel label = new JLabel();
-    JMenuBar menuBar = new JMenuBar();
-    Tavolo tav[];
+	protected JPanel panel = new JPanel(new BorderLayout());
+	protected JButton btnSala = new JButton();
+	protected JButton btnCliente = new JButton();
+	protected JButton btnChef = new JButton();
+	protected JButton btnPizzayolo = new JButton();
+	protected JButton btnCassiere = new JButton(); 
+	protected ImageIcon img = new ImageIcon("icon.png");
+	protected JFrame frame = new JFrame();
+	protected JLabel label = new JLabel();
+	protected JMenuBar menuBar = new JMenuBar();
     
     public Frame(){
-    
-    
     frame.setSize(800,600);
     frame.setIconImage(img.getImage());
     frame.setResizable(false);
