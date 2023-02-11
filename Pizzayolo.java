@@ -1,6 +1,8 @@
 import java.util.*;
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 
 public class Pizzayolo extends Frame implements Cuoco{
 	
@@ -15,17 +17,32 @@ public class Pizzayolo extends Frame implements Cuoco{
 	private JButton btnStorico = new JButton("Storico ordini");
 	
 	public Pizzayolo() {
+		Border blackline, raisedetched, loweredetched,raisedbevel, loweredbevel, empty;
+	    
+		blackline = BorderFactory.createLineBorder(Color.black);
+		raisedetched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
+		loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+		raisedbevel = BorderFactory.createRaisedBevelBorder();
+		loweredbevel = BorderFactory.createLoweredBevelBorder();
+		empty = BorderFactory.createEmptyBorder();
+		
 		frame.setTitle("Gestionale Ristorante-Pizzaiolo");
 		
 		panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setBackground(new Color(210,210,210));
+		
+		
 		JScrollPane scrollPanel = new JScrollPane(panel);
 		JScrollPane textScrollPanel = new JScrollPane(textPanel);
 		textScrollPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		
 		textArea.setFont(new Font("Courier", Font.BOLD, 15));
 		textArea.setEditable(false);
+		
 		textPanel.add(textArea);
+		textPanel.setBackground(new Color(255,253,208));
+		textPanel.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
 		
 		nextOrd.addActionListener(e -> {
 			infornaPizze(this.ordineSelezionato);
@@ -43,6 +60,7 @@ public class Pizzayolo extends Frame implements Cuoco{
 			}
 		});
 		
+		botPanel.setBackground(new Color(210,210,210));
 		botPanel.add(btnStorico);
 		
 		frame.add(botPanel, BorderLayout.SOUTH);

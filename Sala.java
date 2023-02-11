@@ -35,11 +35,12 @@ public class Sala extends Frame implements Admin{
         
         
         panel = new JPanel();
-	
+        
+        panel.setBackground(new Color(172,255,175));
 		panel.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
 
 
-
+		textArea.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
 		
 		for(Integer i=1;i<=20;i++) {
 			btnTav.add(new JButton("Tavolo: "+i));

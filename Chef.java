@@ -1,6 +1,8 @@
 import java.util.*;
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 
 
 public class Chef extends Frame implements Cuoco{
@@ -18,10 +20,23 @@ public class Chef extends Frame implements Cuoco{
 	
 	
 	public Chef() {
+		Border blackline, raisedetched, loweredetched,raisedbevel, loweredbevel, empty;
+	    
+		blackline = BorderFactory.createLineBorder(Color.black);
+		raisedetched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
+		loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+		raisedbevel = BorderFactory.createRaisedBevelBorder();
+		loweredbevel = BorderFactory.createLoweredBevelBorder();
+		empty = BorderFactory.createEmptyBorder();
+		
 		frame.setTitle("Gestionale Ristorante-Chef");
 
 		panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setBackground(new Color(210,210,210));
+		
+		
+		
 		JScrollPane scrollPanel = new JScrollPane(panel);
 		JScrollPane textScrollPanel = new JScrollPane(textPanel);
 		textScrollPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -30,11 +45,17 @@ public class Chef extends Frame implements Cuoco{
 		textArea.setEditable(false);
 		
 		textPanel.add(textArea);
+		textPanel.setBackground(new Color(1,121,111));
+		textPanel.setBorder(BorderFactory.createCompoundBorder(raisedetched,loweredetched));
+		
+		
 		nextOrd.addActionListener(e -> {
 			cucina(this.ordineSelezionato);
 			nextOrd.setEnabled(false);
 			frame.revalidate();
 		});
+		
+		
 		btnStorico.addActionListener(e -> {
 			textArea.setText("");
 			for(Ordine ord : listaOrdini) {
@@ -46,6 +67,7 @@ public class Chef extends Frame implements Cuoco{
 			}
 		});
 		botPanel.add(btnStorico);
+		botPanel.setBackground(new Color(210,210,210));
 		
 		frame.add(botPanel, BorderLayout.SOUTH);
 		frame.add(scrollPanel, BorderLayout.WEST);

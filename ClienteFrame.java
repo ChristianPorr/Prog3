@@ -100,7 +100,7 @@ public class ClienteFrame extends Frame  {
             gestoreTavoli.add(aList.get(i));
         }
     	
-		panPietanze.setBackground(new Color(233,116,81));
+		panPietanze.setBackground(new Color(255,191,0));
 		panPietanze.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
 		
     	

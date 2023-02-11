@@ -34,7 +34,10 @@ public class Cassiere extends JFrame implements Admin {
 		textArea.setBorder(BorderFactory.createCompoundBorder(raisedbevel,loweredbevel));
 		textArea.setEditable(false);
 		JPanel buttonPanel = new JPanel(new FlowLayout());
+		buttonPanel.setBackground(new Color(210,210,210));
 		JButton btn = new JButton("Libera tavolo");
+		
+		
 		btn.addActionListener(e -> {
 			String tmp[] = {"Carta di credito", "Contanti"};
 			Integer risposta;
@@ -56,6 +59,7 @@ public class Cassiere extends JFrame implements Admin {
 		
 		mainPanel = new JPanel(new FlowLayout());
 		
+		
 		for(Integer i=1;i<=20;i++) {
 			btnTav.add(new JButton("Tavolo: "+i));
 			btnTav.get(i-1).setEnabled(false);
@@ -65,7 +69,7 @@ public class Cassiere extends JFrame implements Admin {
 		
 		this.mainPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
 			      .createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
-		this.mainPanel.setBackground(new Color(1,121,111));
+		this.mainPanel.setBackground(new Color(255,77,0));
 		this.setSize(800,600);
 	    this.setResizable(false);
 	    this.setVisible(true);
